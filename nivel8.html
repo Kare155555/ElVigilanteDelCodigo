@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nivel 8 · Lección aprendida · El Vigilante del Código</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* MISMO CSS QUE NIVEL 7 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #1a1a1a; line-height: 1.7; scroll-behavior: smooth; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+        .header { text-align: center; padding: 2rem 0 1.5rem; border-bottom: 2px solid #e5e5e5; margin-bottom: 2rem; }
+        .header .back-link { display: inline-block; margin-bottom: 1rem; color: #dc2626; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        .header .back-link:hover { text-decoration: underline; }
+        .header .badge { display: inline-block; background: #f5f5f5; color: #666; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 0.3rem 1.2rem; border-radius: 100px; margin-bottom: 1rem; border: 1px solid #e5e5e5; }
+        .header h1 { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; letter-spacing: -1px; line-height: 1.15; }
+        .header h1 .highlight { color: #dc2626; }
+        .header .subtitle { font-size: 1rem; color: #666; font-weight: 300; margin-top: 0.3rem; }
+        .header .meta { margin-top: 1rem; font-size: 0.85rem; color: #999; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .header .meta i { color: #dc2626; margin-right: 0.4rem; }
+
+        .level-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; border-bottom: 2px solid #e5e5e5; padding-bottom: 0.5rem; }
+        .level-nav a { background: #f5f5f5; border: 1px solid #e5e5e5; border-bottom: none; padding: 0.4rem 1rem; border-radius: 12px 12px 0 0; font-weight: 600; font-size: 0.75rem; color: #888; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+        .level-nav a.active { background: #ffffff; color: #dc2626; border-color: #dc2626; border-bottom: 2px solid #ffffff; margin-bottom: -2px; }
+        .level-nav a .badge-nav { background: #e5e5e5; color: #666; font-size: 0.55rem; padding: 0.05rem 0.5rem; border-radius: 100px; }
+        .level-nav a.active .badge-nav { background: #fee2e2; color: #dc2626; }
+        .level-nav a i { font-size: 0.75rem; }
+
+        .card { background: #fafafa; border-radius: 14px; padding: 1.5rem 1.8rem; margin-bottom: 1.2rem; border: 1px solid #e5e5e5; transition: border-color 0.2s; }
+        .card:hover { border-color: #ccc; }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.7rem; }
+        .card-title i { color: #dc2626; }
+
+        .card code { background: #f0f0f0; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #1a1a1a; border: 1px solid #e5e5e5; }
+        .card .code-block { background: #f5f5f5; border-radius: 10px; padding: 1rem 1.3rem; margin: 0.8rem 0; border: 1px solid #e5e5e5; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #1a1a1a; line-height: 1.6; }
+        .card .code-block .comment { color: #888; font-style: italic; }
+        .card .code-block .keyword { color: #1a1a1a; font-weight: 600; }
+        .card .code-block .string { color: #2563eb; }
+        pre { background: #f5f5f5; color: #1a1a1a; padding: 0.8rem; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', Courier New, monospace; font-size: 0.82rem; line-height: 1.45; border: 1px solid #e5e5e5; white-space: pre-wrap; word-break: normal; }
+
+        .table-wrap { overflow-x: auto; margin: 0.8rem 0; }
+        .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        .table-wrap th { background: #f0f0f0; color: #555; font-weight: 600; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.5px; padding: 0.6rem 1rem; text-align: left; border-bottom: 2px solid #e5e5e5; }
+        .table-wrap td { padding: 0.6rem 1rem; border-bottom: 1px solid #e5e5e5; color: #444; }
+
+        .quiz-container { background: #fafafa; border-radius: 14px; padding: 1.5rem 1.8rem; border: 2px solid #e5e5e5; margin-top: 1.5rem; }
+        .quiz-question { font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem; color: #1a1a1a; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+        .quiz-option { background: #ffffff; border: 2px solid #e5e5e5; border-radius: 10px; padding: 0.7rem 1rem; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+        .quiz-option:hover:not(.disabled) { border-color: #dc2626; background: #fff5f5; }
+        .quiz-option.selected { border-color: #dc2626; background: #fee2e2; }
+        .quiz-option.correct { border-color: #16a34a; background: #dcfce7; }
+        .quiz-option.wrong { border-color: #dc2626; background: #fee2e2; }
+        .quiz-option.partial { border-color: #f59e0b; background: #fef3c7; }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.8; }
+        .quiz-option .opt-label { font-weight: 700; color: #888; min-width: 1.5rem; }
+        .quiz-feedback { padding: 0.8rem 1.2rem; border-radius: 10px; margin: 0.8rem 0; display: none; }
+        .quiz-feedback.success { display: block; background: #dcfce7; border-left: 4px solid #16a34a; color: #166534; }
+        .quiz-feedback.error { display: block; background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+        .quiz-feedback.partial { display: block; background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; }
+        .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem; }
+        .quiz-nav .question-counter { color: #666; font-size: 0.85rem; }
+
+        .btn { display: inline-block; background: #f0f0f0; border: 1px solid #d1d5db; padding: 0.6rem 1.4rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; color: #1a1a1a; text-decoration: none; }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn-primary { background: #dc2626; border-color: #dc2626; color: #fff; }
+        .btn-primary:hover:not(:disabled) { background: #b91c1c; }
+        .btn-success { background: #16a34a; border-color: #16a34a; color: #fff; }
+        .btn-success:hover:not(:disabled) { background: #15803d; }
+        .btn-outline { background: transparent; border-color: #dc2626; color: #dc2626; }
+        .btn-outline:hover:not(:disabled) { background: #fee2e2; }
+
+        .toast { position: fixed; bottom: 2rem; right: 2rem; background: #1a1a1a; color: #fff; padding: 0.6rem 1.2rem; border-radius: 10px; font-size: 0.85rem; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: none; z-index: 1000; max-width: 350px; text-align: center; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.success { background: #16a34a; }
+        .toast.error { background: #dc2626; }
+
+        .results-container { background: #fafafa; border-radius: 14px; padding: 2rem; border: 2px solid #e5e5e5; text-align: center; margin-top: 1.5rem; }
+        .results-container .score { font-size: 3.5rem; font-weight: 800; color: #dc2626; }
+        .results-container .score-label { font-size: 1.1rem; color: #666; }
+        .hidden { display: none !important; }
+
+        .info-box { background: #f5f5f5; border-radius: 10px; padding: 1rem 1.5rem; border-left: 4px solid #dc2626; margin-top: 0.5rem; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .header .subtitle { font-size: 1rem; }
+            .header .meta { flex-direction: column; gap: 0.4rem; }
+            .card { padding: 1rem 1.2rem; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .level-nav { gap: 0.3rem; }
+            .level-nav a { padding: 0.3rem 0.7rem; font-size: 0.7rem; }
+            .level-nav a span { display: none; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 1rem 0.8rem 3rem; }
+            .header h1 { font-size: 1.5rem; }
+            .quiz-container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+
+        <header class="header">
+            <a href="indice.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al índice</a>
+            <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;NIVEL 8</div>
+            <h1><span class="highlight">Lección</span> para futuros desarrolladores</h1>
+            <p class="subtitle">Aprendizaje · Prevención · Responsabilidad</p>
+            <div class="meta">
+                <span><i class="fas fa-clock"></i> 5 preguntas</span>
+                <span><i class="fas fa-star"></i> Mínimo 7/10 para aprobar</span>
+            </div>
+        </header>
+
+        <nav class="level-nav" id="levelNav"></nav>
+
+        <!-- <div class="card">
+            <div class="card-title"><i class="fas fa-users"></i> 1. La seguridad es responsabilidad de todos</div>
+            <p>Cada desarrollador debe pensar en seguridad. No es solo trabajo de "los expertos".</p>
+            <div class="code-block" style="background:#f5f5f5;border-radius:10px;padding:1rem;margin:0.4rem 0;font-family:monospace;font-size:0.82rem;">
+                <span style="color:#888;">// ❌ MAL: Ignorar la seguridad</span><br>
+                String nombre = request.getParameter(<span style="color:#2563eb;">"nombre"</span>);<br>
+                archivo = new File(nombre); <span style="color:#888;">// "No pasa nada"</span><br>
+                <br>
+                <span style="color:#888;">// ✅ BIEN: Pensar en seguridad</span><br>
+                <span style="color:#1a1a1a;font-weight:600;">if</span> (nombre.matches(<span style="color:#2563eb;">"[a-zA-Z0-9]+"</span>)) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;archivo = new File(<span style="color:#2563eb;">"/seguro/"</span> + nombre);<br>
+                } <span style="color:#1a1a1a;font-weight:600;">else</span> {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#888;">// Rechazar la solicitud cuando el nombre no es inseguro</span><br>
+                }
+            </div>
+        </div> -->
+
+        <!-- <div class="card">
+            <div class="card-title"><i class="fas fa-eye"></i> 2. Nunca confíes en la entrada del usuario</div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Entrada esperada</th><th>Posible entrada maliciosa</th><th>¿Qué puede pasar?</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>tarea.pdf</code></td><td><code>../../etc/passwd</code></td><td>Leer archivos del sistema</td></tr>
+                        <tr><td><code>foto.jpg</code></td><td><code>virus.php</code></td><td>Ejecutar código malicioso</td></tr>
+                        <tr><td><code>2 MB</code></td><td><code>100 GB</code></td><td>Saturación del servidor</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-coins"></i> 3. Prevenir es más barato que corregir</div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Etapa</th><th>Costo de corregir</th><th>Dificultad</th></tr></thead>
+                    <tbody>
+                        <tr><td>Diseño</td><td>$100</td><td>Muy fácil</td></tr>
+                        <tr><td>Desarrollo</td><td>$1,000</td><td>Fácil</td></tr>
+                        <tr><td>Pruebas</td><td>$5,000</td><td>Media</td></tr>
+                        <tr><td>Producción</td><td>$100,000</td><td>Muy difícil</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-box">
+                <p><i class="fas fa-lightbulb" style="color:#dc2626;"></i> Piensa en seguridad ANTES de escribir código.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-tools"></i> 4. Las herramientas ayudan, pero no son suficientes</div>
+            <div style="background:#f5f5f5;border-radius:8px;padding:0.8rem 1rem;border:1px solid #e5e5e5;">
+                <p><strong>HERRAMIENTA</strong> = Detecta problemas comunes</p>
+                <p><strong>CONOCIMIENTO</strong> = Entiende por qué son problemas y cómo evitarlos en el futuro</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-book"></i> 5. Documentar es importante</div>
+            <ul>
+                <li><strong>Decisiones de seguridad:</strong> "Decidimos validar archivos porque..."</li>
+                <li><strong>Problemas encontrados:</strong> "Encontramos esto y lo solucionamos así..."</li>
+                <li><strong>Lecciones aprendidas:</strong> "Aprendimos que debemos..."</li>
+            </ul>
+        </div> -->
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-lightbulb"></i> LECCIÓN 1: La seguridad es responsabilidad de todos</div>
+            <h3>El Mito del "Experto en Seguridad"</h3>
+            <p>Muchos desarrolladores novatos piensan: <em>"La seguridad es cosa del equipo de seguridad"</em> o <em>"Yo solo escribo código, los expertos se encargan de protegerlo"</em>.</p>
+            <p><strong>Eso es un error GRAVE.</strong></p>
+            <h4>¿Por qué cada desarrollador debe pensar en seguridad?</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Razón</th><th>Explicación</th></tr></thead>
+                    <tbody>
+                        <tr><td>Cada línea de código es una puerta</td><td>Cada línea que escribes puede ser el punto de entrada de un atacante</td></tr>
+                        <tr><td>Los expertos no están en todas partes</td><td>No hay suficientes expertos en seguridad para revisar cada línea de código</td></tr>
+                        <tr><td>Es más barato prevenir que corregir</td><td>Encontrar un error en desarrollo cuesta $100; en producción cuesta $100,000</td></tr>
+                        <tr><td>La seguridad es un proceso, no un producto</td><td>No es algo que se "añade" al final</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4>Ejemplo práctico</h4>
+            <div class="code-block"><pre><code>// ❌ MAL: "Yo solo escribo código, que otro se preocupe por la seguridad"
+String fileName = request.getParameter("fileName");
+File file = new File("/uploads/" + fileName);
+
+// ✅ BIEN: "Yo soy responsable de la seguridad de mi código"
+String fileName = request.getParameter("fileName");
+if (!fileName.matches("[a-zA-Z0-9.-]+")) {
+    throw new SecurityException("Nombre de archivo no permitido");
+}
+File file = new File("/uploads/seguro/" + UUID.randomUUID() + "_" + fileName);
+</code></pre></div>
+            <h4>El pensamiento correcto</h4>
+            <blockquote><strong>"Cada línea de código que escribo puede ser la diferencia entre un sistema seguro y una brecha de seguridad."</strong></blockquote>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-lock"></i> LECCIÓN 2: Nunca confíes en la entrada del usuario</div>
+            <h4>El principio fundamental de seguridad</h4>
+            <p><strong>"Todo lo que viene del exterior es potencialmente malicioso"</strong></p>
+            <p>Un atacante puede manipular cualquier dato que envíe a tu aplicación:</p>
+            <ul>
+                <li>Parámetros de URL</li>
+                <li>Campos de formulario</li>
+                <li>Cookies</li>
+                <li>Cabeceras HTTP</li>
+                <li>Archivos subidos</li>
+            </ul>
+            <h4>¿Qué puede hacer un atacante con entrada no validada?</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Entrada "inocente"</th><th>Lo que el atacante envía</th><th>Resultado</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>tarea.pdf</code></td><td><code>../../etc/passwd</code></td><td>Lee archivos del sistema</td></tr>
+                        <tr><td><code>foto.jpg</code></td><td><code>virus.php</code></td><td>Ejecuta código malicioso</td></tr>
+                        <tr><td><code>2 MB</code></td><td><code>100 GB</code></td><td>Satura el servidor (DoS)</td></tr>
+                        <tr><td><code>Mi nombre</code></td><td><code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code></td><td>Roba cookies de usuarios</td></tr>
+                        <tr><td><code>SELECT * FROM</code></td><td><code>'; DROP TABLE users; --</code></td><td>Destruye la base de datos</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4>La estrategia correcta: Lista blanca (Allow-list)</h4>
+            <p><strong>Nunca uses "lista negra". Siempre usa "lista blanca".</strong></p>
+            <div class="code-block"><pre><code>// ❌ MAL: Lista negra - intentar adivinar todo lo malo
+String[] blacklist = {"..", "/", "\\", ";", "|"};
+for (String bad : blacklist) {
+    if (fileName.contains(bad)) {
+        throw new SecurityException("Carácter no permitido");
+    }
+}
+
+// ✅ BIEN: Lista blanca - solo permitir lo que se sabe bueno
+String[] whitelist = {"a","b","c","d","e","f","g","h","i","j","k","l","m",
+                      "n","o","p","q","r","s","t","u","v","w","x","y","z",
+                      "0","1","2","3","4","5","6","7","8","9",".","-","_"};
+for (char c : fileName.toCharArray()) {
+    if (!Arrays.asList(whitelist).contains(String.valueOf(c))) {
+        throw new SecurityException("Carácter no permitido");
+    }
+}
+</code></pre></div>
+            <h4>Reglas de oro de la validación</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Regla</th><th>Explicación</th><th>Ejemplo</th></tr></thead>
+                    <tbody>
+                        <tr><td>Validación en el servidor</td><td>Nunca confíes solo en validación de cliente (JavaScript)</td><td>Las validaciones del cliente se pueden saltar</td></tr>
+                        <tr><td>Validación de tipo</td><td>Verifica el tipo de dato esperado</td><td>Si esperas un número, asegúrate de que sea número</td></tr>
+                        <tr><td>Validación de formato</td><td>Verifica el formato esperado</td><td>Email debe tener @ y dominio</td></tr>
+                        <tr><td>Validación de rango</td><td>Verifica que esté dentro de límites aceptables</td><td>Tamaño entre 1KB y 10MB</td></tr>
+                        <tr><td>Validación de contenido</td><td>Verifica el contenido real</td><td>Un PDF debe empezar con <code>%PDF</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-coins"></i> LECCIÓN 3: Prevenir es más barato que corregir</div>
+            
+            <h4>Ejemplo: Vulnerabilidad de carga de archivos</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Fase</th><th>Costo de corregir</th><th>Esfuerzo</th><th>Impacto</th></tr></thead>
+                    <tbody>
+                        <tr><td>Diseño</td><td>$100</td><td>1 hora</td><td>Ninguno</td></tr>
+                        <tr><td>Desarrollo</td><td>$1,000</td><td>1 día</td><td>Retraso mínimo</td></tr>
+                        <tr><td>Pruebas</td><td>$5,000</td><td>3 días</td><td>Retraso en el lanzamiento</td></tr>
+                        <tr><td>Producción</td><td>$100,000+</td><td>1 semana+</td><td>Datos robados, reputación dañada</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4>Ejemplo: El costo de un incidente</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Costo</th><th>Cantidad estimada</th></tr></thead>
+                    <tbody>
+                        <tr><td>Multas regulatorias</td><td>$50,000 </td></tr>
+                        <tr><td>Pérdida de clientes</td><td>$10,000 </td></tr>
+                        <tr><td>Daño a la reputación</td><td>$100,000 </td></tr>
+                        <tr><td>Investigación forense</td><td>$10,000 </td></tr>
+                        <tr><td>Tiempo de inactividad</td><td>$1,000 </td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <blockquote><strong>"La prevención cuesta monedas. La corrección cuesta fortunas."</strong></blockquote>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-tools"></i> LECCIÓN 4: Las herramientas ayudan, pero no son suficientes</div>
+            <h4>Ejemplo: SonarQube detecta un problema</h4>
+            <p><strong>Lo que SonarQube dice:</strong></p>
+            <blockquote>"Path Traversal detectado en la línea 15. Entrada de usuario no validada."</blockquote>
+            <p><strong>Lo que un desarrollador sin conocimiento hace:</strong></p>
+            <div class="code-block"><pre><code>// "Arreglo" superficial - solo agregar una validación simple
+if (fileName.contains("..")) {
+    throw new SecurityException();
+}
+// Pero aún es vulnerable a técnicas de evasión como ..%2f..%2f
+</code></pre></div>
+            <p><strong>Lo que un desarrollador con conocimiento hace:</strong></p>
+            <div class="code-block"><pre><code>// Arreglo real - entender la causa raíz
+String safeName = UUID.randomUUID().toString() + 
+                  getFileExtension(fileName);
+// Así no importa lo que el usuario envíe, el nombre es seguro
+</code></pre></div>
+            <h4>La lección</h4>
+            <blockquote><strong>"Las herramientas te dicen DÓNDE está el problema. El conocimiento te dice CÓMO solucionarlo."</strong></blockquote>
+            <h4>El equilibrio correcto</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Elemento</th><th>Función</th></tr></thead>
+                    <tbody>
+                        <tr><td>SonarQube</td><td>Detecta vulnerabilidades en el código</td></tr>
+                        <tr><td>OWASP ZAP</td><td>Prueba la aplicación en ejecución</td></tr>
+                        <tr><td>Tu conocimiento</td><td>Entiende por qué son vulnerabilidades y cómo evitarlas</td></tr>
+                        <tr><td>Tu experiencia</td><td>Sabe qué técnicas de evasión usan los atacantes</td></tr>
+                        <tr><td>Tu creatividad</td><td>Piensa en escenarios que las herramientas no consideran</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-file-alt"></i> LECCIÓN 5: Documentar es importante</div>
+            <h4>¿Por qué documentar?</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Razón</th><th>Explicación</th></tr></thead>
+                    <tbody>
+                        <tr><td>Memoria institucional</td><td>El conocimiento no se pierde cuando alguien se va</td></tr>
+                        <tr><td>Consistencia</td><td>Todos los desarrolladores aplican las mismas reglas</td></tr>
+                        <tr><td>Auditoría</td><td>Puedes demostrar que tomaste decisiones de seguridad</td></tr>
+                        <tr><td>Aprendizaje</td><td>Otros pueden aprender de tus experiencias</td></tr>
+                        <tr><td>Mejora continua</td><td>Puedes revisar y mejorar las decisiones pasadas</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4>¿Qué documentar?</h4>
+            <p><strong>Decisiones de seguridad</strong></p>
+            <div class="code-block"><pre><code># DECISIÓN DE SEGURIDAD - Carga de Archivos
+
+## Contexto
+El sistema necesita permitir a los estudiantes subir archivos de tareas.
+
+## Decisión
+Usaremos una lista blanca de extensiones:
+- .pdf, .docx, .jpg, .png
+
+## Razones
+1. Son los formatos más comunes para tareas
+2. Son formatos que no pueden ejecutar código malicioso (aunque sí pueden contener macros)
+3. El tamaño máximo será 10 MB
+
+## Alternativas consideradas
+- Permitir .exe (rechazado: riesgo de ejecución de código)
+- Permitir .zip (rechazado: riesgo de zip bombs)
+- Sin límite de tamaño (rechazado: riesgo de DoS)
+
+## Fecha de la decisión
+15 de marzo de 2024
+
+## Responsable
+Equipo de Desarrollo
+</code></pre></div>
+            <p><strong>Problemas encontrados</strong></p>
+            <div class="code-block"><pre><code># PROBLEMA ENCONTRADO - Path Traversal
+
+## Descripción
+Se descubrió que el endpoint /upload permitía Path Traversal mediante el uso de ../ en el nombre del archivo.
+
+## Cómo se encontró
+SonarQube detectó la vulnerabilidad en el código durante el análisis estático.
+
+## Código vulnerable
+String fileName = request.getParameter("fileName");
+File file = new File("/uploads/" + fileName);
+
+## Cómo se solucionó
+String fileName = request.getParameter("fileName");
+String safeName = UUID.randomUUID().toString() + getExtension(fileName);
+File file = new File("/uploads/seguro/" + safeName);
+
+## Fecha
+20 de marzo de 2024
+</code></pre></div>
+            <p><strong>Lecciones aprendidas</strong></p>
+            <div class="code-block"><pre><code># LECCIÓN APRENDIDA - Validación de Archivos
+
+## Qué aprendimos
+Nunca debemos confiar en el nombre del archivo que el usuario nos envía. Siempre debemos generar nuestro propio nombre.
+
+## Por qué es importante
+El usuario puede enviar nombres maliciosos como ../../etc/passwd o nombres que causen colisiones.
+
+## Cómo aplicarlo en el futuro
+- Siempre usar UUID para generar nombres de archivo
+- Validar el contenido real del archivo (magic number)
+- No confiar en el Content-Type enviado por el cliente
+
+## Fecha
+25 de marzo de 2024
+</code></pre></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-eye"></i> LECCIÓN 6: El pensamiento del vigilante</div>
+            <h4>El cambio de mentalidad</h4>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Pensamiento de Desarrollador Común</th><th>Pensamiento del Vigilante</th></tr></thead>
+                    <tbody>
+                        <tr><td>"¿Funciona esto?"</td><td>"¿Y si alguien lo usa maliciosamente?"</td></tr>
+                        <tr><td>"El usuario no haría eso"</td><td>"Nunca confíes en el usuario"</td></tr>
+                        <tr><td>"La seguridad es cosa de otro equipo"</td><td>"Yo soy responsable de la seguridad"</td></tr>
+                        <tr><td>"Lo arreglo después"</td><td>"La seguridad se piensa desde el principio"</td></tr>
+                        <tr><td>"¿Qué hace esto?"</td><td>"¿Qué podría hacer esto si se usa mal?"</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4>La mentalidad del vigilante</h4>
+            <ol>
+                <li>¿Qué podría salir mal aquí?</li>
+                <li>¿Cómo podría un atacante explotar esto?</li>
+                <li>¿Qué datos sensibles maneja este código?</li>
+                <li>¿Cómo puedo validar esta entrada de forma segura?</li>
+                <li>¿Qué pasa si esto falla?</li>
+                <li>¿Hay una forma más segura de hacer esto?</li>
+            </ol>
+            
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-flag"></i> LECCIÓN 7: El compromiso del vigilante</div>
+            <blockquote><strong>"Yo, como desarrollador, me comprometo a:</strong></blockquote>
+            <ol>
+                <li><strong>Pensar en la seguridad desde el primer momento</strong><br><em>No dejaré la seguridad para el final. La integraré en cada fase del desarrollo.</em></li>
+                <li><strong>Validar TODO lo que viene del usuario</strong><br><em>Nunca confiaré en la entrada del usuario. Siempre verificaré, validaré y sanitizaré.</em></li>
+                <li><strong>Aprender constantemente sobre seguridad</strong><br><em>La seguridad evoluciona. Me mantendré actualizado sobre nuevas amenazas y técnicas.</em></li>
+                <li><strong>Compartir mis conocimientos</strong><br><em>Ayudaré a otros desarrolladores a ser más seguros. La seguridad es un trabajo en equipo.</em></li>
+                <li><strong>Documentar mis decisiones</strong><br><em>Dejaré un registro claro de las decisiones de seguridad para que otros puedan aprender.</em></li>
+                <li><strong>Usar herramientas de seguridad</strong><br><em>Integraré SAST y DAST en mi proceso de desarrollo para detectar problemas temprano.</em></li>
+                <li><strong>Ser humilde y aprender de los errores</strong><br><em>Si cometo un error de seguridad, lo reconoceré, lo corregiré y aprenderé de él.</em></li>
+            </ol>
+        </div>
+
+        <div class="quiz-container" id="quizContainer">
+            <div id="quizContent"></div>
+            <div class="quiz-nav">
+                <span class="question-counter" id="questionCounter">Pregunta 1 de 5</span>
+                <div>
+                    <button class="btn btn-primary" id="nextBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente</button>
+                    <button class="btn btn-success" id="finishBtn" style="display:none;"><i class="fas fa-flag-checkered"></i> Terminar nivel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsContainer" class="hidden">
+            <div class="results-container">
+                <h2 style="margin-bottom:0.5rem;">📊 Resultado del Nivel 8</h2>
+                <div class="score" id="levelScore">0</div>
+                <div class="score-label">Puntuación (sobre 10)</div>
+                <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="location.reload()"><i class="fas fa-redo"></i> Reintentar</button>
+                    <a href="nivel9.html" class="btn btn-success" id="nextLevelBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente nivel</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Volver al índice</a>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align:center;padding-top:2.5rem;margin-top:2.5rem;border-top:2px solid #e5e5e5;color:#999;font-size:0.8rem;">
+            <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Nivel 8</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // DATOS DE PREGUNTAS - Nivel 8
+        // ================================================================
+        const QUESTIONS = [{
+            question: '¿Por qué la seguridad es responsabilidad de todos los desarrolladores?',
+            options: [
+                'Porque es más barato corregir al final',
+                'Porque cada línea de código puede introducir vulnerabilidades',
+                'Porque es trabajo del equipo de seguridad',
+                'Porque las herramientas hacen todo el trabajo'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué principio de seguridad se aplica al decir "nunca confíes en la entrada del usuario"?',
+            options: [
+                'Principio de mínimo privilegio',
+                'Validación de entrada (Input Validation)',
+                'Cifrado de datos',
+                'Autenticación fuerte'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Por qué es más barato prevenir que corregir vulnerabilidades?',
+            options: [
+                'Porque corregir en producción es más costoso y complejo',
+                'Porque las herramientas de prevención son gratuitas',
+                'Porque no requiere tiempo',
+                'Porque los desarrolladores prefieren corregir'
+            ],
+            correct: [0]
+        }, {
+            question: '¿Qué papel juegan las herramientas de seguridad?',
+            options: [
+                'Reemplazan completamente la revisión manual',
+                'Ayudan a detectar problemas, pero el conocimiento humano es esencial',
+                'Son opcionales y no recomendadas',
+                'Solo sirven para proyectos grandes'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Por qué es importante documentar las decisiones de seguridad?',
+            options: [
+                'Para que otros desarrolladores entiendan las decisiones y las mantengan',
+                'Porque es un requisito legal',
+                'Para ocupar espacio en el repositorio',
+                'No es importante documentar'
+            ],
+            correct: [0]
+        }];
+
+        // ================================================================
+        // NOMBRES DE NIVELES PARA NAVEGACIÓN
+        // ================================================================
+        const LEVEL_NAMES = [
+            '1. ¿Qué sucedió?',
+            '2. Vulnerabilidad',
+            '3. ¿Cómo evitarlo?',
+            '4. Pruebas',
+            '5. Herramientas',
+            '6. Incidentes',
+            '7. Responder',
+            '8. Lección',
+            '9. Crucigrama',
+            '10. Reflexión'
+        ];
+
+        const LEVEL_FILES = [
+            'nivel1.html',
+            'nivel2.html',
+            'nivel3.html',
+            'nivel4.html',
+            'nivel5.html',
+            'nivel6.html',
+            'nivel7.html',
+            'nivel8.html',
+            'nivel9.html',
+            'nivel10.html'
+        ];
+
+        // ================================================================
+        // ESTADO DEL NIVEL
+        // ================================================================
+        const state = {
+            currentQuestion: 0,
+            answers: [],
+            results: [],
+            finished: false,
+            score: 0,
+            approved: false
+        };
+
+        // ================================================================
+        // UTILIDADES
+        // ================================================================
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type ? ' ' + type : '');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+        }
+
+        // ================================================================
+        // RENDERIZAR NAVEGACIÓN
+        // ================================================================
+        function renderNav() {
+            const nav = document.getElementById('levelNav');
+            if (!nav) return;
+            nav.innerHTML = '';
+
+            for (let i = 0; i < LEVEL_NAMES.length; i++) {
+                const a = document.createElement('a');
+                a.href = LEVEL_FILES[i];
+                a.innerHTML = `
+                    <i class="fas ${i === 7 ? 'fa-circle' : 'fa-circle'}"></i>
+                    <span>${LEVEL_NAMES[i].replace(/^\d+\.\s/, '')}</span>
+                    <span class="badge-nav">${i + 1}</span>
+                `;
+                if (i === 7) a.classList.add('active');
+                nav.appendChild(a);
+            }
+        }
+
+        // ================================================================
+        // RENDERIZAR PREGUNTA
+        // ================================================================
+        function renderQuestion() {
+            const qIndex = state.currentQuestion;
+            const totalQ = QUESTIONS.length;
+
+            if (qIndex >= totalQ) return;
+
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const counter = document.getElementById('questionCounter');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const shuffledOptions = shuffleArray([...q.options]);
+            const correctIndices = q.correct.map(idx => shuffledOptions.indexOf(q.options[idx]));
+
+            let html = `
+                <div class="quiz-question">${q.question}</div>
+                <div class="quiz-options" id="quizOptions">
+            `;
+
+            const labels = ['A', 'B', 'C', 'D'];
+            shuffledOptions.forEach((opt, idx) => {
+                html += `
+                    <div class="quiz-option" data-opt="${idx}" data-correct="${correctIndices.includes(idx)}">
+                        <span class="opt-label">${labels[idx]}.</span>
+                        ${opt}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            html += `<div class="quiz-feedback" id="quizFeedback"></div>`;
+
+            container.innerHTML = html;
+
+            counter.textContent = `Pregunta ${qIndex + 1} de ${totalQ}`;
+
+            nextBtn.style.display = 'none';
+            finishBtn.style.display = 'none';
+
+            const options = container.querySelectorAll('.quiz-option');
+            const isMulti = q.correct.length > 1;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    const optIndex = parseInt(this.dataset.opt);
+
+                    if (isMulti) {
+                        this.classList.toggle('selected');
+                    } else {
+                        options.forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+
+                    const selected = [];
+                    options.forEach(o => {
+                        if (o.classList.contains('selected')) {
+                            selected.push(parseInt(o.dataset.opt));
+                        }
+                    });
+                    state.answers[qIndex] = selected;
+
+                    checkAnswer();
+                });
+            });
+
+            if (state.answers[qIndex]) {
+                const saved = state.answers[qIndex];
+                options.forEach(opt => {
+                    const idx = parseInt(opt.dataset.opt);
+                    if (saved.includes(idx)) {
+                        opt.classList.add('selected');
+                    }
+                });
+                checkAnswer();
+            }
+        }
+
+        // ================================================================
+        // VERIFICAR RESPUESTA
+        // ================================================================
+        function checkAnswer() {
+            const qIndex = state.currentQuestion;
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const options = container.querySelectorAll('.quiz-option');
+            const selected = state.answers[qIndex] || [];
+
+            if (selected.length === 0) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+                return;
+            }
+
+            options.forEach(o => o.classList.add('disabled'));
+
+            const correctIndices = [];
+            options.forEach(o => {
+                if (o.dataset.correct === 'true') {
+                    correctIndices.push(parseInt(o.dataset.opt));
+                }
+            });
+
+            let selectedCorrect = 0;
+            let selectedWrong = 0;
+
+            options.forEach(o => {
+                const idx = parseInt(o.dataset.opt);
+                const isCorrect = o.dataset.correct === 'true';
+                const isSelected = selected.includes(idx);
+
+                if (isSelected && isCorrect) {
+                    o.classList.add('correct');
+                    selectedCorrect++;
+                } else if (isSelected && !isCorrect) {
+                    o.classList.add('wrong');
+                    selectedWrong++;
+                } else if (!isSelected && isCorrect) {
+                    o.classList.add('correct');
+                }
+            });
+
+            let score = 0;
+            const totalCorrect = correctIndices.length;
+            if (selectedCorrect === totalCorrect && selectedWrong === 0) {
+                score = 2;
+            } else if (selectedCorrect > 0 || totalCorrect > 0) {
+                const net = selectedCorrect - selectedWrong;
+                score = Math.max(0, (net / totalCorrect) * 2);
+                score = Math.round(score * 10) / 10;
+            }
+
+            const result = {
+                correct: score === 2,
+                score: score,
+                selected: selected,
+                correctIndices: correctIndices,
+                totalCorrect: totalCorrect
+            };
+            state.results[qIndex] = result;
+
+            const feedback = document.getElementById('quizFeedback');
+            if (score === 2) {
+                feedback.className = 'quiz-feedback success';
+                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+            } else if (score > 0) {
+                feedback.className = 'quiz-feedback partial';
+                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+            } else {
+                feedback.className = 'quiz-feedback error';
+                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+            }
+
+            const totalQ = QUESTIONS.length;
+            if (qIndex === totalQ - 1) {
+                finishBtn.style.display = 'inline-block';
+                finishBtn.onclick = function() {
+                    finishLevel();
+                };
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.onclick = function() {
+                    state.currentQuestion++;
+                    renderQuestion();
+                };
+            }
+        }
+
+        // ================================================================
+        // FINALIZAR NIVEL
+        // ================================================================
+        function finishLevel() {
+            const totalQ = QUESTIONS.length;
+
+            for (let i = 0; i < totalQ; i++) {
+                if (!state.results[i]) {
+                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    return;
+                }
+            }
+
+            let levelScore = 0;
+            state.results.forEach(r => {
+                levelScore += r.score;
+            });
+            state.score = levelScore;
+            state.finished = true;
+            state.approved = levelScore >= 7;
+
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            document.getElementById('levelScore').textContent = levelScore.toFixed(1);
+
+            const msg = document.getElementById('resultMessage');
+            if (state.approved) {
+                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.style.color = '#16a34a';
+                document.getElementById('nextLevelBtn').style.display = 'inline-block';
+            } else {
+                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.style.color = '#dc2626';
+                document.getElementById('nextLevelBtn').style.display = 'none';
+            }
+        }
+
+        // ================================================================
+        // INICIALIZACIÓN
+        // ================================================================
+        function init() {
+            renderNav();
+            renderQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

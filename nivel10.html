@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nivel 10 · Reflexión final · El Vigilante del Código</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ===== RESET Y BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.7;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            border-bottom: 2px solid #e5e5e5;
+            margin-bottom: 2rem;
+        }
+
+        .header .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .header .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #666;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.3rem 1.2rem;
+            border-radius: 100px;
+            margin-bottom: 1rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+
+        .header h1 .highlight {
+            color: #dc2626;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 300;
+            margin-top: 0.3rem;
+        }
+
+        .header .meta {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #999;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .header .meta i {
+            color: #dc2626;
+            margin-right: 0.4rem;
+        }
+
+        /* ===== NAVEGACIÓN ENTRE NIVELES ===== */
+        .level-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 0.5rem;
+        }
+
+        .level-nav a {
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-bottom: none;
+            padding: 0.4rem 1rem;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #888;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .level-nav a.active {
+            background: #ffffff;
+            color: #dc2626;
+            border-color: #dc2626;
+            border-bottom: 2px solid #ffffff;
+            margin-bottom: -2px;
+        }
+
+        .level-nav a .badge-nav {
+            background: #e5e5e5;
+            color: #666;
+            font-size: 0.55rem;
+            padding: 0.05rem 0.5rem;
+            border-radius: 100px;
+        }
+
+        .level-nav a.active .badge-nav {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .level-nav a i {
+            font-size: 0.75rem;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e5e5e5;
+            transition: border-color 0.2s;
+        }
+        .card code {
+            background: #f0f0f0;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: #dc2626;
+            border: 1px solid #e5e5e5;
+        }
+        .card .code-block {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 1rem 1.3rem;
+            margin: 0.8rem 0;
+            border: 1px solid #e5e5e5;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        .card .code-block .comment {
+            color: #888;
+            font-style: italic;
+        }
+        .card .code-block .keyword {
+            color: #dc2626;
+            font-weight: 600;
+        }
+        .card .code-block .string {
+            color: #2563eb;
+        }
+        pre {
+            background: #f5f5f5;
+            color: #1a1a1a;
+            padding: 0.8rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', Courier New, monospace;
+            font-size: 0.82rem;
+            line-height: 1.45;
+            border: 1px solid #e5e5e5;
+            white-space: pre-wrap;
+            word-break: normal;
+        }
+
+        .card:hover {
+            border-color: #ccc;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .card-title i {
+            color: #dc2626;
+        }
+
+        .card p,
+        .card li {
+            color: #444;
+        }
+
+        .card ul,
+        .card ol {
+            padding-left: 1.3rem;
+            margin: 0.6rem 0;
+        }
+
+        .card li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* ===== REFLEXIÓN ===== */
+        .reflection-box {
+            background: #fafafa;
+            border-radius: 16px;
+            padding: 2rem 2.2rem;
+            border: 1px solid #e5e5e5;
+            margin-top: 0.5rem;
+        }
+
+        .reflection-box .quote {
+            font-size: 2.5rem;
+            color: #dc2626;
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: -0.5rem;
+        }
+
+        .reflection-box h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.8rem;
+        }
+
+        .reflection-box .text {
+            font-size: 1.05rem;
+            color: #333;
+            font-weight: 300;
+            margin-bottom: 0.8rem;
+        }
+
+        .reflection-box .highlight-text {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1.2rem 0;
+        }
+
+        .compare-item {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .compare-item .title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .compare-item .title.danger {
+            color: #dc2626;
+        }
+
+        .compare-item .title.success {
+            color: #16a34a;
+        }
+
+        .compare-item ul {
+            list-style: none;
+            padding: 0;
+            font-size: 0.88rem;
+            color: #666;
+        }
+
+        .compare-item ul li {
+            padding: 0.15rem 0;
+        }
+
+        .compare-item ul li i {
+            font-size: 0.7rem;
+            margin-right: 0.4rem;
+        }
+
+        .compare-item ul li .danger-icon {
+            color: #dc2626;
+        }
+
+        .compare-item ul li .success-icon {
+            color: #16a34a;
+        }
+
+        .lesson-box {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            border-left: 4px solid #dc2626;
+            margin-top: 1rem;
+        }
+
+        .lesson-box p {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .lesson-box .quote-icon {
+            color: #dc2626;
+            margin-right: 0.5rem;
+        }
+
+        .commitment-box {
+            margin-top: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .commitment-box p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .commitment-box .gem {
+            color: #dc2626;
+        }
+
+        /* ===== QUIZ ===== */
+        .quiz-container {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 1.5rem 1.8rem;
+            border: 2px solid #e5e5e5;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-question {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-option {
+            background: #ffffff;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .quiz-option:hover:not(.disabled) {
+            border-color: #dc2626;
+            background: #fff5f5;
+        }
+
+        .quiz-option.selected {
+            border-color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .quiz-option.correct {
+            border-color: #16a34a;
+            background: #dcfce7;
+        }
+
+        .quiz-option.wrong {
+            border-color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .quiz-option.partial {
+            border-color: #f59e0b;
+            background: #fef3c7;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .quiz-option .opt-label {
+            font-weight: 700;
+            color: #888;
+            min-width: 1.5rem;
+        }
+
+        .quiz-feedback {
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            margin: 0.8rem 0;
+            display: none;
+        }
+
+        .quiz-feedback.success {
+            display: block;
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            color: #166534;
+        }
+
+        .quiz-feedback.error {
+            display: block;
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            color: #991b1b;
+        }
+
+        .quiz-feedback.partial {
+            display: block;
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .quiz-nav .question-counter {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #f0f0f0;
+            border: 1px solid #d1d5db;
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #b91c1c;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-success {
+            background: #16a34a;
+            border-color: #16a34a;
+            color: #fff;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #15803d;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+        }
+
+        .btn-success:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: #fee2e2;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #16a34a;
+        }
+
+        .toast.error {
+            background: #dc2626;
+        }
+
+        /* ===== RESULTADOS ===== */
+        .results-container {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 2rem;
+            border: 2px solid #e5e5e5;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .results-container .score {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #dc2626;
+        }
+
+        .results-container .score-label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .mt-2 {
+            margin-top: 1rem;
+        }
+
+        .text-success {
+            color: #16a34a;
+        }
+
+        .text-danger {
+            color: #dc2626;
+        }
+
+        .text-warning {
+            color: #f59e0b;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            .header .meta {
+                flex-direction: column;
+                gap: 0.4rem;
+            }
+            .card {
+                padding: 1rem 1.2rem;
+            }
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            .level-nav {
+                gap: 0.3rem;
+            }
+            .level-nav a {
+                padding: 0.3rem 0.7rem;
+                font-size: 0.7rem;
+            }
+            .level-nav a span {
+                display: none;
+            }
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+            .reflection-box {
+                padding: 1.2rem 1.5rem;
+            }
+            .reflection-box h3 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.8rem 3rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .quiz-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ===== CONTENEDOR ===== -->
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <a href="indice.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al índice</a>
+            <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;NIVEL 10</div>
+            <h1><span class="highlight">Reflexión</span> final</h1>
+            <p class="subtitle">¿Prevenir o corregir? La lección más importante</p>
+            <div class="meta">
+              
+                <span><i class="fas fa-flag-checkered"></i> Último nivel</span>
+            </div>
+        </header>
+
+        <!-- ===== NAVEGACIÓN ===== -->
+        <nav class="level-nav" id="levelNav"></nav>
+
+        <!-- ===== CONTENIDO EDUCATIVO ===== -->
+        <div class="reflection-box">
+            <div class="quote">"</div>
+            <h3>Has llegado al final de este viaje</h3>
+            <p class="text">
+                Has recorrido un camino que empezó con una pregunta simple: <strong>"¿Qué sucedió?"</strong> y te ha llevado a través de vulnerabilidades, herramientas, ataques y respuestas.
+            </p>
+            <p class="text">
+                Ahora, al despedirte de este módulo, quiero compartir contigo una reflexión que espero te acompañe durante toda tu carrera como desarrollador.
+            </p>
+
+            <h4 class="highlight-text">LA REFLEXIÓN</h4>
+            <p class="text">
+                Imagina que estás construyendo una casa. No una casa cualquiera, sino la casa donde vivirán las personas que más quieres: tu familia, tus amigos, tus seres queridos.
+                ¿Construirías esa casa con materiales baratos? ¿Dejarías las puertas sin cerradura? ¿Pondrías las ventanas sin vidrio? ¿Esperarías a que entre un ladrón para poner una alarma?
+            </p>
+            <p class="text">
+                Por supuesto que no. Construirías esa casa con los mejores materiales, pondrías cerraduras en todas las puertas, instalarías ventanas resistentes y colocarías una alarma antes de que nadie se mude.
+                Porque amas a esas personas y quieres protegerlas.
+            </p>
+            <p class="text ">
+                <strong>El código que escribes es esa casa.</strong> Y los usuarios que confían en ti son esas personas que amas.
+            </p>
+            <p class="text">
+                Cada línea de código que escribes es un ladrillo en esa casa. Cada decisión de seguridad es una cerradura en una puerta. Cada validación es un vidrio en una ventana. Cada prueba es una alarma que te avisa antes de que sea demasiado tarde.
+            </p>
+            <p class="text ">
+                <strong>Tú eres el arquitecto, el constructor y el vigilante de esa casa.</strong> Y la seguridad no es un lujo, es una responsabilidad.
+                No es algo que añades al final, es la base sobre la que construyes. No es trabajo de otro equipo, es trabajo tuyo.
+            </p>
+            <p class="text">
+                Cuando escribas código, recuerda que detrás de cada pantalla hay una persona real. Una persona que confía en ti.
+                Una persona que merece que su información esté segura. Una persona que no debería tener que preocuparse por si su tarea fue robada, si su contraseña fue expuesta o si su identidad fue suplantada.
+            </p>
+            <p class="text ">
+                <strong>Esa persona eres tú. Es tu hermano. Es tu amigo. Es tu profesor. Es un estudiante como tú.</strong>
+            </p>
+            <p class="text">
+                La seguridad no es una materia más. Es una forma de pensar. Es una forma de vivir.
+                Es la decisión consciente de que tus usuarios importan más que tu comodidad, más que tu prisa, más que tu pereza.
+            </p>
+
+            <div class="lesson-box">
+                <p>
+                    <i class="fas fa-quote-left quote-icon"></i>
+                    <strong>La seguridad no se añade al final; se construye desde el inicio.</strong>
+                </p>
+            </div>
+
+            <div class="commitment-box">
+                <p>
+                    <i class="fas fa-gem gem"></i>
+                    <strong>Consejos para llevar:</strong>
+                </p><br>
+                <ul>
+                    <li><strong>1. Piensa en seguridad desde el primer momento</strong><br>
+                        <em>"No esperes a que te roben para poner una alarma. La seguridad se diseña, no se añade."</em>
+                        <ul>
+                            <li>Antes de escribir código, pregúntate: "¿Qué podría salir mal aquí?"</li>
+                            <li>Considera la seguridad como parte de tu diseño, no como un parche final.</li>
+                            <li>La seguridad no es una opción, es una responsabilidad.</li>
+                        </ul>
+                    </li><br>
+                    <li><strong>2. Nunca confíes en la entrada del usuario</strong><br>
+                        <em>"La confianza ciega es el mayor enemigo de la seguridad. Desconfía siempre, verifica siempre."</em>
+                        <ul>
+                            <li>Usa listas blancas en lugar de listas negras.</li>
+                            <li>Valida en el servidor, no solo en el cliente.</li>
+                            <li>Genera nombres de archivo con UUID, nunca uses los del usuario.</li>
+                        </ul>
+                    </li><br>
+                    <li><strong>3. Usa herramientas, pero confía en tu conocimiento</strong><br>
+                        <em>"Las herramientas te dicen dónde está el problema. Tu conocimiento te dice cómo solucionarlo."</em>
+                        <ul>
+                            <li>Integra SonarQube (SAST) en tu proceso de desarrollo.</li>
+                            <li>Prueba con OWASP ZAP (DAST) antes de lanzar a producción.</li>
+                            <li>No confíes ciegamente en las herramientas; entiende lo que detectan.</li>
+                        </ul>
+                    </li><br>
+                    <li><strong>4. Aprende constantemente</strong><br>
+                        <em>"La seguridad es un viaje, no un destino. Las amenazas evolucionan, tú también debes hacerlo."</em>
+                        <ul>
+                            <li>Sigue blogs y canales de seguridad.</li>
+                            <li>Lee sobre nuevas vulnerabilidades y técnicas de ataque.</li>
+                            <li>Practica en plataformas como HackTheBox o TryHackMe.</li>
+                        </ul>
+                    </li><br>
+                    <li><strong>5. Comparte lo que aprendes</strong><br>
+                        <em>"Un eslabón débil compromete toda la cadena. Ayuda a otros a ser más fuertes."</em>
+                        <ul>
+                            <li>Comparte conocimientos de seguridad con tu equipo.</li>
+                            <li> Haz code reviews enfocados en seguridad.</li>
+                            <li>Escribe documentación sobre decisiones de seguridad.</li>
+                        </ul>
+                    </li><br>
+                    <li><strong>6. Documenta tus decisiones</strong><br>
+                        <em>"El conocimiento no compartido es conocimiento perdido. Documenta para que otros aprendan."</em>
+                        <ul>
+                            <li>Documenta por qué elegiste ciertas medidas de seguridad.</li>
+                            <li>Registra los incidentes y cómo los resolviste.</li>
+                            <li>Crea guías y tutoriales para el equipo.</li>
+                        </ul>
+                    </li><br>
+                    <li><strong>7. Sé humilde y aprende de tus errores</strong><br>
+                        <em>"El error más grave es no aprender del error. La humildad es la base del crecimiento."</em>
+                        <ul>
+                            <li>Asume la responsabilidad de tus errores.</li>
+                            <li>No ocultes vulnerabilidades que encuentres.</li>
+                            <li>Ve cada error como una oportunidad de aprendizaje.</li>
+                        </ul>
+                    </li><br>
+                    <li><strong>8. Recuerda a los usuarios reales</strong><br>
+                        <em>"Detrás de cada pantalla hay una persona real. Una persona que confía en ti."</em>
+                        <ul>
+                            <li>Piensa en los usuarios mientras escribes código.</li>
+                            <li>Imagina cómo se sentirían si sus datos fueran robados.</li>
+                            <li>Escribe código que proteja, no solo que funcione.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ===== QUIZ =====
+        <div class="quiz-container" id="quizContainer">
+            <div id="quizContent"></div>
+            <div class="quiz-nav">
+                <span class="question-counter" id="questionCounter">Pregunta 1 de 5</span>
+                <div>
+                    <button class="btn btn-primary" id="nextBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente</button>
+                    <button class="btn btn-success" id="finishBtn" style="display:none;"><i class="fas fa-flag-checkered"></i> Terminar nivel</button>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- ===== RESULTADOS ===== -->
+        <div id="resultsContainer" class="hidden">
+            <div class="results-container">
+                <h2 style="margin-bottom:0.5rem;">🎉 ¡Has completado todos los niveles!</h2>
+                <div class="score" id="levelScore">0</div>
+                <div class="score-label">Puntuación del nivel 10 (sobre 10)</div>
+                <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="location.reload()"><i class="fas fa-redo"></i> Reintentar</button>
+                    <a href="index.html" class="btn btn-success"><i class="fas fa-home"></i> Volver al índice</a>
+                </div>
+                <div style="margin-top:1.5rem;padding-top:1rem;border-top:2px solid #e5e5e5;">
+                    <p style="color:#16a34a;font-weight:700;font-size:1.1rem;">
+                        <i class="fas fa-shield-halved"></i> ¡Felicidades! Eres un Vigilante del Código.
+                    </p>
+                    <p style="color:#666;font-size:0.9rem;">
+                        Has completado los 10 niveles del módulo de seguridad.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer style="text-align:center;padding-top:2.5rem;margin-top:2.5rem;border-top:2px solid #e5e5e5;color:#999;font-size:0.8rem;">
+            <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Nivel 10</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // // ================================================================
+        // // DATOS DE PREGUNTAS - Nivel 10
+        // // ================================================================
+        // const QUESTIONS = [{
+        //     question: 'Según la reflexión, ¿qué es más importante?',
+        //     options: [
+        //         'Corregir vulnerabilidades después de que ocurren',
+        //         'Prevenir vulnerabilidades desde el inicio',
+        //         'Usar solo herramientas automáticas',
+        //         'No hacer nada y esperar'
+        //     ],
+        //     correct: [1]
+        // }, {
+        //     question: '¿Cuál es el compromiso que se propone al final del módulo?',
+        //     options: [
+        //         'Pensar en seguridad desde el primer momento y validar la entrada del usuario',
+        //         'Esperar a que el equipo de seguridad revise el código',
+        //         'Usar solo lenguajes de programación seguros',
+        //         'No compartir conocimientos de seguridad'
+        //     ],
+        //     correct: [0]
+        // }, {
+        //     question: '¿Qué es más costoso según la tabla presentada?',
+        //     options: [
+        //         'Corregir en la fase de diseño',
+        //         'Corregir en la fase de producción',
+        //         'Corregir en desarrollo',
+        //         'Corregir en pruebas'
+        //     ],
+        //     correct: [1]
+        // }, {
+        //     question: '¿Qué metáfora se usa para explicar la prevención vs corrección?',
+        //     options: [
+        //         'Construir una casa con cerraduras desde el plano',
+        //         'Pintar una casa después de construirla',
+        //         'Comprar una casa ya hecha',
+        //         'Alquilar una casa'
+        //     ],
+        //     correct: [0]
+        // }, {
+        //     question: '¿Qué frase resume la lección principal del módulo?',
+        //     options: [
+        //         'Es mejor construir una casa segura que tener que repararla después de un incendio',
+        //         'La seguridad es solo para expertos',
+        //         'Las herramientas lo resuelven todo',
+        //         'La seguridad es opcional'
+        //     ],
+        //     correct: [0]
+        // }];
+
+        // ================================================================
+        // NOMBRES DE NIVELES PARA NAVEGACIÓN
+        // ================================================================
+        const LEVEL_NAMES = [
+            '1. ¿Qué sucedió?',
+            '2. Vulnerabilidad',
+            '3. ¿Cómo evitarlo?',
+            '4. Pruebas',
+            '5. Herramientas',
+            '6. Incidentes',
+            '7. Responder',
+            '8. Lección',
+            '9. Crucigrama',
+            '10. Reflexión'
+        ];
+
+        const LEVEL_FILES = [
+            'nivel1.html',
+            'nivel2.html',
+            'nivel3.html',
+            'nivel4.html',
+            'nivel5.html',
+            'nivel6.html',
+            'nivel7.html',
+            'nivel8.html',
+            'nivel9.html',
+            'nivel10.html'
+        ];
+
+        // ================================================================
+        // ESTADO DEL NIVEL
+        // ================================================================
+        const state = {
+            currentQuestion: 0,
+            answers: [],
+            results: [],
+            finished: false,
+            score: 0,
+            approved: false
+        };
+
+        // ================================================================
+        // UTILIDADES
+        // ================================================================
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type ? ' ' + type : '');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+        }
+
+        // ================================================================
+        // RENDERIZAR NAVEGACIÓN
+        // ================================================================
+        function renderNav() {
+            const nav = document.getElementById('levelNav');
+            if (!nav) return;
+            nav.innerHTML = '';
+
+            for (let i = 0; i < LEVEL_NAMES.length; i++) {
+                const a = document.createElement('a');
+                a.href = LEVEL_FILES[i];
+                a.innerHTML = `
+                    <i class="fas ${i === 9 ? 'fa-flag-checkered' : 'fa-circle'}"></i>
+                    <span>${LEVEL_NAMES[i].replace(/^\d+\.\s/, '')}</span>
+                    <span class="badge-nav">${i + 1}</span>
+                `;
+                if (i === 9) a.classList.add('active');
+                nav.appendChild(a);
+            }
+        }
+
+        // ================================================================
+        // RENDERIZAR PREGUNTA
+        // ================================================================
+        function renderQuestion() {
+            const qIndex = state.currentQuestion;
+            const totalQ = QUESTIONS.length;
+
+            if (qIndex >= totalQ) return;
+
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const counter = document.getElementById('questionCounter');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const shuffledOptions = shuffleArray([...q.options]);
+            const correctIndices = q.correct.map(idx => shuffledOptions.indexOf(q.options[idx]));
+
+            let html = `
+                <div class="quiz-question">${q.question}</div>
+                <div class="quiz-options" id="quizOptions">
+            `;
+
+            const labels = ['A', 'B', 'C', 'D'];
+            shuffledOptions.forEach((opt, idx) => {
+                html += `
+                    <div class="quiz-option" data-opt="${idx}" data-correct="${correctIndices.includes(idx)}">
+                        <span class="opt-label">${labels[idx]}.</span>
+                        ${opt}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            html += `<div class="quiz-feedback" id="quizFeedback"></div>`;
+
+            container.innerHTML = html;
+
+            counter.textContent = `Pregunta ${qIndex + 1} de ${totalQ}`;
+
+            nextBtn.style.display = 'none';
+            finishBtn.style.display = 'none';
+
+            const options = container.querySelectorAll('.quiz-option');
+            const isMulti = q.correct.length > 1;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    const optIndex = parseInt(this.dataset.opt);
+
+                    if (isMulti) {
+                        this.classList.toggle('selected');
+                    } else {
+                        options.forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+
+                    const selected = [];
+                    options.forEach(o => {
+                        if (o.classList.contains('selected')) {
+                            selected.push(parseInt(o.dataset.opt));
+                        }
+                    });
+                    state.answers[qIndex] = selected;
+
+                    checkAnswer();
+                });
+            });
+
+            if (state.answers[qIndex]) {
+                const saved = state.answers[qIndex];
+                options.forEach(opt => {
+                    const idx = parseInt(opt.dataset.opt);
+                    if (saved.includes(idx)) {
+                        opt.classList.add('selected');
+                    }
+                });
+                checkAnswer();
+            }
+        }
+
+        // ================================================================
+        // VERIFICAR RESPUESTA
+        // ================================================================
+        function checkAnswer() {
+            const qIndex = state.currentQuestion;
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const options = container.querySelectorAll('.quiz-option');
+            const selected = state.answers[qIndex] || [];
+
+            if (selected.length === 0) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+                return;
+            }
+
+            options.forEach(o => o.classList.add('disabled'));
+
+            const correctIndices = [];
+            options.forEach(o => {
+                if (o.dataset.correct === 'true') {
+                    correctIndices.push(parseInt(o.dataset.opt));
+                }
+            });
+
+            let selectedCorrect = 0;
+            let selectedWrong = 0;
+
+            options.forEach(o => {
+                const idx = parseInt(o.dataset.opt);
+                const isCorrect = o.dataset.correct === 'true';
+                const isSelected = selected.includes(idx);
+
+                if (isSelected && isCorrect) {
+                    o.classList.add('correct');
+                    selectedCorrect++;
+                } else if (isSelected && !isCorrect) {
+                    o.classList.add('wrong');
+                    selectedWrong++;
+                } else if (!isSelected && isCorrect) {
+                    o.classList.add('correct');
+                }
+            });
+
+            let score = 0;
+            const totalCorrect = correctIndices.length;
+            if (selectedCorrect === totalCorrect && selectedWrong === 0) {
+                score = 2;
+            } else if (selectedCorrect > 0 || totalCorrect > 0) {
+                const net = selectedCorrect - selectedWrong;
+                score = Math.max(0, (net / totalCorrect) * 2);
+                score = Math.round(score * 10) / 10;
+            }
+
+            const result = {
+                correct: score === 2,
+                score: score,
+                selected: selected,
+                correctIndices: correctIndices,
+                totalCorrect: totalCorrect
+            };
+            state.results[qIndex] = result;
+
+            const feedback = document.getElementById('quizFeedback');
+            if (score === 2) {
+                feedback.className = 'quiz-feedback success';
+                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+            } else if (score > 0) {
+                feedback.className = 'quiz-feedback partial';
+                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+            } else {
+                feedback.className = 'quiz-feedback error';
+                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+            }
+
+            const totalQ = QUESTIONS.length;
+            if (qIndex === totalQ - 1) {
+                finishBtn.style.display = 'inline-block';
+                finishBtn.onclick = function() {
+                    finishLevel();
+                };
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.onclick = function() {
+                    state.currentQuestion++;
+                    renderQuestion();
+                };
+            }
+        }
+
+        // ================================================================
+        // FINALIZAR NIVEL
+        // ================================================================
+        function finishLevel() {
+            const totalQ = QUESTIONS.length;
+
+            for (let i = 0; i < totalQ; i++) {
+                if (!state.results[i]) {
+                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    return;
+                }
+            }
+
+            let levelScore = 0;
+            state.results.forEach(r => {
+                levelScore += r.score;
+            });
+            state.score = levelScore;
+            state.finished = true;
+            state.approved = levelScore >= 7;
+
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            document.getElementById('levelScore').textContent = levelScore.toFixed(1);
+
+            const msg = document.getElementById('resultMessage');
+            if (state.approved) {
+                msg.innerHTML = '✅ ¡Nivel aprobado! Has completado todo el módulo. 🎉';
+                msg.style.color = '#16a34a';
+            } else {
+                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para completar el módulo.';
+                msg.style.color = '#dc2626';
+            }
+        }
+
+        // ================================================================
+        // INICIALIZACIÓN
+        // ================================================================
+        function init() {
+            renderNav();
+            renderQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

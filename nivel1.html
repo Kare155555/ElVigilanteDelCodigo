@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nivel 1 · ¿Qué sucedió? · El Vigilante del Código</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ===== RESET Y BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.7;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            border-bottom: 2px solid #e5e5e5;
+            margin-bottom: 2rem;
+        }
+
+        .header .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .header .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #666;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.3rem 1.2rem;
+            border-radius: 100px;
+            margin-bottom: 1rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+
+        .header h1 .highlight {
+            color: #dc2626;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 300;
+            margin-top: 0.3rem;
+        }
+
+        .header .meta {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #999;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .header .meta i {
+            color: #dc2626;
+            margin-right: 0.4rem;
+        }
+
+        /* ===== NAVEGACIÓN ENTRE NIVELES ===== */
+        .level-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 0.5rem;
+        }
+
+        .level-nav a {
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-bottom: none;
+            padding: 0.4rem 1rem;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #888;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .level-nav a.active {
+            background: #ffffff;
+            color: #dc2626;
+            border-color: #dc2626;
+            border-bottom: 2px solid #ffffff;
+            margin-bottom: -2px;
+        }
+
+        .level-nav a .badge-nav {
+            background: #e5e5e5;
+            color: #666;
+            font-size: 0.55rem;
+            padding: 0.05rem 0.5rem;
+            border-radius: 100px;
+        }
+
+        .level-nav a.active .badge-nav {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .level-nav a i {
+            font-size: 0.75rem;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e5e5e5;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: #ccc;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .card-title i {
+            color: #dc2626;
+        }
+
+        .card-title .emoji-big {
+            font-size: 1.4rem;
+        }
+
+        .card p,
+        .card li {
+            color: #444;
+        }
+
+        .card ul,
+        .card ol {
+            padding-left: 1.3rem;
+            margin: 0.6rem 0;
+        }
+
+        .card li {
+            margin-bottom: 0.3rem;
+        }
+
+        .card code {
+            background: #f0f0f0;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        .card .code-block {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 1rem 1.3rem;
+            margin: 0.8rem 0;
+            border: 1px solid #e5e5e5;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .card .code-block .comment {
+            color: #888;
+            font-style: italic;
+        }
+
+        .card .code-block .keyword {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .card .code-block .string {
+            color: #2563eb;
+        }
+
+        .badge-red {
+            display: inline-block;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.15rem 0.7rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-left: 0.4rem;
+            border: 1px solid #fca5a5;
+        }
+
+        .badge-yellow {
+            display: inline-block;
+            background: #fef3c7;
+            color: #b45309;
+            padding: 0.15rem 0.7rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-left: 0.4rem;
+            border: 1px solid #fcd34d;
+        }
+
+        /* ===== QUIZ ===== */
+        .quiz-container {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 1.5rem 1.8rem;
+            border: 2px solid #e5e5e5;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-question {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-option {
+            background: #ffffff;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .quiz-option:hover:not(.disabled) {
+            border-color: #dc2626;
+            background: #fff5f5;
+        }
+
+        .quiz-option.selected {
+            border-color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .quiz-option.correct {
+            border-color: #16a34a;
+            background: #dcfce7;
+        }
+
+        .quiz-option.wrong {
+            border-color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .quiz-option.partial {
+            border-color: #f59e0b;
+            background: #fef3c7;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .quiz-option .opt-label {
+            font-weight: 700;
+            color: #888;
+            min-width: 1.5rem;
+        }
+
+        .quiz-feedback {
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            margin: 0.8rem 0;
+            display: none;
+        }
+
+        .quiz-feedback.success {
+            display: block;
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            color: #166534;
+        }
+
+        .quiz-feedback.error {
+            display: block;
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            color: #991b1b;
+        }
+
+        .quiz-feedback.partial {
+            display: block;
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .quiz-nav .question-counter {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #f0f0f0;
+            border: 1px solid #d1d5db;
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #b91c1c;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-success {
+            background: #16a34a;
+            border-color: #16a34a;
+            color: #fff;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #15803d;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+        }
+
+        .btn-success:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: #fee2e2;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #16a34a;
+        }
+
+        .toast.error {
+            background: #dc2626;
+        }
+
+        /* ===== RESULTADOS ===== */
+        .results-container {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 2rem;
+            border: 2px solid #e5e5e5;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .results-container .score {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #dc2626;
+        }
+
+        .results-container .score-label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .mt-2 {
+            margin-top: 1rem;
+        }
+
+        .text-success {
+            color: #16a34a;
+        }
+
+        .text-danger {
+            color: #dc2626;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            .header .meta {
+                flex-direction: column;
+                gap: 0.4rem;
+            }
+            .card {
+                padding: 1rem 1.2rem;
+            }
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            .level-nav {
+                gap: 0.3rem;
+            }
+            .level-nav a {
+                padding: 0.3rem 0.7rem;
+                font-size: 0.7rem;
+            }
+            .level-nav a span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.8rem 3rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .quiz-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ===== CONTENEDOR ===== -->
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <a href="indice.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al índice</a>
+            <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;NIVEL 1</div>
+            <h1>¿Qué <span class="highlight">sucedió</span>?</h1>
+            <p class="subtitle">Historia real · El problema de la carpeta de cargas</p>
+            <div class="meta">
+                <span><i class="fas fa-clock"></i> 5 preguntas</span>
+                <span><i class="fas fa-star"></i> Mínimo 7/10 para aprobar</span>
+            </div>
+        </header>
+
+        <!-- ===== NAVEGACIÓN ===== -->
+        <nav class="level-nav" id="levelNav">
+            <!-- Generado por JavaScript -->
+        </nav>
+
+        <!-- ===== CONTENIDO EDUCATIVO ===== -->
+        
+
+        <div class="card">
+            <div class="card-title"><span class="emoji-big">🏫</span>  El Portal Universitario </div>
+            <p>El escenario plantea un portal universitario habilitado para que los estudiantes carguen tareas y documentos. Tras una actualización del sistema, se detectaron archivos almacenados que comprometían la estabilidad del servidor, generando sospechas de que usuarios externos habían cargado archivos no autorizados.</p>
+            <p style="margin-top:0.6rem;"><strong>El código problemático:</strong></p>
+
+            <div class="code-block">
+                <span class="comment">// Este código parecía inofensivo, pero era muy peligroso</span><br>
+                String fileName = request.getParameter(<span class="string">"fileName"</span>);<br>
+                <span class="comment">// obtiene el nombre del archivo enviado por el formulario</span><br>
+                File file = new File(<span class="string">"/uploads/"</span> + fileName);<br>
+                <span class="comment">// crea la ruta de destino usando el nombre del usuario sin validar</span><br>
+                FileOutputStream fos = new FileOutputStream(file);<br>
+                <span class="comment">// abre un flujo para escribir el archivo en el servidor</span><br>
+                fos.write(request.getInputStream().readAllBytes());<br>
+                <span class="comment">// copia los bytes enviados por el usuario al archivo de destino</span><br>
+                fos.close();<br>
+                <span class="comment">// cierra el flujo de salida para finalizar la escritura</span><br>
+                out.println(<span class="string">"Archivo cargado"</span>);<br>
+                <span class="comment">// responde al usuario con un mensaje de confirmación</span>
+            </div>
+
+           <p style="margin-top:0.8rem;"><strong>¿Ves algo raro?</strong></p>
+            <p>Este código:</p>
+            <ul>
+                <li>Toma el nombre del archivo directamente de lo que el usuario escribe</li>
+                <li>No verifica qué tipo de archivo es</li>
+                <li>No controla el tamaño del archivo</li>
+                <li>No pregunta quién está subiendo el archivo</li>
+            </ul>
+            <p style="margin-top:0.8rem;"><strong>¿Qué salió mal?</strong></p>
+        <p>Al confiar en cualquier cosa que el usuario le dé, el código permite que un atacante "le mienta" al servidor. Un atacante no va a subir <strong>area.pdf</strong>, va a subir algo como <strong>..//..//etc/passwd</strong> o un archivo <strong>virus.php</strong> </p>
+            <div style="background:#fef2f2;border-radius:10px;padding:0.8rem 1.2rem;margin-top:0.8rem;border-left:4px solid #dc2626;"
+                <p style="color:#dc2626;font-size:0.9rem;"><i class="fas fa-skull" style="margin-right:0.5rem;"></i> <strong>Consecuencias:</strong> Archivos maliciosos, sistema lento, datos expuestos, portal cerrado por días.</p>
+            </div>
+        </div>
+
+        <!-- ===== QUIZ ===== -->
+        <div class="quiz-container" id="quizContainer">
+            <div id="quizContent"></div>
+            <div class="quiz-nav">
+                <span class="question-counter" id="questionCounter">Pregunta 1 de 5</span>
+                <div>
+                    <button class="btn btn-primary" id="nextBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente</button>
+                    <button class="btn btn-success" id="finishBtn" style="display:none;"><i class="fas fa-flag-checkered"></i> Terminar nivel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RESULTADOS ===== -->
+        <div id="resultsContainer" class="hidden">
+            <div class="results-container">
+                <h2 style="margin-bottom:0.5rem;">📊 Resultado del Nivel 1</h2>
+                <div class="score" id="levelScore">0</div>
+                <div class="score-label">Puntuación (sobre 10)</div>
+                <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="location.reload()"><i class="fas fa-redo"></i> Reintentar</button>
+                    <a href="nivel2.html" class="btn btn-success" id="nextLevelBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente nivel</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Volver al índice</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer style="text-align:center;padding-top:2.5rem;margin-top:2.5rem;border-top:2px solid #e5e5e5;color:#999;font-size:0.8rem;">
+            <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Nivel 1</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // DATOS DE PREGUNTAS - Nivel 1
+        // ================================================================
+        const QUESTIONS = [{
+            question: '¿Cuál es el principal problema de seguridad en el código presentado?',
+            options: [
+                'Usa request.getParameter() sin validar la entrada',
+                'El código es muy largo y difícil de leer',
+                'Falta documentación del código',
+                'No usa variables con nombres descriptivos'
+            ],
+            correct: [0]
+        }, {
+            question: '¿Qué permite la concatenación directa de "/uploads/" con el nombre del archivo?',
+            options: [
+                'Optimiza el rendimiento del servidor',
+                'Facilita la organización de archivos',
+                'Permite ataques de Path Traversal usando ../',
+                'Mejora la experiencia del usuario'
+            ],
+            correct: [2]
+        }, {
+            question: '¿Qué consecuencia NO está asociada a este código vulnerable?',
+            options: [
+                'Archivos maliciosos en el servidor',
+                'Sistema lento por archivos grandes',
+                'Mejor rendimiento del portal',
+                'Datos expuestos de estudiantes'
+            ],
+            correct: [2]
+        }, {
+            question: '¿Qué falta en el código para evitar la subida de archivos maliciosos?',
+            options: [
+                'Validación del tipo de archivo',
+                'Un sistema de logs más detallado',
+                'Más comentarios en el código',
+                'Mejor estilo de codificación'
+            ],
+            correct: [0]
+        }, {
+            question: '¿Qué práctica de seguridad se viola al no verificar quién sube los archivos?',
+            options: [
+                'Principio de mínimo privilegio',
+                'Autenticación y autorización',
+                'Cifrado de datos',
+                'Validación de entrada'
+            ],
+            correct: [1]
+        }];
+
+        // ================================================================
+        // NOMBRES DE NIVELES PARA NAVEGACIÓN
+        // ================================================================
+        const LEVEL_NAMES = [
+            '1. ¿Qué sucedió?',
+            '2. Vulnerabilidad',
+            '3. ¿Cómo evitarlo?',
+            '4. Pruebas',
+            '5. Herramientas',
+            '6. Incidentes',
+            '7. Responder',
+            '8. Lección',
+            '9. Crucigrama',
+            '10. Reflexión'
+        ];
+
+        const LEVEL_FILES = [
+            'nivel1.html',
+            'nivel2.html',
+            'nivel3.html',
+            'nivel4.html',
+            'nivel5.html',
+            'nivel6.html',
+            'nivel7.html',
+            'nivel8.html',
+            'nivel9.html',
+            'nivel10.html'
+        ];
+
+        // ================================================================
+        // ESTADO DEL NIVEL
+        // ================================================================
+        const state = {
+            currentQuestion: 0,
+            answers: [],
+            results: [],
+            finished: false,
+            score: 0,
+            approved: false
+        };
+
+        // ================================================================
+        // UTILIDADES
+        // ================================================================
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type ? ' ' + type : '');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+        }
+
+        // ================================================================
+        // RENDERIZAR NAVEGACIÓN
+        // ================================================================
+        function renderNav() {
+            const nav = document.getElementById('levelNav');
+            if (!nav) return;
+            nav.innerHTML = '';
+
+            for (let i = 0; i < LEVEL_NAMES.length; i++) {
+                const a = document.createElement('a');
+                a.href = LEVEL_FILES[i];
+                a.innerHTML = `
+                    <i class="fas ${i === 0 ? 'fa-circle' : 'fa-circle'}"></i>
+                    <span>${LEVEL_NAMES[i].replace(/^\d+\.\s/, '')}</span>
+                    <span class="badge-nav">${i + 1}</span>
+                `;
+                if (i === 0) a.classList.add('active');
+                nav.appendChild(a);
+            }
+        }
+
+        // ================================================================
+        // RENDERIZAR PREGUNTA
+        // ================================================================
+        function renderQuestion() {
+            const qIndex = state.currentQuestion;
+            const totalQ = QUESTIONS.length;
+
+            if (qIndex >= totalQ) return;
+
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const counter = document.getElementById('questionCounter');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            // Mezclar opciones
+            const shuffledOptions = shuffleArray([...q.options]);
+            const correctIndices = q.correct.map(idx => shuffledOptions.indexOf(q.options[idx]));
+
+            let html = `
+                <div class="quiz-question">${q.question}</div>
+                <div class="quiz-options" id="quizOptions">
+            `;
+
+            const labels = ['A', 'B', 'C', 'D'];
+            shuffledOptions.forEach((opt, idx) => {
+                html += `
+                    <div class="quiz-option" data-opt="${idx}" data-correct="${correctIndices.includes(idx)}">
+                        <span class="opt-label">${labels[idx]}.</span>
+                        ${opt}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            html += `<div class="quiz-feedback" id="quizFeedback"></div>`;
+
+            container.innerHTML = html;
+
+            counter.textContent = `Pregunta ${qIndex + 1} de ${totalQ}`;
+
+            nextBtn.style.display = 'none';
+            finishBtn.style.display = 'none';
+
+            const options = container.querySelectorAll('.quiz-option');
+            const isMulti = q.correct.length > 1;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    const optIndex = parseInt(this.dataset.opt);
+
+                    if (isMulti) {
+                        this.classList.toggle('selected');
+                    } else {
+                        options.forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+
+                    const selected = [];
+                    options.forEach(o => {
+                        if (o.classList.contains('selected')) {
+                            selected.push(parseInt(o.dataset.opt));
+                        }
+                    });
+                    state.answers[qIndex] = selected;
+
+                    checkAnswer();
+                });
+            });
+
+            if (state.answers[qIndex]) {
+                const saved = state.answers[qIndex];
+                options.forEach(opt => {
+                    const idx = parseInt(opt.dataset.opt);
+                    if (saved.includes(idx)) {
+                        opt.classList.add('selected');
+                    }
+                });
+                checkAnswer();
+            }
+        }
+
+        // ================================================================
+        // VERIFICAR RESPUESTA
+        // ================================================================
+        function checkAnswer() {
+            const qIndex = state.currentQuestion;
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const options = container.querySelectorAll('.quiz-option');
+            const selected = state.answers[qIndex] || [];
+
+            if (selected.length === 0) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+                return;
+            }
+
+            options.forEach(o => o.classList.add('disabled'));
+
+            const correctIndices = [];
+            options.forEach(o => {
+                if (o.dataset.correct === 'true') {
+                    correctIndices.push(parseInt(o.dataset.opt));
+                }
+            });
+
+            let selectedCorrect = 0;
+            let selectedWrong = 0;
+
+            options.forEach(o => {
+                const idx = parseInt(o.dataset.opt);
+                const isCorrect = o.dataset.correct === 'true';
+                const isSelected = selected.includes(idx);
+
+                if (isSelected && isCorrect) {
+                    o.classList.add('correct');
+                    selectedCorrect++;
+                } else if (isSelected && !isCorrect) {
+                    o.classList.add('wrong');
+                    selectedWrong++;
+                } else if (!isSelected && isCorrect) {
+                    o.classList.add('correct');
+                }
+            });
+
+            let score = 0;
+            const totalCorrect = correctIndices.length;
+            if (selectedCorrect === totalCorrect && selectedWrong === 0) {
+                score = 2;
+            } else if (selectedCorrect > 0 || totalCorrect > 0) {
+                const net = selectedCorrect - selectedWrong;
+                score = Math.max(0, (net / totalCorrect) * 2);
+                score = Math.round(score * 10) / 10;
+            }
+
+            const result = {
+                correct: score === 2,
+                score: score,
+                selected: selected,
+                correctIndices: correctIndices,
+                totalCorrect: totalCorrect
+            };
+            state.results[qIndex] = result;
+
+            const feedback = document.getElementById('quizFeedback');
+            if (score === 2) {
+                feedback.className = 'quiz-feedback success';
+                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+            } else if (score > 0) {
+                feedback.className = 'quiz-feedback partial';
+                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+            } else {
+                feedback.className = 'quiz-feedback error';
+                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+            }
+
+            const totalQ = QUESTIONS.length;
+            if (qIndex === totalQ - 1) {
+                finishBtn.style.display = 'inline-block';
+                finishBtn.onclick = function() {
+                    finishLevel();
+                };
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.onclick = function() {
+                    state.currentQuestion++;
+                    renderQuestion();
+                };
+            }
+        }
+
+        // ================================================================
+        // FINALIZAR NIVEL
+        // ================================================================
+        function finishLevel() {
+            const totalQ = QUESTIONS.length;
+
+            for (let i = 0; i < totalQ; i++) {
+                if (!state.results[i]) {
+                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    return;
+                }
+            }
+
+            let levelScore = 0;
+            state.results.forEach(r => {
+                levelScore += r.score;
+            });
+            state.score = levelScore;
+            state.finished = true;
+            state.approved = levelScore >= 7;
+
+            // Mostrar resultados
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            document.getElementById('levelScore').textContent = levelScore.toFixed(1);
+
+            const msg = document.getElementById('resultMessage');
+            if (state.approved) {
+                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.style.color = '#16a34a';
+                document.getElementById('nextLevelBtn').style.display = 'inline-block';
+            } else {
+                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.style.color = '#dc2626';
+                document.getElementById('nextLevelBtn').style.display = 'none';
+            }
+        }
+
+        // ================================================================
+        // INICIALIZACIÓN
+        // ================================================================
+        function init() {
+            renderNav();
+            renderQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

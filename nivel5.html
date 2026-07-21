@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nivel 5 · Herramientas · El Vigilante del Código</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* MISMO CSS QUE NIVEL 4 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #1a1a1a; line-height: 1.7; scroll-behavior: smooth; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+        .header { text-align: center; padding: 2rem 0 1.5rem; border-bottom: 2px solid #e5e5e5; margin-bottom: 2rem; }
+        .header .back-link { display: inline-block; margin-bottom: 1rem; color: #dc2626; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        .header .back-link:hover { text-decoration: underline; }
+        .header .badge { display: inline-block; background: #f5f5f5; color: #666; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 0.3rem 1.2rem; border-radius: 100px; margin-bottom: 1rem; border: 1px solid #e5e5e5; }
+        .header h1 { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; letter-spacing: -1px; line-height: 1.15; }
+        .header h1 .highlight { color: #dc2626; }
+        .header .subtitle { font-size: 1rem; color: #666; font-weight: 300; margin-top: 0.3rem; }
+        .header .meta { margin-top: 1rem; font-size: 0.85rem; color: #999; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .header .meta i { color: #dc2626; margin-right: 0.4rem; }
+
+        .level-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; border-bottom: 2px solid #e5e5e5; padding-bottom: 0.5rem; }
+        .level-nav a { background: #f5f5f5; border: 1px solid #e5e5e5; border-bottom: none; padding: 0.4rem 1rem; border-radius: 12px 12px 0 0; font-weight: 600; font-size: 0.75rem; color: #888; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+        .level-nav a.active { background: #ffffff; color: #dc2626; border-color: #dc2626; border-bottom: 2px solid #ffffff; margin-bottom: -2px; }
+        .level-nav a .badge-nav { background: #e5e5e5; color: #666; font-size: 0.55rem; padding: 0.05rem 0.5rem; border-radius: 100px; }
+        .level-nav a.active .badge-nav { background: #fee2e2; color: #dc2626; }
+        .level-nav a i { font-size: 0.75rem; }
+
+        .card { background: #fafafa; border-radius: 14px; padding: 1.5rem 1.8rem; margin-bottom: 1.2rem; border: 1px solid #e5e5e5; transition: border-color 0.2s; }
+        .card code { background: #f0f0f0; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #1a1a1a; border: 1px solid #e5e5e5; }
+        .card .code-block { background: #f5f5f5; border-radius: 10px; padding: 1rem 1.3rem; margin: 0.8rem 0; border: 1px solid #e5e5e5; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #1a1a1a; line-height: 1.6; }
+        .card .code-block .comment { color: #888; font-style: italic; }
+        .card .code-block .keyword { color: #1a1a1a; font-weight: 600; }
+        .card .code-block .string { color: #2563eb; }
+        pre { background: #f5f5f5; color: #1a1a1a; padding: 0.8rem; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', Courier New, monospace; font-size: 0.82rem; line-height: 1.45; border: 1px solid #e5e5e5; white-space: pre-wrap; word-break: normal; }
+        .card:hover { border-color: #ccc; }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.7rem; }
+        .card-title i { color: #dc2626; }
+
+        .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+        .tool-item { background: #fafafa; border-radius: 12px; padding: 1.3rem 1.5rem; border: 1px solid #e5e5e5; }
+        .tool-item .icon { font-size: 1.8rem; color: #dc2626; margin-bottom: 0.3rem; }
+        .tool-item h4 { color: #1a1a1a; font-size: 1rem; margin-bottom: 0.2rem; }
+        .tool-item p { color: #666; font-size: 0.88rem; }
+        .tool-item .info-list { list-style: none; padding-left: 0; margin: 0.6rem 0 0; }
+        .tool-item .info-list li { position: relative; padding: 0.38rem 0.55rem 0.38rem 1rem; margin-bottom: 0.35rem; background: #ffffff; border-left: 3px solid #e5e5e5; border-radius: 6px; color: #555; font-size: 0.84rem; line-height: 1.5; }
+        .tool-item .info-list li::before { content: "•"; position: absolute; left: 0.32rem; top: 0.24rem; color: #dc2626; font-weight: 700; }
+        .tool-item .info-list .label { display: inline-block; margin-right: 0.35rem; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; background: #fee2e2; color: #dc2626; padding: 0.15rem 0.45rem; border-radius: 999px; border: 1px solid #fca5a5; }
+        .tool-item code { display: inline-block; background: #f0f0f0; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.8rem; color: #1a1a1a; border: 1px solid #e5e5e5; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-weight: 600; }
+
+        .table-wrap { overflow-x: auto; margin: 0.8rem 0; }
+        .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        .table-wrap th { background: #f0f0f0; color: #555; font-weight: 600; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.5px; padding: 0.6rem 1rem; text-align: left; border-bottom: 2px solid #e5e5e5; }
+        .table-wrap td { padding: 0.6rem 1rem; border-bottom: 1px solid #e5e5e5; color: #444; }
+
+        .quiz-container { background: #fafafa; border-radius: 14px; padding: 1.5rem 1.8rem; border: 2px solid #e5e5e5; margin-top: 1.5rem; }
+        .quiz-question { font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem; color: #1a1a1a; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+        .quiz-option { background: #ffffff; border: 2px solid #e5e5e5; border-radius: 10px; padding: 0.7rem 1rem; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+        .quiz-option:hover:not(.disabled) { border-color: #dc2626; background: #fff5f5; }
+        .quiz-option.selected { border-color: #dc2626; background: #fee2e2; }
+        .quiz-option.correct { border-color: #16a34a; background: #dcfce7; }
+        .quiz-option.wrong { border-color: #dc2626; background: #fee2e2; }
+        .quiz-option.partial { border-color: #f59e0b; background: #fef3c7; }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.8; }
+        .quiz-option .opt-label { font-weight: 700; color: #888; min-width: 1.5rem; }
+        .quiz-feedback { padding: 0.8rem 1.2rem; border-radius: 10px; margin: 0.8rem 0; display: none; }
+        .quiz-feedback.success { display: block; background: #dcfce7; border-left: 4px solid #16a34a; color: #166534; }
+        .quiz-feedback.error { display: block; background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+        .quiz-feedback.partial { display: block; background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; }
+        .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem; }
+        .quiz-nav .question-counter { color: #666; font-size: 0.85rem; }
+
+        .btn { display: inline-block; background: #f0f0f0; border: 1px solid #d1d5db; padding: 0.6rem 1.4rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; color: #1a1a1a; text-decoration: none; }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn-primary { background: #dc2626; border-color: #dc2626; color: #fff; }
+        .btn-primary:hover:not(:disabled) { background: #b91c1c; }
+        .btn-success { background: #16a34a; border-color: #16a34a; color: #fff; }
+        .btn-success:hover:not(:disabled) { background: #15803d; }
+        .btn-outline { background: transparent; border-color: #dc2626; color: #dc2626; }
+        .btn-outline:hover:not(:disabled) { background: #fee2e2; }
+
+        .toast { position: fixed; bottom: 2rem; right: 2rem; background: #1a1a1a; color: #fff; padding: 0.6rem 1.2rem; border-radius: 10px; font-size: 0.85rem; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: none; z-index: 1000; max-width: 350px; text-align: center; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.success { background: #16a34a; }
+        .toast.error { background: #dc2626; }
+
+        .results-container { background: #fafafa; border-radius: 14px; padding: 2rem; border: 2px solid #e5e5e5; text-align: center; margin-top: 1.5rem; }
+        .results-container .score { font-size: 3.5rem; font-weight: 800; color: #dc2626; }
+        .results-container .score-label { font-size: 1.1rem; color: #666; }
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .header .subtitle { font-size: 1rem; }
+            .header .meta { flex-direction: column; gap: 0.4rem; }
+            .card { padding: 1rem 1.2rem; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .level-nav { gap: 0.3rem; }
+            .level-nav a { padding: 0.3rem 0.7rem; font-size: 0.7rem; }
+            .level-nav a span { display: none; }
+            .tool-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 1rem 0.8rem 3rem; }
+            .header h1 { font-size: 1.5rem; }
+            .quiz-container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+
+        <header class="header">
+            <a href="indice.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al índice</a>
+            <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;NIVEL 5</div>
+            <h1><span class="highlight">Herramientas</span> de seguridad</h1>
+            <p class="subtitle">SonarQube · OWASP ZAP · Prácticas</p>
+            <div class="meta">
+                <span><i class="fas fa-clock"></i> 5 preguntas</span>
+                <span><i class="fas fa-star"></i> Mínimo 7/10 para aprobar</span>
+            </div>
+        </header>
+
+        <nav class="level-nav" id="levelNav"></nav>
+
+        <div class="tool-grid">
+            <div class="tool-item">
+                <div class="icon"><i class="fas fa-code"></i></div>
+                <h4>SonarQube</h4>
+                <ul class="info-list">
+                    <li><span class="label">Qué es</span> SonarQube es una herramienta de seguridad y calidad de código que ayuda a los desarrolladores a identificar errores, malas prácticas de programación, duplicaciones y vulnerabilidades en sus aplicaciones. Es open source y compatible con más de 27 lenguajes de programación.</li><br>
+                    <li><span class="label">Cómo funciona</span> SonarQube está dividido en dos partes: el servidor, donde se encuentra el motor de computación que realiza el análisis y almacena los resultados, y el SonarQube Scanner, que se ejecuta sobre el código.</li><br>
+                    <li><span class="label">Por qué usarlo</span> Detecta errores y vulnerabilidades, mejora la mantenibilidad, aplica estándares de codificación, integra con IDEs mediante SonarLint y funciona en pipelines de CI/CD.</li><br>
+                    <li><span class="label">Métricas</span> Calcula código duplicado, cobertura, code smells, bugs, vulnerabilidades y deuda técnica basada en SQALE.</li><br>
+                    <li><span class="label">VS Code</span> En VS Code se instala SonarLint desde Extensiones, se reinicia y luego se conecta con SonarQube cuando sea necesario para resaltar problemas mientras se escribe código.</li><br>
+                    <li><span class="label">Comandos</span> Para proyectos Maven se usa <code>mvn sonar:sonar</code>. Con GitLab CI/CD se puede usar <code>mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.qualitygate.wait=true</code></li><br>
+                </ul>
+            </div>
+            <div class="tool-item">
+                <div class="icon"><i class="fas fa-shield-halved"></i></div>
+                <h4>OWASP ZAP</h4>
+                <ul class="info-list">
+                    <li><span class="label">Qué es</span> OWASP ZAP (Zed Attack Proxy) es una herramienta de pruebas de penetración que ayuda a desarrolladores y profesionales de la seguridad a detectar y encontrar vulnerabilidades en aplicaciones web. Es open source y la #1 recomendada por OWASP.</li><br>
+                    <li><span class="label">Cómo funciona</span> ZAP se sitúa entre una aplicación web y un cliente de pruebas de penetración. Funciona como un proxy, capturando los datos transmitidos y determinando cómo responde la aplicación a posibles solicitudes maliciosas.</li><br>
+                    <li><span class="label">Capacidades</span> Proxy interceptor, Spider, escáner activo, escáner pasivo, fuzzer e integración CI/CD.</li><br>
+                    <li><span class="label">Escaneo</span> El escaneo pasivo analiza solicitudes y respuestas sin modificarlas, mientras que el activo crea y modifica solicitudes para enviar pruebas de ataque.</li><br>
+                    <li><span class="label">Spider</span> El Spider tradicional inspecciona HTML en busca de enlaces; el Spider AJAX renderiza JavaScript y sigue enlaces en aplicaciones con JavaScript.</li><br>
+                    <li><span class="label">Autenticación</span> ZAP soporta autenticación basada en formularios, scripts, JSON y HTTP/NTLM.</li><br>
+                    <li><span class="label">Comandos</span> Se puede abrir con <code>zap.sh</code>, en modo headless con <code>zap.sh -daemon -port 8080</code>, o con comandos CLI como <code>zap-cli quick-scan --self-contained http://target.com</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-list-check"></i> Resumen de herramientas</div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Herramienta</th><th>¿Qué hace?</th><th>¿Cuándo usarla?</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>SonarQube</strong></td><td>Revisa el código fuente</td><td>Mientras escribes código</td></tr>
+                        <tr><td><strong>OWASP ZAP</strong></td><td>Prueba la aplicación en ejecución</td><td>Antes de lanzarla al público</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="quiz-container" id="quizContainer">
+            <div id="quizContent"></div>
+            <div class="quiz-nav">
+                <span class="question-counter" id="questionCounter">Pregunta 1 de 5</span>
+                <div>
+                    <button class="btn btn-primary" id="nextBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente</button>
+                    <button class="btn btn-success" id="finishBtn" style="display:none;"><i class="fas fa-flag-checkered"></i> Terminar nivel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsContainer" class="hidden">
+            <div class="results-container">
+                <h2 style="margin-bottom:0.5rem;">📊Resultado del Nivel 5</h2>
+                <div class="score" id="levelScore">0</div>
+                <div class="score-label">Puntuación (sobre 10)</div>
+                <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="location.reload()"><i class="fas fa-redo"></i> Reintentar</button>
+                    <a href="nivel6.html" class="btn btn-success" id="nextLevelBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente nivel</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Volver al índice</a>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align:center;padding-top:2.5rem;margin-top:2.5rem;border-top:2px solid #e5e5e5;color:#999;font-size:0.8rem;">
+            <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Nivel 5</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // DATOS DE PREGUNTAS - Nivel 5
+        // ================================================================
+        const QUESTIONS = [{
+            question: '¿Qué hace SonarQube?',
+            options: [
+                'Prueba la aplicación en ejecución',
+                'Revisa el código fuente en busca de problemas de seguridad y calidad',
+                'Escanea la red en busca de vulnerabilidades',
+                'Administra bases de datos'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué tipo de herramienta es OWASP ZAP?',
+            options: [
+                'SAST (Static Application Security Testing)',
+                'DAST (Dynamic Application Security Testing)',
+                'Un editor de código',
+                'Un sistema de control de versiones'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Cuál es una ventaja de usar herramientas de análisis de seguridad?',
+            options: [
+                'Reemplazan completamente la revisión manual',
+                'Detectan automáticamente vulnerabilidades comunes',
+                'Son gratuitas y no requieren configuración',
+                'Siempre encuentran todas las vulnerabilidades'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué comando se usa para ejecutar SonarQube en un proyecto Maven?',
+            options: [
+                'mvn clean install',
+                'mvn sonar:sonar',
+                'mvn test',
+                'mvn package'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Por qué las herramientas no son suficientes para garantizar la seguridad?',
+            options: [
+                'Porque son muy caras',
+                'Porque el conocimiento y criterio humano es necesario para interpretar los resultados',
+                'Porque solo funcionan en un sistema operativo',
+                'Porque requieren conexión a internet'
+            ],
+            correct: [1]
+        }];
+
+        // ================================================================
+        // NOMBRES DE NIVELES PARA NAVEGACIÓN
+        // ================================================================
+        const LEVEL_NAMES = [
+            '1. ¿Qué sucedió?',
+            '2. Vulnerabilidad',
+            '3. ¿Cómo evitarlo?',
+            '4. Pruebas',
+            '5. Herramientas',
+            '6. Incidentes',
+            '7. Responder',
+            '8. Lección',
+            '9. Crucigrama',
+            '10. Reflexión'
+        ];
+
+        const LEVEL_FILES = [
+            'nivel1.html',
+            'nivel2.html',
+            'nivel3.html',
+            'nivel4.html',
+            'nivel5.html',
+            'nivel6.html',
+            'nivel7.html',
+            'nivel8.html',
+            'nivel9.html',
+            'nivel10.html'
+        ];
+
+        // ================================================================
+        // ESTADO DEL NIVEL
+        // ================================================================
+        const state = {
+            currentQuestion: 0,
+            answers: [],
+            results: [],
+            finished: false,
+            score: 0,
+            approved: false
+        };
+
+        // ================================================================
+        // UTILIDADES
+        // ================================================================
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type ? ' ' + type : '');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+        }
+
+        // ================================================================
+        // RENDERIZAR NAVEGACIÓN
+        // ================================================================
+        function renderNav() {
+            const nav = document.getElementById('levelNav');
+            if (!nav) return;
+            nav.innerHTML = '';
+
+            for (let i = 0; i < LEVEL_NAMES.length; i++) {
+                const a = document.createElement('a');
+                a.href = LEVEL_FILES[i];
+                a.innerHTML = `
+                    <i class="fas ${i === 4 ? 'fa-circle' : 'fa-circle'}"></i>
+                    <span>${LEVEL_NAMES[i].replace(/^\d+\.\s/, '')}</span>
+                    <span class="badge-nav">${i + 1}</span>
+                `;
+                if (i === 4) a.classList.add('active');
+                nav.appendChild(a);
+            }
+        }
+
+        // ================================================================
+        // RENDERIZAR PREGUNTA
+        // ================================================================
+        function renderQuestion() {
+            const qIndex = state.currentQuestion;
+            const totalQ = QUESTIONS.length;
+
+            if (qIndex >= totalQ) return;
+
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const counter = document.getElementById('questionCounter');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const shuffledOptions = shuffleArray([...q.options]);
+            const correctIndices = q.correct.map(idx => shuffledOptions.indexOf(q.options[idx]));
+
+            let html = `
+                <div class="quiz-question">${q.question}</div>
+                <div class="quiz-options" id="quizOptions">
+            `;
+
+            const labels = ['A', 'B', 'C', 'D'];
+            shuffledOptions.forEach((opt, idx) => {
+                html += `
+                    <div class="quiz-option" data-opt="${idx}" data-correct="${correctIndices.includes(idx)}">
+                        <span class="opt-label">${labels[idx]}.</span>
+                        ${opt}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            html += `<div class="quiz-feedback" id="quizFeedback"></div>`;
+
+            container.innerHTML = html;
+
+            counter.textContent = `Pregunta ${qIndex + 1} de ${totalQ}`;
+
+            nextBtn.style.display = 'none';
+            finishBtn.style.display = 'none';
+
+            const options = container.querySelectorAll('.quiz-option');
+            const isMulti = q.correct.length > 1;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    const optIndex = parseInt(this.dataset.opt);
+
+                    if (isMulti) {
+                        this.classList.toggle('selected');
+                    } else {
+                        options.forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+
+                    const selected = [];
+                    options.forEach(o => {
+                        if (o.classList.contains('selected')) {
+                            selected.push(parseInt(o.dataset.opt));
+                        }
+                    });
+                    state.answers[qIndex] = selected;
+
+                    checkAnswer();
+                });
+            });
+
+            if (state.answers[qIndex]) {
+                const saved = state.answers[qIndex];
+                options.forEach(opt => {
+                    const idx = parseInt(opt.dataset.opt);
+                    if (saved.includes(idx)) {
+                        opt.classList.add('selected');
+                    }
+                });
+                checkAnswer();
+            }
+        }
+
+        // ================================================================
+        // VERIFICAR RESPUESTA
+        // ================================================================
+        function checkAnswer() {
+            const qIndex = state.currentQuestion;
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const options = container.querySelectorAll('.quiz-option');
+            const selected = state.answers[qIndex] || [];
+
+            if (selected.length === 0) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+                return;
+            }
+
+            options.forEach(o => o.classList.add('disabled'));
+
+            const correctIndices = [];
+            options.forEach(o => {
+                if (o.dataset.correct === 'true') {
+                    correctIndices.push(parseInt(o.dataset.opt));
+                }
+            });
+
+            let selectedCorrect = 0;
+            let selectedWrong = 0;
+
+            options.forEach(o => {
+                const idx = parseInt(o.dataset.opt);
+                const isCorrect = o.dataset.correct === 'true';
+                const isSelected = selected.includes(idx);
+
+                if (isSelected && isCorrect) {
+                    o.classList.add('correct');
+                    selectedCorrect++;
+                } else if (isSelected && !isCorrect) {
+                    o.classList.add('wrong');
+                    selectedWrong++;
+                } else if (!isSelected && isCorrect) {
+                    o.classList.add('correct');
+                }
+            });
+
+            let score = 0;
+            const totalCorrect = correctIndices.length;
+            if (selectedCorrect === totalCorrect && selectedWrong === 0) {
+                score = 2;
+            } else if (selectedCorrect > 0 || totalCorrect > 0) {
+                const net = selectedCorrect - selectedWrong;
+                score = Math.max(0, (net / totalCorrect) * 2);
+                score = Math.round(score * 10) / 10;
+            }
+
+            const result = {
+                correct: score === 2,
+                score: score,
+                selected: selected,
+                correctIndices: correctIndices,
+                totalCorrect: totalCorrect
+            };
+            state.results[qIndex] = result;
+
+            const feedback = document.getElementById('quizFeedback');
+            if (score === 2) {
+                feedback.className = 'quiz-feedback success';
+                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+            } else if (score > 0) {
+                feedback.className = 'quiz-feedback partial';
+                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+            } else {
+                feedback.className = 'quiz-feedback error';
+                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+            }
+
+            const totalQ = QUESTIONS.length;
+            if (qIndex === totalQ - 1) {
+                finishBtn.style.display = 'inline-block';
+                finishBtn.onclick = function() {
+                    finishLevel();
+                };
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.onclick = function() {
+                    state.currentQuestion++;
+                    renderQuestion();
+                };
+            }
+        }
+
+        // ================================================================
+        // FINALIZAR NIVEL
+        // ================================================================
+        function finishLevel() {
+            const totalQ = QUESTIONS.length;
+
+            for (let i = 0; i < totalQ; i++) {
+                if (!state.results[i]) {
+                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    return;
+                }
+            }
+
+            let levelScore = 0;
+            state.results.forEach(r => {
+                levelScore += r.score;
+            });
+            state.score = levelScore;
+            state.finished = true;
+            state.approved = levelScore >= 7;
+
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            document.getElementById('levelScore').textContent = levelScore.toFixed(1);
+
+            const msg = document.getElementById('resultMessage');
+            if (state.approved) {
+                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.style.color = '#16a34a';
+                document.getElementById('nextLevelBtn').style.display = 'inline-block';
+            } else {
+                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.style.color = '#dc2626';
+                document.getElementById('nextLevelBtn').style.display = 'none';
+            }
+        }
+
+        // ================================================================
+        // INICIALIZACIÓN
+        // ================================================================
+        function init() {
+            renderNav();
+            renderQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

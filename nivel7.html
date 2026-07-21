@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nivel 7 · ¿Cómo responder? · El Vigilante del Código</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* MISMO CSS QUE NIVEL 6 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #1a1a1a; line-height: 1.7; scroll-behavior: smooth; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+        .header { text-align: center; padding: 2rem 0 1.5rem; border-bottom: 2px solid #e5e5e5; margin-bottom: 2rem; }
+        .header .back-link { display: inline-block; margin-bottom: 1rem; color: #dc2626; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        .header .back-link:hover { text-decoration: underline; }
+        .header .badge { display: inline-block; background: #f5f5f5; color: #666; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 0.3rem 1.2rem; border-radius: 100px; margin-bottom: 1rem; border: 1px solid #e5e5e5; }
+        .header h1 { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; letter-spacing: -1px; line-height: 1.15; }
+        .header h1 .highlight { color: #dc2626; }
+        .header .subtitle { font-size: 1rem; color: #666; font-weight: 300; margin-top: 0.3rem; }
+        .header .meta { margin-top: 1rem; font-size: 0.85rem; color: #999; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .header .meta i { color: #dc2626; margin-right: 0.4rem; }
+
+        .level-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; border-bottom: 2px solid #e5e5e5; padding-bottom: 0.5rem; }
+        .level-nav a { background: #f5f5f5; border: 1px solid #e5e5e5; border-bottom: none; padding: 0.4rem 1rem; border-radius: 12px 12px 0 0; font-weight: 600; font-size: 0.75rem; color: #888; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+        .level-nav a.active { background: #ffffff; color: #dc2626; border-color: #dc2626; border-bottom: 2px solid #ffffff; margin-bottom: -2px; }
+        .level-nav a .badge-nav { background: #e5e5e5; color: #666; font-size: 0.55rem; padding: 0.05rem 0.5rem; border-radius: 100px; }
+        .level-nav a.active .badge-nav { background: #fee2e2; color: #dc2626; }
+        .level-nav a i { font-size: 0.75rem; }
+
+        .card { background: #fafafa; border-radius: 14px; padding: 1.5rem 1.8rem; margin-bottom: 1.2rem; border: 1px solid #e5e5e5; transition: border-color 0.2s; }
+        .card:hover { border-color: #ccc; }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.7rem; }
+        .card-title i { color: #dc2626; }
+        .code-card { background: #f5f5f5; border-color: #e5e5e5; color: #1a1a1a; }
+        .code-card .card-title { color: #1a1a1a; }
+        .code-card pre { background: #f5f5f5; color: #1a1a1a; margin: 0; border: none; }
+        .card code { background: #f0f0f0; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #1a1a1a; border: 1px solid #e5e5e5; }
+        .card .code-block { background: #f5f5f5; border-radius: 10px; padding: 1rem 1.3rem; margin: 0.8rem 0; border: 1px solid #e5e5e5; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #1a1a1a; line-height: 1.6; }
+        .card .code-block .comment { color: #888; font-style: italic; }
+        .card .code-block .keyword { color: #1a1a1a; font-weight: 600; }
+        .card .code-block .string { color: #2563eb; }
+        pre { background: #f5f5f5; color: #1a1a1a; padding: 0.8rem; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.82rem; line-height: 1.45; border: 1px solid #e5e5e5; white-space: pre-wrap; word-break: normal; }
+        code { color: inherit; }
+
+        .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
+        .phase-item { background: #fafafa; border-radius: 10px; padding: 0.6rem; text-align: center; border: 1px solid #e5e5e5; }
+        .phase-item .num { font-size: 1.3rem; }
+        .phase-item p { color: #666; font-size: 0.75rem; margin: 0; }
+
+        .quiz-container { background: #fafafa; border-radius: 14px; padding: 1.5rem 1.8rem; border: 2px solid #e5e5e5; margin-top: 1.5rem; }
+        .quiz-question { font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem; color: #1a1a1a; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+        .quiz-option { background: #ffffff; border: 2px solid #e5e5e5; border-radius: 10px; padding: 0.7rem 1rem; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+        .quiz-option:hover:not(.disabled) { border-color: #dc2626; background: #fff5f5; }
+        .quiz-option.selected { border-color: #dc2626; background: #fee2e2; }
+        .quiz-option.correct { border-color: #16a34a; background: #dcfce7; }
+        .quiz-option.wrong { border-color: #dc2626; background: #fee2e2; }
+        .quiz-option.partial { border-color: #f59e0b; background: #fef3c7; }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.8; }
+        .quiz-option .opt-label { font-weight: 700; color: #888; min-width: 1.5rem; }
+        .quiz-feedback { padding: 0.8rem 1.2rem; border-radius: 10px; margin: 0.8rem 0; display: none; }
+        .quiz-feedback.success { display: block; background: #dcfce7; border-left: 4px solid #16a34a; color: #166534; }
+        .quiz-feedback.error { display: block; background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+        .quiz-feedback.partial { display: block; background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; }
+        .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem; }
+        .quiz-nav .question-counter { color: #666; font-size: 0.85rem; }
+
+        .btn { display: inline-block; background: #f0f0f0; border: 1px solid #d1d5db; padding: 0.6rem 1.4rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; color: #1a1a1a; text-decoration: none; }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn-primary { background: #dc2626; border-color: #dc2626; color: #fff; }
+        .btn-primary:hover:not(:disabled) { background: #b91c1c; }
+        .btn-success { background: #16a34a; border-color: #16a34a; color: #fff; }
+        .btn-success:hover:not(:disabled) { background: #15803d; }
+        .btn-outline { background: transparent; border-color: #dc2626; color: #dc2626; }
+        .btn-outline:hover:not(:disabled) { background: #fee2e2; }
+
+        .toast { position: fixed; bottom: 2rem; right: 2rem; background: #1a1a1a; color: #fff; padding: 0.6rem 1.2rem; border-radius: 10px; font-size: 0.85rem; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: none; z-index: 1000; max-width: 350px; text-align: center; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.success { background: #16a34a; }
+        .toast.error { background: #dc2626; }
+
+        .results-container { background: #fafafa; border-radius: 14px; padding: 2rem; border: 2px solid #e5e5e5; text-align: center; margin-top: 1.5rem; }
+        .results-container .score { font-size: 3.5rem; font-weight: 800; color: #dc2626; }
+        .results-container .score-label { font-size: 1.1rem; color: #666; }
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .header .subtitle { font-size: 1rem; }
+            .header .meta { flex-direction: column; gap: 0.4rem; }
+            .card { padding: 1rem 1.2rem; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .level-nav { gap: 0.3rem; }
+            .level-nav a { padding: 0.3rem 0.7rem; font-size: 0.7rem; }
+            .level-nav a span { display: none; }
+            .phase-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 1rem 0.8rem 3rem; }
+            .header h1 { font-size: 1.5rem; }
+            .quiz-container { padding: 1rem; }
+            .phase-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+
+        <header class="header">
+            <a href="indice.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al índice</a>
+            <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;NIVEL 7</div>
+            <h1>¿Cómo <span class="highlight">responder</span>?</h1>
+            <p class="subtitle">Las 6 fases de respuesta a incidentes</p>
+            <div class="meta">
+                <span><i class="fas fa-clock"></i> 5 preguntas</span>
+                <span><i class="fas fa-star"></i> Mínimo 7/10 para aprobar</span>
+            </div>
+        </header>
+
+        <nav class="level-nav" id="levelNav"></nav>
+
+        <div class="phase-grid">
+            <div class="phase-item"><span class="num">1️⃣</span><p>Preparación</p></div>
+            <div class="phase-item"><span class="num">2️⃣</span><p>Detección</p></div>
+            <div class="phase-item"><span class="num">3️⃣</span><p>Contención</p></div>
+            <div class="phase-item"><span class="num">4️⃣</span><p>Erradicación</p></div>
+            <div class="phase-item"><span class="num">5️⃣</span><p>Recuperación</p></div>
+            <div class="phase-item"><span class="num">6️⃣</span><p>Lecciones</p></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-search"></i> 1️⃣ Preparación</div>
+            <p><strong>¿Qué es?</strong> La preparación es la fase más importante y la más descuidada. Es todo lo que haces antes de que ocurra un incidente para estar listo cuando ocurra. Como tener un extintor en casa antes de que haya un incendio.</p>
+            <p><strong>¿Por qué es importante?</strong> "La mejor manera de responder a un incidente es estar preparado para él." - NIST SP 800-61</p>
+            <p>Una buena preparación puede:</p>
+            <ul>
+                <li>Reducir el tiempo de respuesta</li>
+                <li>Minimizar el daño</li>
+                <li>Ahorrar dinero</li>
+                <li>Proteger la reputación de la organización</li>
+            </ul>
+
+            <div class="card code-card">
+                <div class="card-title"><i class="fas fa-file-lines"></i> Ejemplo de plan</div>
+                <pre><code># PLAN DE RESPUESTA A INCIDENTES - UNIVERSIDAD
+# Este plan muestra la estructura básica que debe contener una respuesta formal.
+
+## 1. EQUIPO DE RESPUESTA
+# Personas y roles clave para coordinar la respuesta.
+- Coordinador: [Nombre, Teléfono, Email]
+- Especialista en Seguridad: [Nombre, Teléfono, Email]
+- Administrador de Sistemas: [Nombre, Teléfono, Email]
+- Comunicaciones: [Nombre, Teléfono, Email]
+- Asesor Legal: [Nombre, Teléfono, Email]
+
+## 2. PROCEDIMIENTOS
+# Pasos principales para manejar el incidente.
+- 2.1. Detección: Monitoreo de logs y alertas
+- 2.2. Contención: Desconectar servidor afectado
+- 2.3. Erradicación: Identificar y eliminar malware
+- 2.4. Recuperación: Restaurar desde backups
+
+## 3. CONTACTOS DE EMERGENCIA
+# Números de teléfono y responsables para contactar inmediatamente.
+- Equipo de Seguridad: 555-1234
+- Soporte Técnico: 555-5678
+- Proveedor de Internet: 555-9012
+
+## 4. PLANTILLAS DE INFORMES
+# Documentos listos para completar durante el incidente.
+- Informe de Incidente: [Plantilla]
+- Comunicado a Usuarios: [Plantilla]</code></pre>
+            </div>
+            <!-- <h4>💾 Backups</h4>
+            <p>Regla de oro: 3-2-1.</p> -->
+            <div class="card code-card">
+                <!-- <div class="card-title"><i class="fas fa-database"></i> Estrategia de backups</div>
+                <pre><code># Programar backups automáticos
+# Diario: Backup incremental
+# Semanal: Backup completo
+# Mensual: Backup completo + copia fuera del sitio
+
+# Ejemplo con rsync (Linux)
+rsync -avz /var/www/html/ /backup/diario/
+rsync -avz /var/www/html/ /backup/semanal/
+rsync -avz /var/www/html/ usuario@servidor-remoto:/backup/</code></pre>
+            </div> -->
+            <h4>👥 Equipo de respuesta</h4>
+            <ul>
+                <li><strong>Coordinador:</strong> Lidera la respuesta.</li>
+                <li><strong>Especialista en seguridad:</strong> Investiga el incidente.</li>
+                <li><strong>Administrador de sistemas:</strong> Contiene y recupera sistemas.</li>
+                <li><strong>Comunicaciones:</strong> Informa a usuarios y directivos.</li>
+                <li><strong>Asesor legal:</strong> Evalúa implicaciones legales.</li>
+            </ul>
+            <h4>🔧 Herramientas</h4>
+            <ul>
+                <li>Registro de incidentes</li>
+                <li>Herramientas forenses</li>
+                <li>Analizadores de logs</li>
+                <li>Escáneres de vulnerabilidades</li>
+                <li>Herramientas de red</li>
+                <li>Comunicación segura</li>
+            </ul>
+            <h4>📚 Formación</h4>
+            <ul>
+                <li>Formación básica anual</li>
+                <li>Formación técnica semestral</li>
+                <li>Simulacros anuales</li>
+                <li>Actualización trimestral</li>
+            </ul>
+        </div>
+
+            <div class="card-title"><i class="fas fa-search"></i> 2️⃣ Detección y análisis</div>
+            <p><strong>¿Qué es?</strong> La detección es descubrir que está ocurriendo un incidente. Es como el sistema de alarma de tu casa que te avisa cuando hay un intruso.</p>
+            <p>Una detección temprana:</p>
+            <ul>
+                <li>⏱️ Reduce el daño</li>
+                <li>🔍 Permite una contención más efectiva</li>
+                <li>💰 Ahorra dinero y recursos</li>
+            </ul>
+            <h4>Indicadores de incidente</h4>
+            <ul>
+                <li><strong>Escaneo de puertos:</strong> alguien sondeando tu servidor.</li>
+                <li><strong>Pruebas de vulnerabilidades:</strong> buscando fallos.</li>
+                <li><strong>Falsas autenticaciones:</strong> intentos de login fallidos.</li>
+                <li><strong>Descargas sospechosas:</strong> archivos extraños.</li>
+                <li><strong>Alertas de antivirus:</strong> malware detectado.</li>
+                <li><strong>Archivos sospechosos:</strong> nombres extraños.</li>
+                <li><strong>Cambios inesperados:</strong> modificaciones sin autorización.</li>
+                <li><strong>Rendimiento anormal:</strong> servidor lento.</li>
+                <li><strong>Actividad de red extraña:</strong> tráfico a IPs desconocidas.</li>
+                <li><strong>Logs inusuales:</strong> entradas anormales.</li>
+                <li><strong>Reportes de usuarios:</strong> usuarios detectan anomalías.</li>
+            </ul>
+            <div class="card code-card">
+                <div class="card-title"><i class="fas fa-terminal"></i> Detección de Web Shell</div>
+                <pre><code># Buscar archivos PHP con funciones peligrosas
+# Esto identifica scripts sospechosos que pueden ejecutar comandos
+grep -r "system\|eval\|shell_exec\|exec\|passthru" /var/www/html/uploads/
+
+# Buscar archivos recién modificados
+# Un web shell suele aparecer con fecha reciente tras una intrusión
+find /var/www/html/uploads/ -type f -mtime -1
+
+# Buscar archivos con nombres sospechosos
+# Se buscan extensiones ejecutables dentro de uploads
+find /var/www/html/uploads/ -name "*.php" -o -name "*.jsp" -o -name "*.aspx"
+
+# Revisar logs de acceso
+# Buscar solicitudes a archivos subidos que podrían ser un shell
+grep "uploads/.*\.php" /var/log/apache2/access.log
+grep "cmd\|exec\|system" /var/log/apache2/access.log
+grep "GET /uploads/.*\.php" /var/log/apache2/access.log | awk '{print $1}' | sort | uniq -c
+
+# Revisar procesos en ejecución
+# Verificar si hay procesos inusuales o sospechosos
+ps aux --sort=-%cpu | head -10
+ps aux | grep -v "root\|www-data\|mysql\|apache"</code></pre>
+            </div>
+        
+
+    
+            <div class="card-title"><i class="fas fa-bolt"></i> 3️⃣ Contención</div>
+            <p><strong>¿Qué es?</strong> Detener el daño. Es como cuando los bomberos crean un perímetro para que el fuego no se propague.</p>
+            <p>🛑<strong>Regla de oro:</strong> No elimines nada durante la contención. Primero guarda evidencia.</p>
+            <h4>Estrategias</h4>
+            <ul>
+                <li><strong>Corto plazo:</strong> desconectar sistemas, apagar servicios, bloquear IPs, aislar el sistema.</li>
+                <li><strong>Largo plazo:</strong> parchear, cambiar contraseñas, revisar configuraciones y mantener aislamiento.</li>
+            </ul>
+            <div class="card code-card">
+                <div class="card-title"><i class="fas fa-fire-extinguisher"></i> Comandos de contención</div>
+                <pre><code># 1. Desconectar del servidor (¡con cuidado si es remoto!)
+# Esto aísla el sistema para evitar más daño
+ifconfig eth0 down
+
+# 2. Añadir reglas de firewall restrictivas
+# Bloquea todo tráfico excepto localhost y la red de confianza
+iptables -P INPUT DROP
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -s 192.168.1.0/24 -j ACCEPT
+
+# 3. Apagar servicios
+# Detiene servicios potencialmente comprometidos para contener el incidente
+systemctl stop apache2
+systemctl stop mysql
+systemctl stop nginx
+
+# 4. Bloquear IPs maliciosas específicas
+iptables -A INPUT -s 45.33.22.11 -j DROP
+iptables -A INPUT -s 185.130.5.253 -j DROP</code></pre>
+            </div>
+            <h4>Preservación de evidencia</h4>
+            <ul>
+                <li><strong>Archivos maliciosos:</strong> copiar a un disco externo, no eliminar.</li>
+                <li><strong>Logs:</strong> copiar a un lugar seguro, no modificar.</li>
+                <li><strong>Capturas de pantalla:</strong> tomar fotos.</li>
+                <li><strong>Memoria:</strong> usar dd para copiar RAM.</li>
+                <li><strong>Tráfico:</strong> guardar capturas pcap.</li>
+            </ul>
+            <div class="card code-card">
+                <div class="card-title"><i class="fas fa-archive"></i> Preservación de evidencia</div>
+                <pre><code># Copiar archivos maliciosos sin ejecutarlos
+# Guarda los archivos sospechosos para análisis forense
+cp -r /var/www/html/uploads/ /evidencia/uploads_backup/
+
+# Copiar logs
+# Conserva registros de actividad sin alterarlos
+cp /var/log/apache2/access.log /evidencia/logs/access.log
+cp /var/log/apache2/error.log /evidencia/logs/error.log
+cp /var/log/syslog /evidencia/logs/syslog
+
+# Crear hash de archivos para integridad
+# Permite demostrar que los archivos no fueron modificados después
+sha256sum /var/www/html/uploads/shell.php > /evidencia/shell.php.sha256
+
+# Copiar memoria
+# Volcar la memoria RAM para analizar procesos y artefactos en vivo
+sudo dd if=/dev/mem of=/evidencia/memory.dump bs=1M count=1024
+
+# Capturar tráfico de red
+# Guardar un archivo pcap con el tráfico relevante del incidente
+tcpdump -i eth0 -w /evidencia/traffic.pcap</code></pre>
+            </div>
+       
+            <div class="card-title"><i class="fas fa-user-shield"></i> 4️⃣ Erradicación</div>
+            <p><strong>¿Qué es?</strong> Eliminar la causa raíz del incidente. Es como reparar la falla que causó el fuego.</p>
+            <h4>Acciones clave</h4>
+            <ul>
+                <li>Eliminar malware</li>
+                <li>Verificar puertas traseras</li>
+                <li>Actualizar el código vulnerable</li>
+                <li>Cambiar contraseñas comprometidas</li>
+            </ul>
+            <div class="card code-card">
+                <div class="card-title"><i class="fas fa-bug"></i> Buscar y eliminar malware</div>
+                <pre><code># Buscar archivos sospechosos por contenido
+# Identifica scripts que contienen funciones peligrosas frecuentemente usadas por malware
+grep -r "eval\|system\|shell_exec\|passthru\|curl_exec" /var/www/html/
+
+# Buscar archivos cambiados recientemente
+# Un cambio reciente puede indicar una implantación maliciosa
+find /var/www/html/ -type f -mtime -7 -exec ls -la {} \;
+
+# Buscar archivos con permisos extraños
+# Permisos 777 son un indicador de riesgo
+find /var/www/html/ -type f -perm -777 -exec ls -la {} \;
+
+# Buscar archivos ocultos
+# Los archivos empezando con . pueden ser backdoors ocultos
+find /var/www/html/ -type f -name ".*" -exec ls -la {} \;
+
+# Eliminar archivos sospechosos
+rm -f /var/www/html/uploads/shell.php
+rm -f /var/www/html/uploads/backdoor.php
+rm -rf /tmp/malware_folder/
+
+# Eliminar tareas cron maliciosas
+# Revisa si hay trabajos programados que reinicien el malware
+crontab -e</code></pre>
+            </div>
+
+                <!-- <div class="card-title"><i class="fas fa-code"></i> Código corregido</div>
+                <pre><code>// ✅ CÓDIGO CORREGIDO
+@PostMapping
+public ResponseEntity<?> subirArchivo(
+    @RequestParam("file") MultipartFile archivo) {
+
+    // Validar el tamaño del archivo antes de procesar
+    if (archivo.getSize() > 10_000_000) {
+        return ResponseEntity.badRequest().body("Archivo demasiado grande");
+    }
+
+    // Obtener y validar la extensión del archivo
+    String extension = getFileExtension(archivo.getOriginalFilename());
+    if (!PERMITIDOS.contains(extension)) {
+        return ResponseEntity.badRequest().body("Tipo no permitido");
+    }
+
+    // Generar un nombre seguro para evitar colisiones y ataques de Path Traversal
+    String nombreSeguro = UUID.randomUUID().toString() + extension;
+    Path destino = Paths.get("/var/lib/uploads/", nombreSeguro);
+    Files.write(destino, archivo.getBytes());
+
+    // Responder con éxito solo después de que el archivo se haya guardado
+    return ResponseEntity.ok().body("✅ Archivo subido");
+}</code></pre>
+            </div> -->
+            <div class="card code-card">
+                <div class="card-title"><i class="fas fa-key"></i> Contraseñas seguras</div>
+                <pre><code># Generar contraseña segura en Linux
+# openssl usa una fuente de entropía para crear una cadena aleatoria
+openssl rand -base64 32
+
+# Generar contraseña segura en Python
+# secrets.token_urlsafe ofrece un valor seguro para contraseñas y tokens
+python3 -c "import secrets; print(secrets.token_urlsafe(32))"
+
+# Generar contraseña segura en línea de comandos
+# Usa la hora actual y un hash para producir una cadena difícil de adivinar
+date +%s | sha256sum | base64 | head -c 32 ; echo</code></pre>
+            </div>
+        
+            <div class="card-title"><i class="fas fa-sync-alt"></i> 5️⃣ Recuperación</div>
+            <p><strong>¿Qué es?</strong> Volver a la normalidad después del incidente. Es como reparar la casa y volver a vivir en ella.</p>
+            <div class="card code-card">
+                <div class="card-title"><i class="fas fa-hdd"></i> Restauración</div>
+                <pre><code># 1. Verificar que la copia de seguridad es limpia
+# Confirma que el backup no contiene malware ni archivos alterados
+# 2. Detener servicios
+systemctl stop apache2
+systemctl stop mysql
+
+# 3. Restaurar archivos
+rsync -avz /backup/ultimo_limpio/ /var/www/html/
+
+# 4. Restaurar base de datos
+# Restaura la base de datos desde una copia de seguridad confiable
+mysql -u root -p database < /backup/database_limpio.sql
+
+# 5. Iniciar servicios
+systemctl start apache2
+systemctl start mysql
+
+# 6. Verificar que todo funciona
+curl -I https://tudominio.com
+# Comprueba que el servidor responde y que el certificado funciona correctamente</code></pre>
+            </div>
+             <div class="card code-card"> 
+            <h4>Pruebas clave</h4>
+            <ul>
+                <li>Abrir página principal</li>
+                <li>Subir un archivo legítimo</li>
+                <li>Iniciar sesión</li>
+                <li>Consultar base de datos</li>
+                <li>Intentar subir shell.php</li>
+                <li>Comprobar rendimiento</li>
+            </ul>
+            <h4>Monitoreo</h4>
+            <ul>
+                <li>Logs de acceso</li>
+                <li>Rendimiento</li>
+                <li>Archivos nuevos</li>
+                <li>Tráfico de red</li>
+                <li>Alertas de seguridad</li>
+            </ul></div>
+        
+            <div class="card-title"><i class="fas fa-lightbulb"></i> 6️⃣ Lecciones aprendidas</div>
+             <p><strong>¿Qué es?</strong> Analizar qué pasó, por qué pasó y cómo evitar que vuelva a pasar. Es la fase más importante para la mejora continua.</p>
+            <p><strong>¿Por qué es tan importante?</strong> "Aquellos que no recuerdan el pasado están condenados a repetirlo." - George Santayana</p>
+           <div class="card code-card"><h4>Reunión post-mortem</h4>
+            <ul>
+                <li>Equipo de respuesta</li>
+                <li>Desarrolladores</li>
+                <li>Administradores de sistemas</li>
+                <li>Representantes del negocio</li>
+                <li>Expertos externos (opcional)</li>
+            </ul>
+            <h4>Preguntas clave</h4>
+            <ul>
+                <li>¿Qué pasó exactamente?</li>
+                <li>¿Cuándo ocurrió?</li>
+                <li>¿Cómo ocurrió?</li>
+                <li>¿Por qué ocurrió?</li>
+                <li>¿Qué funcionó bien?</li>
+                <li>¿Qué no funcionó?</li>
+            </ul>
+        </div>
+            <div class="card code-card">
+                <div class="card-title"><i class="fas fa-file-contract"></i> Informe de incidente</div>
+                <pre><code># INFORME DE INCIDENTE DE SEGURIDAD
+# Un informe ordenado ayuda a documentar el incidente y las acciones tomadas.
+
+## 1. DATOS GENERALES
+# Información básica para identificar el evento
+- Fecha del incidente: DD/MM/YYYY
+- Hora del incidente: HH:MM
+- Fecha de detección: DD/MM/YYYY
+- Sistema afectado: [Nombre del servidor/aplicación]
+- Tipo de incidente: [RCE/Phishing/DoS/etc.]
+
+## 2. DESCRIPCIÓN DEL INCIDENTE
+# Describe qué ocurrió, cómo se detectó y qué sistemas estuvieron involucrados
+[Descripción detallada de lo que ocurrió]
+
+## 3. CRONOLOGÍA
+# Registra el orden de eventos para entender la respuesta
+- HH:MM - [Primera detección]
+- HH:MM - [Acciones de contención]
+- HH:MM - [Acciones de erradicación]
+- HH:MM - [Recuperación]
+
+## 4. CAUSA RAÍZ
+# Explica por qué ocurrió el incidente, no solo qué pasó
+[Explicación de por qué ocurrió]
+
+## 5. IMPACTO
+# Describe el alcance del daño
+- Servicios afectados:
+- Datos comprometidos:
+- Tiempo de inactividad:
+- Costo estimado:
+
+## 6. RESPUESTA
+# Resume las acciones tomadas y su efectividad
+- Qué se hizo:
+- Qué funcionó:
+- Qué no funcionó:
+
+## 7. LECCIONES APRENDIDAS
+# Identifica mejoras para el futuro
+- Lección 1:
+- Lección 2:
+- Lección 3:
+
+## 8. ACCIONES DE MEJORA
+# Asigna responsabilidades y plazos para corregir las fallas
+- Acción 1: [Responsable, Fecha límite]
+- Acción 2: [Responsable, Fecha límite]
+- Acción 3: [Responsable, Fecha límite]
+
+## 9. RECOMENDACIONES
+# Sugerencias para evitar incidentes similares
+- Recomendación 1:
+- Recomendación 2:</code></pre>
+            </div>
+            <div class="card code-card"> 
+            <h4>Acciones de mejora</h4>
+            <ul>
+                <li>Implementar SAST en CI/CD</li>
+                <li>Formación en seguridad</li>
+                <li>Revisar backups</li>
+                <li>Añadir WAF al servidor</li>
+            </ul>
+            <h4>Actualizar el plan</h4>
+            <ul>
+                <li>Mantener lo que funcionó</li>
+                <li>Mejorar lo que falló</li>
+                <li>Añadir nuevos procedimientos</li>
+                <li>Adquirir herramientas faltantes</li>
+                <li>Planificar formación</li>
+            </ul>
+        </div></div>
+
+        <div class="quiz-container" id="quizContainer">
+            <div id="quizContent"></div>
+            <div class="quiz-nav">
+                <span class="question-counter" id="questionCounter">Pregunta 1 de 5</span>
+                <div>
+                    <button class="btn btn-primary" id="nextBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente</button>
+                    <button class="btn btn-success" id="finishBtn" style="display:none;"><i class="fas fa-flag-checkered"></i> Terminar nivel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsContainer" class="hidden">
+            <div class="results-container">
+                <h2 style="margin-bottom:0.5rem;">📊 Resultado del Nivel 7</h2>
+                <div class="score" id="levelScore">0</div>
+                <div class="score-label">Puntuación (sobre 10)</div>
+                <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="location.reload()"><i class="fas fa-redo"></i> Reintentar</button>
+                    <a href="nivel8.html" class="btn btn-success" id="nextLevelBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente nivel</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Volver al índice</a>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align:center;padding-top:2.5rem;margin-top:2.5rem;border-top:2px solid #e5e5e5;color:#999;font-size:0.8rem;">
+            <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Nivel 7</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // DATOS DE PREGUNTAS - Nivel 7
+        // ================================================================
+        const QUESTIONS = [{
+            question: '¿Cuál es la primera fase en la respuesta a un incidente de seguridad?',
+            options: [
+                'Detección',
+                'Preparación',
+                'Contención',
+                'Recuperación'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué se debe hacer en la fase de contención?',
+            options: [
+                'Documentar el incidente',
+                'Aislar los sistemas afectados y guardar evidencia',
+                'Restaurar desde copias de seguridad',
+                'Escribir código nuevo'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Cuál es el objetivo de la fase de erradicación?',
+            options: [
+                'Detectar el incidente',
+                'Eliminar la causa raíz del incidente (archivos maliciosos, etc.)',
+                'Preparar el equipo para futuros incidentes',
+                'Comunicar el incidente al público'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué se documenta en la fase de lecciones aprendidas?',
+            options: [
+                'Solo los costos del incidente',
+                'Qué pasó, por qué ocurrió y cómo evitar que vuelva a suceder',
+                'Los nombres de los responsables',
+                'La cantidad de archivos subidos'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué fase incluye restaurar desde copias de seguridad y probar el sistema?',
+            options: [
+                'Preparación',
+                'Contención',
+                'Recuperación',
+                'Erradicación'
+            ],
+            correct: [2]
+        }];
+
+        // ================================================================
+        // NOMBRES DE NIVELES PARA NAVEGACIÓN
+        // ================================================================
+        const LEVEL_NAMES = [
+            '1. ¿Qué sucedió?',
+            '2. Vulnerabilidad',
+            '3. ¿Cómo evitarlo?',
+            '4. Pruebas',
+            '5. Herramientas',
+            '6. Incidentes',
+            '7. Responder',
+            '8. Lección',
+            '9. Crucigrama',
+            '10. Reflexión'
+        ];
+
+        const LEVEL_FILES = [
+            'nivel1.html',
+            'nivel2.html',
+            'nivel3.html',
+            'nivel4.html',
+            'nivel5.html',
+            'nivel6.html',
+            'nivel7.html',
+            'nivel8.html',
+            'nivel9.html',
+            'nivel10.html'
+        ];
+
+        // ================================================================
+        // ESTADO DEL NIVEL
+        // ================================================================
+        const state = {
+            currentQuestion: 0,
+            answers: [],
+            results: [],
+            finished: false,
+            score: 0,
+            approved: false
+        };
+
+        // ================================================================
+        // UTILIDADES
+        // ================================================================
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type ? ' ' + type : '');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+        }
+
+        // ================================================================
+        // RENDERIZAR NAVEGACIÓN
+        // ================================================================
+        function renderNav() {
+            const nav = document.getElementById('levelNav');
+            if (!nav) return;
+            nav.innerHTML = '';
+
+            for (let i = 0; i < LEVEL_NAMES.length; i++) {
+                const a = document.createElement('a');
+                a.href = LEVEL_FILES[i];
+                a.innerHTML = `
+                    <i class="fas ${i === 6 ? 'fa-circle' : 'fa-circle'}"></i>
+                    <span>${LEVEL_NAMES[i].replace(/^\d+\.\s/, '')}</span>
+                    <span class="badge-nav">${i + 1}</span>
+                `;
+                if (i === 6) a.classList.add('active');
+                nav.appendChild(a);
+            }
+        }
+
+        // ================================================================
+        // RENDERIZAR PREGUNTA
+        // ================================================================
+        function renderQuestion() {
+            const qIndex = state.currentQuestion;
+            const totalQ = QUESTIONS.length;
+
+            if (qIndex >= totalQ) return;
+
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const counter = document.getElementById('questionCounter');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const shuffledOptions = shuffleArray([...q.options]);
+            const correctIndices = q.correct.map(idx => shuffledOptions.indexOf(q.options[idx]));
+
+            let html = `
+                <div class="quiz-question">${q.question}</div>
+                <div class="quiz-options" id="quizOptions">
+            `;
+
+            const labels = ['A', 'B', 'C', 'D'];
+            shuffledOptions.forEach((opt, idx) => {
+                html += `
+                    <div class="quiz-option" data-opt="${idx}" data-correct="${correctIndices.includes(idx)}">
+                        <span class="opt-label">${labels[idx]}.</span>
+                        ${opt}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            html += `<div class="quiz-feedback" id="quizFeedback"></div>`;
+
+            container.innerHTML = html;
+
+            counter.textContent = `Pregunta ${qIndex + 1} de ${totalQ}`;
+
+            nextBtn.style.display = 'none';
+            finishBtn.style.display = 'none';
+
+            const options = container.querySelectorAll('.quiz-option');
+            const isMulti = q.correct.length > 1;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    const optIndex = parseInt(this.dataset.opt);
+
+                    if (isMulti) {
+                        this.classList.toggle('selected');
+                    } else {
+                        options.forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+
+                    const selected = [];
+                    options.forEach(o => {
+                        if (o.classList.contains('selected')) {
+                            selected.push(parseInt(o.dataset.opt));
+                        }
+                    });
+                    state.answers[qIndex] = selected;
+
+                    checkAnswer();
+                });
+            });
+
+            if (state.answers[qIndex]) {
+                const saved = state.answers[qIndex];
+                options.forEach(opt => {
+                    const idx = parseInt(opt.dataset.opt);
+                    if (saved.includes(idx)) {
+                        opt.classList.add('selected');
+                    }
+                });
+                checkAnswer();
+            }
+        }
+
+        // ================================================================
+        // VERIFICAR RESPUESTA
+        // ================================================================
+        function checkAnswer() {
+            const qIndex = state.currentQuestion;
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const options = container.querySelectorAll('.quiz-option');
+            const selected = state.answers[qIndex] || [];
+
+            if (selected.length === 0) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+                return;
+            }
+
+            options.forEach(o => o.classList.add('disabled'));
+
+            const correctIndices = [];
+            options.forEach(o => {
+                if (o.dataset.correct === 'true') {
+                    correctIndices.push(parseInt(o.dataset.opt));
+                }
+            });
+
+            let selectedCorrect = 0;
+            let selectedWrong = 0;
+
+            options.forEach(o => {
+                const idx = parseInt(o.dataset.opt);
+                const isCorrect = o.dataset.correct === 'true';
+                const isSelected = selected.includes(idx);
+
+                if (isSelected && isCorrect) {
+                    o.classList.add('correct');
+                    selectedCorrect++;
+                } else if (isSelected && !isCorrect) {
+                    o.classList.add('wrong');
+                    selectedWrong++;
+                } else if (!isSelected && isCorrect) {
+                    o.classList.add('correct');
+                }
+            });
+
+            let score = 0;
+            const totalCorrect = correctIndices.length;
+            if (selectedCorrect === totalCorrect && selectedWrong === 0) {
+                score = 2;
+            } else if (selectedCorrect > 0 || totalCorrect > 0) {
+                const net = selectedCorrect - selectedWrong;
+                score = Math.max(0, (net / totalCorrect) * 2);
+                score = Math.round(score * 10) / 10;
+            }
+
+            const result = {
+                correct: score === 2,
+                score: score,
+                selected: selected,
+                correctIndices: correctIndices,
+                totalCorrect: totalCorrect
+            };
+            state.results[qIndex] = result;
+
+            const feedback = document.getElementById('quizFeedback');
+            if (score === 2) {
+                feedback.className = 'quiz-feedback success';
+                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+            } else if (score > 0) {
+                feedback.className = 'quiz-feedback partial';
+                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+            } else {
+                feedback.className = 'quiz-feedback error';
+                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+            }
+
+            const totalQ = QUESTIONS.length;
+            if (qIndex === totalQ - 1) {
+                finishBtn.style.display = 'inline-block';
+                finishBtn.onclick = function() {
+                    finishLevel();
+                };
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.onclick = function() {
+                    state.currentQuestion++;
+                    renderQuestion();
+                };
+            }
+        }
+
+        // ================================================================
+        // FINALIZAR NIVEL
+        // ================================================================
+        function finishLevel() {
+            const totalQ = QUESTIONS.length;
+
+            for (let i = 0; i < totalQ; i++) {
+                if (!state.results[i]) {
+                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    return;
+                }
+            }
+
+            let levelScore = 0;
+            state.results.forEach(r => {
+                levelScore += r.score;
+            });
+            state.score = levelScore;
+            state.finished = true;
+            state.approved = levelScore >= 7;
+
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            document.getElementById('levelScore').textContent = levelScore.toFixed(1);
+
+            const msg = document.getElementById('resultMessage');
+            if (state.approved) {
+                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.style.color = '#16a34a';
+                document.getElementById('nextLevelBtn').style.display = 'inline-block';
+            } else {
+                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.style.color = '#dc2626';
+                document.getElementById('nextLevelBtn').style.display = 'none';
+            }
+        }
+
+        // ================================================================
+        // INICIALIZACIÓN
+        // ================================================================
+        function init() {
+            renderNav();
+            renderQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El Vigilante del Código · Inicio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ===== RESET Y BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 2.5rem 0 2rem;
+            border-bottom: 2px solid #e5e5e5;
+            margin-bottom: 2.5rem;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #666;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.3rem 1.2rem;
+            border-radius: 100px;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e5e5e5;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+
+        .header h1 .highlight {
+            color: #dc2626;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 300;
+            margin-top: 0.3rem;
+        }
+
+        .header .meta {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #999;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .header .meta i {
+            color: #dc2626;
+            margin-right: 0.4rem;
+        }
+
+        /* ===== MENÚ DE NIVELES ===== */
+        .intro-card {
+            background: #fafafa;
+            border-radius: 18px;
+            padding: 1.5rem 1.8rem;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .intro-card h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 0.8rem;
+        }
+
+        .intro-card p {
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-menu {
+            background: #fafafa;
+            border-radius: 20px;
+            padding: 2rem 2rem 1.8rem;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 2.5rem;
+        }
+
+        .level-menu h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .level-menu h2 i {
+            color: #dc2626;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .level-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .level-card:hover {
+            border-color: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .level-card .num {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #dc2626;
+            min-width: 2rem;
+        }
+
+        .level-card .info {
+            flex: 1;
+        }
+
+        .level-card .info .nombre {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+        }
+
+        .level-card .info .estado {
+            font-size: 0.7rem;
+            color: #999;
+        }
+
+        .level-card .icono {
+            font-size: 1.2rem;
+            color: #999;
+        }
+
+        .level-card .badge-nivel {
+            background: #fee2e2;
+            color: #dc2626;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.1rem 0.6rem;
+            border-radius: 100px;
+            margin-left: 0.3rem;
+        }
+
+        .menu-info {
+            text-align: center;
+            padding: 1rem 0 0.5rem;
+            border-top: 1px solid #e5e5e5;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .menu-info i {
+            color: #dc2626;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding-top: 2.5rem;
+            margin-top: 2.5rem;
+            border-top: 2px solid #e5e5e5;
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            .header .meta {
+                flex-direction: column;
+                gap: 0.4rem;
+            }
+            .level-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.8rem 3rem;
+            }
+            .header h1 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;MÓDULO INTERACTIVO</div>
+            <h1>El Vigilante <span class="highlight">del Código</span></h1>
+                <span><i class="fas fa-graduation-cap"></i> Para futuros ingenieros</span><br>
+                <span><i class="fas fa-code"></i> Código seguro desde el día 1</span><br>
+                <span><i class="fas fa-shield"></i> ULEAM - 2026</span>
+            </div>
+        </header>
+
+        <!-- ===== INTRODUCCIÓN ===== -->
+        <div class="intro-card">
+            <h2>Introducción al Módulo</h2>
+            <p><strong>Bienvenido, futuro ingeniero.</strong> Este módulo está diseñado para estudiantes que se inician en el mundo del desarrollo de software. A lo largo de 10 niveles, aprenderás sobre uno de los problemas de seguridad más comunes y peligrosos: <strong>la carga insegura de archivos</strong>.</p>
+            <p>No necesitas conocimientos previos de seguridad. Aquí aprenderás desde cero qué es una vulnerabilidad, cómo se produce y, lo más importante, cómo evitarla.</p>
+        </div>
+
+        <!-- ===== MENÚ ===== -->
+        <section class="level-menu">
+            <h2><i class="fas fa-list-ul"></i>Niveles</h2>
+            <div class="level-grid" id="levelGrid">
+                <!-- Generado por JavaScript -->
+            </div>
+            <div class="menu-info">
+                <i class="fas fa-info-circle"></i> Haz clic en cualquier nivel para comenzar. <br>
+                <small>Los niveles deben completarse en orden. Cada nivel requiere 7/10 para aprobar.</small>
+            </div>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Módulo Interactivo de Seguridad</p>
+            <p style="font-size:0.75rem;margin-top:0.2rem;"><i class="fas fa-code"></i> Código seguro desde el día 1 &bull; <i class="fas fa-graduation-cap"></i> 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // ================================================================
+        // DATOS DE NIVELES
+        // ================================================================
+        const LEVEL_NAMES = [
+            '1. ¿Qué sucedió?',
+            '2. Vulnerabilidad detectada',
+            '3. ¿Cómo se habría evitado?',
+            '4. ¿Qué pruebas usarías?',
+            '5. Herramientas',
+            '6. Incidentes posibles',
+            '7. ¿Cómo responder?',
+            '8. Lección aprendida',
+            '9. Crucigrama',
+            '10. Reflexión final'
+        ];
+
+        const LEVEL_FILES = [
+            'nivel1.html',
+            'nivel2.html',
+            'nivel3.html',
+            'nivel4.html',
+            'nivel5.html',
+            'nivel6.html',
+            'nivel7.html',
+            'nivel8.html',
+            'nivel9.html',
+            'nivel10.html'
+        ];
+
+        // ================================================================
+        // RENDERIZAR MENÚ
+        // ================================================================
+        function renderMenu() {
+            const grid = document.getElementById('levelGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            for (let i = 0; i < LEVEL_NAMES.length; i++) {
+                const card = document.createElement('a');
+                card.className = 'level-card';
+                card.href = LEVEL_FILES[i];
+
+                const num = i + 1;
+                const icon = i === 8 ? 'fa-puzzle-piece' : 'fa-chevron-right';
+
+                card.innerHTML = `
+                    <span class="num">${num}</span>
+                    <div class="info">
+                        <div class="nombre">${LEVEL_NAMES[i]}</div>
+                        <div class="estado">${i === 0 ? '📌 Primer nivel' : '📌 Nivel ' + num}</div>
+                    </div>
+                    <span class="icono"><i class="fas ${icon}"></i></span>
+                `;
+
+                grid.appendChild(card);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderMenu);
+    </script>
+</body>
+</html>

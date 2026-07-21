@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nivel 3 · ¿Cómo se habría evitado? · El Vigilante del Código</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ===== RESET Y BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #1a1a1a; line-height: 1.7; scroll-behavior: smooth; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+        /* ===== HEADER ===== */
+        .header { text-align: center; padding: 2rem 0 1.5rem; border-bottom: 2px solid #e5e5e5; margin-bottom: 2rem; }
+        .header .back-link { display: inline-block; margin-bottom: 1rem; color: #dc2626; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        .header .back-link:hover { text-decoration: underline; }
+        .header .badge { display: inline-block; background: #f5f5f5; color: #666; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 0.3rem 1.2rem; border-radius: 100px; margin-bottom: 1rem; border: 1px solid #e5e5e5; }
+        .header h1 { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; letter-spacing: -1px; line-height: 1.15; }
+        .header h1 .highlight { color: #dc2626; }
+        .header .subtitle { font-size: 1rem; color: #666; font-weight: 300; margin-top: 0.3rem; }
+        .header .meta { margin-top: 1rem; font-size: 0.85rem; color: #999; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .header .meta i { color: #dc2626; margin-right: 0.4rem; }
+
+        /* ===== NAVEGACIÓN ===== */
+        .level-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; border-bottom: 2px solid #e5e5e5; padding-bottom: 0.5rem; }
+        .level-nav a { background: #f5f5f5; border: 1px solid #e5e5e5; border-bottom: none; padding: 0.4rem 1rem; border-radius: 12px 12px 0 0; font-weight: 600; font-size: 0.75rem; color: #888; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+        .level-nav a.active { background: #ffffff; color: #dc2626; border-color: #dc2626; border-bottom: 2px solid #ffffff; margin-bottom: -2px; }
+        .level-nav a .badge-nav { background: #e5e5e5; color: #666; font-size: 0.55rem; padding: 0.05rem 0.5rem; border-radius: 100px; }
+        .level-nav a.active .badge-nav { background: #fee2e2; color: #dc2626; }
+        .level-nav a i { font-size: 0.75rem; }
+
+        /* ===== CARDS ===== */
+        .card { background: #fafafa; border-radius: 14px; padding: 1.5rem 1.8rem; margin-bottom: 1.2rem; border: 1px solid #e5e5e5; transition: border-color 0.2s; }
+        .card:hover { border-color: #ccc; }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.7rem; }
+        .card-title i { color: #dc2626; }
+        .card-title .emoji-big { font-size: 1.4rem; }
+        .card p, .card li { color: #444; }
+        .card ul, .card ol { padding-left: 1.3rem; margin: 0.6rem 0; }
+        .card li { margin-bottom: 0.3rem; }
+        .card code { background: #f0f0f0; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #1a1a1a; border: 1px solid #e5e5e5; }
+        .card .code-block { background: #f5f5f5; border-radius: 10px; padding: 1rem 1.3rem; margin: 0.8rem 0; border: 1px solid #e5e5e5; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #1a1a1a; line-height: 1.6; }
+        .card .code-block .comment { color: #888; font-style: italic; }
+        .card .code-block .keyword { color: #1a1a1a; font-weight: 600; }
+        .card .code-block .string { color: #2563eb; }
+        .badge-red { display: inline-block; background: #fee2e2; color: #dc2626; padding: 0.15rem 0.7rem; border-radius: 100px; font-size: 0.65rem; font-weight: 700; margin-left: 0.4rem; border: 1px solid #fca5a5; }
+        .badge-yellow { display: inline-block; background: #fef3c7; color: #b45309; padding: 0.15rem 0.7rem; border-radius: 100px; font-size: 0.65rem; font-weight: 700; margin-left: 0.4rem; border: 1px solid #fcd34d; }
+
+        /* ===== QUIZ ===== */
+        .quiz-container { background: #fafafa; border-radius: 14px; padding: 1.5rem 1.8rem; border: 2px solid #e5e5e5; margin-top: 1.5rem; }
+        .quiz-question { font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem; color: #1a1a1a; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+        .quiz-option { background: #ffffff; border: 2px solid #e5e5e5; border-radius: 10px; padding: 0.7rem 1rem; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+        .quiz-option:hover:not(.disabled) { border-color: #dc2626; background: #fff5f5; }
+        .quiz-option.selected { border-color: #dc2626; background: #fee2e2; }
+        .quiz-option.correct { border-color: #16a34a; background: #dcfce7; }
+        .quiz-option.wrong { border-color: #dc2626; background: #fee2e2; }
+        .quiz-option.partial { border-color: #f59e0b; background: #fef3c7; }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.8; }
+        .quiz-option .opt-label { font-weight: 700; color: #888; min-width: 1.5rem; }
+        .quiz-feedback { padding: 0.8rem 1.2rem; border-radius: 10px; margin: 0.8rem 0; display: none; }
+        .quiz-feedback.success { display: block; background: #dcfce7; border-left: 4px solid #16a34a; color: #166534; }
+        .quiz-feedback.error { display: block; background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+        .quiz-feedback.partial { display: block; background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; }
+        .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem; }
+        .quiz-nav .question-counter { color: #666; font-size: 0.85rem; }
+
+        .btn { display: inline-block; background: #f0f0f0; border: 1px solid #d1d5db; padding: 0.6rem 1.4rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; color: #1a1a1a; text-decoration: none; }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn-primary { background: #dc2626; border-color: #dc2626; color: #fff; }
+        .btn-primary:hover:not(:disabled) { background: #b91c1c; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .btn-success { background: #16a34a; border-color: #16a34a; color: #fff; }
+        .btn-success:hover:not(:disabled) { background: #15803d; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2); }
+        .btn-success:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .btn-outline { background: transparent; border-color: #dc2626; color: #dc2626; }
+        .btn-outline:hover:not(:disabled) { background: #fee2e2; }
+
+        .toast { position: fixed; bottom: 2rem; right: 2rem; background: #1a1a1a; color: #fff; padding: 0.6rem 1.2rem; border-radius: 10px; font-size: 0.85rem; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: none; z-index: 1000; max-width: 350px; text-align: center; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.success { background: #16a34a; }
+        .toast.error { background: #dc2626; }
+
+        .results-container { background: #fafafa; border-radius: 14px; padding: 2rem; border: 2px solid #e5e5e5; text-align: center; margin-top: 1.5rem; }
+        .results-container .score { font-size: 3.5rem; font-weight: 800; color: #dc2626; }
+        .results-container .score-label { font-size: 1.1rem; color: #666; }
+        .hidden { display: none !important; }
+        .mt-2 { margin-top: 1rem; }
+        .text-success { color: #16a34a; }
+        .text-danger { color: #dc2626; }
+
+        .info-box { background: #f5f5f5; border-radius: 10px; padding: 1.2rem 1.5rem; border-left: 4px solid #dc2626; margin-top: 1rem; }
+        .info-box p { color: #1a1a1a; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .header .subtitle { font-size: 1rem; }
+            .header .meta { flex-direction: column; gap: 0.4rem; }
+            .card { padding: 1rem 1.2rem; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .level-nav { gap: 0.3rem; }
+            .level-nav a { padding: 0.3rem 0.7rem; font-size: 0.7rem; }
+            .level-nav a span { display: none; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 1rem 0.8rem 3rem; }
+            .header h1 { font-size: 1.5rem; }
+            .quiz-container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+
+        <header class="header">
+            <a href="indice.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al índice</a>
+            <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;NIVEL 3</div>
+            <h1>¿Cómo se habría <span class="highlight">evitado</span>?</h1>
+            <p class="subtitle">Shift Left Security · Prevenir desde el inicio</p>
+            <div class="meta">
+                <span><i class="fas fa-clock"></i> 5 preguntas</span>
+                <span><i class="fas fa-star"></i> Mínimo 7/10 para aprobar</span>
+            </div>
+        </header>
+
+        <nav class="level-nav" id="levelNav"></nav>
+
+        <div class="info-box">
+            <p><i class="fas fa-lightbulb" style="color:#dc2626;margin-right:0.6rem;"></i> <strong>El Arte de la Prevención:</strong> La única forma real de evitar estos problemas es pensar en seguridad desde el principio. No es algo que se añade al final, sino la base sobre la que construyes.</p>
+            <p style="margin-top:0.8rem;">Imagina que estás construyendo una casa. ¿Pondrías las cerraduras de las puertas después de que los ladrones ya hayan entrado? No. Las pones en el plano, desde el principio. Eso es <strong>Shift Left Security</strong>: mover la seguridad hacia la izquierda, al inicio del proceso de desarrollo.</p>
+        </div>
+
+        <br><div class="card">
+            <div class="card-title"><i class="fas fa-brain"></i> 1. Fase de análisis y diseño</div>
+            <p><strong>Política de archivos:</strong> define con claridad qué tipo de archivos se aceptan, por ejemplo solo <code>.pdf</code>, <code>.docx</code> o <code>.jpg</code>, y cuál es su tamaño máximo.</p>
+            <ul>
+                <li>✅ <strong>Almacenamiento seguro:</strong> guarda los archivos fuera de la carpeta pública del sitio web para que, si se sube algo malicioso, no pueda ejecutarse desde el navegador.</li>
+                <li>✅ <strong>Nombres de archivo:</strong> nunca uses el nombre original. Genera un nombre aleatorio e irrepetible, como un UUID, para guardar el archivo en el servidor.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-drafting-compass"></i> 2. Diseño seguro</div>
+            <div class="code-block" style="font-size:0.78rem;">
+                <span class="comment">// Cada usuario tiene su propia carpeta</span><br>
+                /uploads/estudiante1/<br>
+                <span class="comment">// ruta dedicada para el estudiante 1</span><br>
+                /uploads/estudiante2/<br>
+                <span class="comment">// ruta dedicada para el estudiante 2</span><br>
+                <span class="comment">// Nombres de archivo generados automáticamente</span><br>
+                123e4567-e89b-12d3-a456-426614174000_tarea.pdf<br>
+                <span class="comment">// un nombre único evita colisiones y oculta el nombre original</span>
+            </div>
+            <p>Este diseño evita que un atacante adivine rutas o acceda a archivos que no le pertenecen.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-code"></i> 3. Desarrollo (código seguro)</div>
+            <p>Las validaciones que hace el navegador son útiles para la experiencia del usuario, pero no son seguras. Un atacante puede saltárselas fácilmente. Por eso, toda validación importante debe hacerse en el servidor.</p>
+            <ul>
+                <li>✅ <strong>Validación del tipo (MIME y cabecera):</strong> verifica el tipo de archivo que dice ser el navegador, aunque esto no es suficiente porque se puede falsear.</li>
+                <li>✅ <strong>Validación del tipo (firma del archivo):</strong> la mejor técnica es leer los primeros bytes para confirmar que el archivo es lo que dice ser.</li>
+                <li>✅ <strong>Validación del tamaño:</strong> limita el tamaño máximo para evitar ataques de denegación de servicio.</li>
+                <li>✅ <strong>Sanitización del nombre:</strong> si necesitas usar el nombre original, elimina caracteres peligrosos como <code>..</code>, <code>/</code>, <code>\</code> o <code>;</code>.</li>
+            </ul>
+            <div class="code-block">
+                <span class="comment">// Código mejorado paso a paso</span><br>
+                <span class="keyword">@PostMapping</span><br>
+                <span class="comment">// mapea la petición HTTP POST al método subirArchivo</span><br>
+                <span class="keyword">public</span> ResponseEntity&lt;?&gt; subirArchivo(<br>
+                <span class="comment">// declara el método que devuelve una respuesta HTTP genérica</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="func">@RequestParam</span>(<span class="string">"file"</span>) MultipartFile archivo,<br>
+                <span class="comment">// recibe el archivo enviado desde el formulario</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Authentication autenticacion) {<br>
+                <span class="comment">// recibe también los datos del usuario autenticado</span><br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Verificar quién es el usuario</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;String usuario = autenticacion.getName();<br>
+                <span class="comment">// obtiene el nombre o identificador del usuario conectado</span><br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Verificar el tamaño</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (archivo.getSize() &gt; 10_000_000) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> ResponseEntity.badRequest()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.body(<span class="string">"❌ Archivo demasiado grande"</span>);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                <span class="comment">// rechaza archivos mayores a 10 MB para evitar abuso</span><br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Verificar el tipo de archivo</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;String tipo = archivo.getContentType();<br>
+                <span class="comment">// obtiene el tipo MIME declarado por el navegador</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!TIPOS_PERMITIDOS.contains(tipo)) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> ResponseEntity.badRequest()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.body(<span class="string">"❌ Tipo no permitido"</span>);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                <span class="comment">// rechaza tipos de archivo que no están en la lista blanca</span><br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Guardar con nombre seguro</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;String nombreSeguro = UUID.randomUUID().toString() + <span class="string">"_"</span> + limpiarNombre(...);<br>
+                <span class="comment">// genera un nombre único para evitar colisiones y ataques de path traversal</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Path destino = Paths.get(<span class="string">"/uploads/seguro/"</span> + usuario, nombreSeguro);<br>
+                <span class="comment">// guarda el archivo dentro de una carpeta segura por usuario</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Files.write(destino, archivo.getBytes());<br>
+                <span class="comment">// escribe el contenido real del archivo en el disco</span><br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> ResponseEntity.ok().body(<span class="string">"✅ Archivo subido"</span>);<br>
+                <span class="comment">// devuelve una respuesta exitosa al cliente</span><br>
+                }
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fas fa-vial"></i> 4. Fase de pruebas (QA)</div>
+            <p><strong>Pruebas negativas:</strong> no solo verifiques que subir un PDF funciona. Prueba también casos adversos como archivos <code>.php</code>, archivos enormes, nombres como <code>..//..//config.php</code> y valida que el sistema los rechace.</p>
+            <ul>
+                <li>✅ Subir un PDF de 2 MB → Debe funcionar</li>
+                <li>❌ Subir un archivo de 50 MB → Debe ser rechazado</li>
+                <li>❌ Subir un <code>.exe</code> → Debe ser rechazado</li>
+                <li>❌ Subir <code>../../etc/passwd</code> → Debe ser rechazado</li>
+            </ul>
+        </div>
+
+        <div class="quiz-container" id="quizContainer">
+            <div id="quizContent"></div>
+            <div class="quiz-nav">
+                <span class="question-counter" id="questionCounter">Pregunta 1 de 5</span>
+                <div>
+                    <button class="btn btn-primary" id="nextBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente</button>
+                    <button class="btn btn-success" id="finishBtn" style="display:none;"><i class="fas fa-flag-checkered"></i> Terminar nivel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsContainer" class="hidden">
+            <div class="results-container">
+                <h2 style="margin-bottom:0.5rem;">📊 Resultado del Nivel 3</h2>
+                <div class="score" id="levelScore">0</div>
+                <div class="score-label">Puntuación (sobre 10)</div>
+                <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
+                <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="location.reload()"><i class="fas fa-redo"></i> Reintentar</button>
+                    <a href="nivel4.html" class="btn btn-success" id="nextLevelBtn" style="display:none;"><i class="fas fa-arrow-right"></i> Siguiente nivel</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Volver al índice</a>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align:center;padding-top:2.5rem;margin-top:2.5rem;border-top:2px solid #e5e5e5;color:#999;font-size:0.8rem;">
+            <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Nivel 3</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // DATOS DE PREGUNTAS - Nivel 3
+        // ================================================================
+        const QUESTIONS = [{
+            question: '¿Qué significa "Shift Left Security"?',
+            options: [
+                'Mover la seguridad a la izquierda del teclado',
+                'Integrar la seguridad desde el inicio del desarrollo',
+                'Dejar la seguridad para el final',
+                'Usar solo herramientas de seguridad'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Cuál es una buena práctica en la fase de diseño?',
+            options: [
+                'Usar nombres de archivo generados automáticamente (UUID)',
+                'Permitir cualquier tipo de archivo',
+                'No validar la entrada del usuario',
+                'Guardar todos los archivos en la misma carpeta'
+            ],
+            correct: [0]
+        }, {
+            question: '¿Qué se debe verificar en la fase de desarrollo para subir archivos de forma segura?',
+            options: [
+                'Solo el tamaño del archivo',
+                'El tipo de archivo, el tamaño y la autenticación',
+                'Solo el nombre del archivo',
+                'La fecha de modificación del archivo'
+            ],
+            correct: [1]
+        }, {
+            question: '¿Qué prueba es importante para validar la seguridad de la subida de archivos?',
+            options: [
+                'Subir un archivo con nombre ../../etc/passwd',
+                'Subir solo archivos de texto',
+                'Subir archivos en horario laboral',
+                'Subir archivos desde el mismo navegador'
+            ],
+            correct: [0]
+        }, {
+            question: '¿Cuál es el objetivo de generar un nombre único (UUID) para los archivos subidos?',
+            options: [
+                'Hacer que los archivos sean más legibles',
+                'Evitar colisiones y ataques de Path Traversal',
+                'Reducir el tamaño del archivo',
+                'Mejorar la velocidad de subida'
+            ],
+            correct: [1]
+        }];
+
+        // ================================================================
+        // NOMBRES DE NIVELES PARA NAVEGACIÓN
+        // ================================================================
+        const LEVEL_NAMES = [
+            '1. ¿Qué sucedió?',
+            '2. Vulnerabilidad',
+            '3. ¿Cómo evitarlo?',
+            '4. Pruebas',
+            '5. Herramientas',
+            '6. Incidentes',
+            '7. Responder',
+            '8. Lección',
+            '9. Crucigrama',
+            '10. Reflexión'
+        ];
+
+        const LEVEL_FILES = [
+            'nivel1.html',
+            'nivel2.html',
+            'nivel3.html',
+            'nivel4.html',
+            'nivel5.html',
+            'nivel6.html',
+            'nivel7.html',
+            'nivel8.html',
+            'nivel9.html',
+            'nivel10.html'
+        ];
+
+        // ================================================================
+        // ESTADO DEL NIVEL
+        // ================================================================
+        const state = {
+            currentQuestion: 0,
+            answers: [],
+            results: [],
+            finished: false,
+            score: 0,
+            approved: false
+        };
+
+        // ================================================================
+        // UTILIDADES
+        // ================================================================
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type ? ' ' + type : '');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+        }
+
+        // ================================================================
+        // RENDERIZAR NAVEGACIÓN
+        // ================================================================
+        function renderNav() {
+            const nav = document.getElementById('levelNav');
+            if (!nav) return;
+            nav.innerHTML = '';
+
+            for (let i = 0; i < LEVEL_NAMES.length; i++) {
+                const a = document.createElement('a');
+                a.href = LEVEL_FILES[i];
+                a.innerHTML = `
+                    <i class="fas ${i === 2 ? 'fa-circle' : 'fa-circle'}"></i>
+                    <span>${LEVEL_NAMES[i].replace(/^\d+\.\s/, '')}</span>
+                    <span class="badge-nav">${i + 1}</span>
+                `;
+                if (i === 2) a.classList.add('active');
+                nav.appendChild(a);
+            }
+        }
+
+        // ================================================================
+        // RENDERIZAR PREGUNTA
+        // ================================================================
+        function renderQuestion() {
+            const qIndex = state.currentQuestion;
+            const totalQ = QUESTIONS.length;
+
+            if (qIndex >= totalQ) return;
+
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const counter = document.getElementById('questionCounter');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const shuffledOptions = shuffleArray([...q.options]);
+            const correctIndices = q.correct.map(idx => shuffledOptions.indexOf(q.options[idx]));
+
+            let html = `
+                <div class="quiz-question">${q.question}</div>
+                <div class="quiz-options" id="quizOptions">
+            `;
+
+            const labels = ['A', 'B', 'C', 'D'];
+            shuffledOptions.forEach((opt, idx) => {
+                html += `
+                    <div class="quiz-option" data-opt="${idx}" data-correct="${correctIndices.includes(idx)}">
+                        <span class="opt-label">${labels[idx]}.</span>
+                        ${opt}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            html += `<div class="quiz-feedback" id="quizFeedback"></div>`;
+
+            container.innerHTML = html;
+
+            counter.textContent = `Pregunta ${qIndex + 1} de ${totalQ}`;
+
+            nextBtn.style.display = 'none';
+            finishBtn.style.display = 'none';
+
+            const options = container.querySelectorAll('.quiz-option');
+            const isMulti = q.correct.length > 1;
+
+            options.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    const optIndex = parseInt(this.dataset.opt);
+
+                    if (isMulti) {
+                        this.classList.toggle('selected');
+                    } else {
+                        options.forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+
+                    const selected = [];
+                    options.forEach(o => {
+                        if (o.classList.contains('selected')) {
+                            selected.push(parseInt(o.dataset.opt));
+                        }
+                    });
+                    state.answers[qIndex] = selected;
+
+                    checkAnswer();
+                });
+            });
+
+            if (state.answers[qIndex]) {
+                const saved = state.answers[qIndex];
+                options.forEach(opt => {
+                    const idx = parseInt(opt.dataset.opt);
+                    if (saved.includes(idx)) {
+                        opt.classList.add('selected');
+                    }
+                });
+                checkAnswer();
+            }
+        }
+
+        // ================================================================
+        // VERIFICAR RESPUESTA
+        // ================================================================
+        function checkAnswer() {
+            const qIndex = state.currentQuestion;
+            const q = QUESTIONS[qIndex];
+            const container = document.getElementById('quizContent');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+
+            if (!container) return;
+
+            const options = container.querySelectorAll('.quiz-option');
+            const selected = state.answers[qIndex] || [];
+
+            if (selected.length === 0) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+                return;
+            }
+
+            options.forEach(o => o.classList.add('disabled'));
+
+            const correctIndices = [];
+            options.forEach(o => {
+                if (o.dataset.correct === 'true') {
+                    correctIndices.push(parseInt(o.dataset.opt));
+                }
+            });
+
+            let selectedCorrect = 0;
+            let selectedWrong = 0;
+
+            options.forEach(o => {
+                const idx = parseInt(o.dataset.opt);
+                const isCorrect = o.dataset.correct === 'true';
+                const isSelected = selected.includes(idx);
+
+                if (isSelected && isCorrect) {
+                    o.classList.add('correct');
+                    selectedCorrect++;
+                } else if (isSelected && !isCorrect) {
+                    o.classList.add('wrong');
+                    selectedWrong++;
+                } else if (!isSelected && isCorrect) {
+                    o.classList.add('correct');
+                }
+            });
+
+            let score = 0;
+            const totalCorrect = correctIndices.length;
+            if (selectedCorrect === totalCorrect && selectedWrong === 0) {
+                score = 2;
+            } else if (selectedCorrect > 0 || totalCorrect > 0) {
+                const net = selectedCorrect - selectedWrong;
+                score = Math.max(0, (net / totalCorrect) * 2);
+                score = Math.round(score * 10) / 10;
+            }
+
+            const result = {
+                correct: score === 2,
+                score: score,
+                selected: selected,
+                correctIndices: correctIndices,
+                totalCorrect: totalCorrect
+            };
+            state.results[qIndex] = result;
+
+            const feedback = document.getElementById('quizFeedback');
+            if (score === 2) {
+                feedback.className = 'quiz-feedback success';
+                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+            } else if (score > 0) {
+                feedback.className = 'quiz-feedback partial';
+                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+            } else {
+                feedback.className = 'quiz-feedback error';
+                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+            }
+
+            const totalQ = QUESTIONS.length;
+            if (qIndex === totalQ - 1) {
+                finishBtn.style.display = 'inline-block';
+                finishBtn.onclick = function() {
+                    finishLevel();
+                };
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.onclick = function() {
+                    state.currentQuestion++;
+                    renderQuestion();
+                };
+            }
+        }
+
+        // ================================================================
+        // FINALIZAR NIVEL
+        // ================================================================
+        function finishLevel() {
+            const totalQ = QUESTIONS.length;
+
+            for (let i = 0; i < totalQ; i++) {
+                if (!state.results[i]) {
+                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    return;
+                }
+            }
+
+            let levelScore = 0;
+            state.results.forEach(r => {
+                levelScore += r.score;
+            });
+            state.score = levelScore;
+            state.finished = true;
+            state.approved = levelScore >= 7;
+
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            document.getElementById('levelScore').textContent = levelScore.toFixed(1);
+
+            const msg = document.getElementById('resultMessage');
+            if (state.approved) {
+                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.style.color = '#16a34a';
+                document.getElementById('nextLevelBtn').style.display = 'inline-block';
+            } else {
+                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.style.color = '#dc2626';
+                document.getElementById('nextLevelBtn').style.display = 'none';
+            }
+        }
+
+        // ================================================================
+        // INICIALIZACIÓN
+        // ================================================================
+        function init() {
+            renderNav();
+            renderQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
