@@ -139,8 +139,8 @@
             <div class="card-title"><i class="fas fa-brain"></i> 1. Fase de análisis y diseño</div>
             <p><strong>Política de archivos:</strong> define con claridad qué tipo de archivos se aceptan, por ejemplo solo <code>.pdf</code>, <code>.docx</code> o <code>.jpg</code>, y cuál es su tamaño máximo.</p>
             <ul>
-                <li>✅ <strong>Almacenamiento seguro:</strong> guarda los archivos fuera de la carpeta pública del sitio web para que, si se sube algo malicioso, no pueda ejecutarse desde el navegador.</li>
-                <li>✅ <strong>Nombres de archivo:</strong> nunca uses el nombre original. Genera un nombre aleatorio e irrepetible, como un UUID, para guardar el archivo en el servidor.</li>
+                <li><strong>Almacenamiento seguro:</strong> guarda los archivos fuera de la carpeta pública del sitio web para que, si se sube algo malicioso, no pueda ejecutarse desde el navegador.</li>
+                <li> <strong>Nombres de archivo:</strong> nunca uses el nombre original. Genera un nombre aleatorio e irrepetible, como un UUID, para guardar el archivo en el servidor.</li>
             </ul>
         </div>
 
@@ -163,10 +163,10 @@
             <div class="card-title"><i class="fas fa-code"></i> 3. Desarrollo (código seguro)</div>
             <p>Las validaciones que hace el navegador son útiles para la experiencia del usuario, pero no son seguras. Un atacante puede saltárselas fácilmente. Por eso, toda validación importante debe hacerse en el servidor.</p>
             <ul>
-                <li>✅ <strong>Validación del tipo (MIME y cabecera):</strong> verifica el tipo de archivo que dice ser el navegador, aunque esto no es suficiente porque se puede falsear.</li>
-                <li>✅ <strong>Validación del tipo (firma del archivo):</strong> la mejor técnica es leer los primeros bytes para confirmar que el archivo es lo que dice ser.</li>
-                <li>✅ <strong>Validación del tamaño:</strong> limita el tamaño máximo para evitar ataques de denegación de servicio.</li>
-                <li>✅ <strong>Sanitización del nombre:</strong> si necesitas usar el nombre original, elimina caracteres peligrosos como <code>..</code>, <code>/</code>, <code>\</code> o <code>;</code>.</li>
+                <li><strong>Validación del tipo (MIME y cabecera):</strong> verifica el tipo de archivo que dice ser el navegador, aunque esto no es suficiente porque se puede falsear.</li>
+                <li><strong>Validación del tipo (firma del archivo):</strong> la mejor técnica es leer los primeros bytes para confirmar que el archivo es lo que dice ser.</li>
+                <li><strong>Validación del tamaño:</strong> limita el tamaño máximo para evitar ataques de denegación de servicio.</li>
+                <li> <strong>Sanitización del nombre:</strong> si necesitas usar el nombre original, elimina caracteres peligrosos como <code>..</code>, <code>/</code>, <code>\</code> o <code>;</code>.</li>
             </ul>
             <div class="code-block">
                 <span class="comment">// Código mejorado paso a paso</span><br>
