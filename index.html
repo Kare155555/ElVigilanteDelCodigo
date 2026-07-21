@@ -126,11 +126,14 @@
             color: #dc2626;
         }
 
+        /* Centrar las cards como en las demás páginas */
         .level-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 0.8rem;
             margin-bottom: 1.5rem;
+            justify-content: center; /* centra el conjunto cuando hay espacio extra */
+            justify-items: center;   /* centra cada tarjeta dentro de su celda */
         }
 
         .level-card {
@@ -145,6 +148,8 @@
             gap: 0.8rem;
             text-decoration: none;
             color: inherit;
+            width: 100%;
+            max-width: 320px; /* limita el ancho para que queden centradas y consistentes */
         }
 
         .level-card:hover {
@@ -296,6 +301,9 @@
             .level-grid {
                 grid-template-columns: 1fr;
             }
+            .level-card {
+                max-width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -323,7 +331,7 @@
         <!-- ===== INTRODUCCIÓN ===== -->
         <div class="intro-card">
             <h2>Introducción al Módulo</h2>
-            <p><strong>Bienvenido, futuro ingeniero.</strong> Este módulo está diseñado para estudiantes que se inician en el mundo del desarrollo de software. A lo largo de 10 niveles, aprenderás sobre uno de los problemas de seguridad más comunes y peligrosos: <strong>la carga insegura de archivos</strong>.</p>
+            <p><strong>Bienvenido, futuro ingeniero.</strong> Este módulo está diseñado para estudiantes que se inician en el mundo del desarrollo de software. A lo largo de 10 niveles, aprenderás[...]</p>
             <p>No necesitas conocimientos previos de seguridad. Aquí aprenderás desde cero qué es una vulnerabilidad, cómo se produce y, lo más importante, cómo evitarla.</p>
         </div>
 
