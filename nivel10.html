@@ -817,7 +817,7 @@
         <!-- ===== RESULTADOS ===== -->
         <div id="resultsContainer" class="hidden">
             <div class="results-container">
-                <h2 style="margin-bottom:0.5rem;"> ¡Has completado todos los niveles!</h2>
+                <h2 style="margin-bottom:0.5rem;">¡Has completado todos los niveles!</h2>
                 <div class="score" id="levelScore">0</div>
                 <div class="score-label">Puntuación del nivel 10 (sobre 10)</div>
                 <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
@@ -837,6 +837,21 @@
         </div>
 
         <!-- ===== FOOTER ===== -->
+        <div class="card" style="margin-top:2rem;">
+            <div class="card-title"><i class="fas fa-book"></i> Bibliografía</div>
+            <ol style="padding-left:1.2rem; line-height:1.8; color:#444;">
+                <li>HackerOne. (s. f.). <em>OWASP ZAP: 6 key capabilities and a quick tutorial</em>. HackerOne Knowledge Center. https://www.hackerone.com/knowledge-center/owasp-zap-6-key-capabilities-and-quick-tutorial</li>
+                <li>SecureLayer7. (s. f.). <em>Fintech</em>. SecureLayer7. https://securelayer7.net/industries/fintech</li>
+                <li>API Quality. (s. f.). <em>SonarQube: ¿qué es y para qué sirve?</em>. API Quality. https://apiquality.io/es/sonarqube-que-es-y-para-que-sirve/</li>
+                <li>Bitegarden. (s. f.). <em>Análisis estático del código con SonarQube</em>. Bitegarden. https://www.bitegarden.com/analisis-estatico-del-codigo-con-sonarqube</li>
+                <li>Lucas, J. (s. f.). <em>Why use SonarQube in your development workflow?</em>. DEV Community. https://dev.to/jean_lucas/why-use-sonarqube-in-your-development-workflow-11ek</li>
+                <li>Mentores Tech. (s. f.). <em>¿Qué son las pruebas manuales?</em>. Mentores Tech. https://www.mentorestech.com/resource-blog-content/que-son-las-pruebas-manuales</li>
+                <li>OpenText. (s. f.). <em>What is DAST?</em>. OpenText. https://www.opentext.com/es/what-is/dast</li>
+                <li>OpenText. (s. f.). <em>What is SAST?</em>. OpenText. https://www.opentext.com/es/what-is/sast</li>
+                <li>PortSwigger. (s. f.). <em>File path traversal</em>. PortSwigger Web Security Academy. https://portswigger.net/web-security/file-path-traversal</li>
+            </ol>
+        </div>
+
         <footer style="text-align:center;padding-top:2.5rem;margin-top:2.5rem;border-top:2px solid #e5e5e5;color:#999;font-size:0.8rem;">
             <p><i class="fas fa-shield-halved"></i> &nbsp; El Vigilante del Código &bull; Nivel 10</p>
         </footer>
@@ -1162,7 +1177,7 @@
 
             for (let i = 0; i < totalQ; i++) {
                 if (!state.results[i]) {
-                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    showToast('Responde todas las preguntas antes de terminar', 'error');
                     return;
                 }
             }
@@ -1182,7 +1197,7 @@
 
             const msg = document.getElementById('resultMessage');
             if (state.approved) {
-                msg.innerHTML = '¡Nivel aprobado! Has completado todo el módulo. ';
+                msg.innerHTML = '¡Nivel aprobado! Has completado todo el módulo. 🎉';
                 msg.style.color = '#16a34a';
             } else {
                 msg.innerHTML = 'No aprobado. Necesitas 7/10 para completar el módulo.';
@@ -1202,3 +1217,4 @@
     </script>
 </body>
 </html>
+
