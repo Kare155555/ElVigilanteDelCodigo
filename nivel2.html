@@ -684,7 +684,7 @@
         </div>
 
         <div class="card">
-            <div class="card-title"><i class="fas fa-bug"></i> 🔴PATH TRAVERSAL (NAVEGACIÓN DE DIRECTORIOS)</div>
+            <div class="card-title"><i class="fas fa-bug"></i> PATH TRAVERSAL (NAVEGACIÓN DE DIRECTORIOS)</div>
             <p><strong>¿Qué es exactamente?</strong> Path Traversal (también conocido como Directory Traversal) es una vulnerabilidad que permite a un atacante acceder a archivos y directorios fuera de la carpeta permitida utilizando la secuencia <code>../</code> para "subir" en la estructura de directorios.</p>
 
             <p><strong>¿Cómo funciona en la práctica?</strong></p>
@@ -760,11 +760,11 @@ root:x:0:0:root:/root:/bin/bash
 
             <p><strong>Impacto del Path Traversal</strong></p>
             <ul>
-                <li><span class="badge-red">🔴 Robo de credenciales</span> — lectura de <code>/etc/passwd</code> o <code>/etc/shadow</code></li>
-                <li><span class="badge-red">🔴 Exposición de código fuente</span> — lectura del código de la aplicación</li>
-                <li><span class="badge-red">🔴 Acceso a configuraciones</span> — encuentra contraseñas de bases de datos</li>
-                <li><span class="badge-red">🔴 Exfiltración de datos</span> — roba datos de usuarios</li>
-                <li><span class="badge-red">🔴 Escalada de privilegios</span> —  encuentra formas de obtener más acceso</li>
+                <li><span class="badge-red"> Robo de credenciales</span> — lectura de <code>/etc/passwd</code> o <code>/etc/shadow</code></li>
+                <li><span class="badge-red"> Exposición de código fuente</span> — lectura del código de la aplicación</li>
+                <li><span class="badge-red"> Acceso a configuraciones</span> — encuentra contraseñas de bases de datos</li>
+                <li><span class="badge-red"> Exfiltración de datos</span> — roba datos de usuarios</li>
+                <li><span class="badge-red"> Escalada de privilegios</span> —  encuentra formas de obtener más acceso</li>
             </ul>
              </div> <h4><i class="fas fa-file-code"></i> Video explicativo</h4>
                 <div class="video-frame">
@@ -772,7 +772,7 @@ root:x:0:0:root:/root:/bin/bash
         </div>
 
         <div class="card">
-            <div class="card-title"><i class="fas fa-upload"></i> 🔴 CARGA DE ARCHIVOS SIN RESTRICCIONES (CWE-434)</div>
+            <div class="card-title"><i class="fas fa-upload"></i>  CARGA DE ARCHIVOS SIN RESTRICCIONES (CWE-434)</div>
             <p><strong>¿Qué es exactamente?</strong> CWE-434 ocurre cuando una aplicación acepta archivos sin validar adecuadamente su tipo, contenido o ubicación de almacenamiento, permitiendo que los atacantes suban y ejecuten archivos maliciosos.</p>
 
             <p><strong>¿Cómo funciona el ataque?</strong></p>
@@ -910,7 +910,7 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)</pre>
         </div> -->
 
         <div class="card">
-            <div class="card-title"><i class="fas fa-skull-crossbones"></i> 🔴  WEB SHELL (EL CABALLO DE TROYA)</div>
+            <div class="card-title"><i class="fas fa-skull-crossbones"></i>   WEB SHELL (EL CABALLO DE TROYA)</div>
             <p>Un <strong>Web Shell</strong> es un script malicioso que el atacante sube al servidor y que le permite ejecutar comandos del sistema operativo a través del navegador. Es como dejar una puerta trasera en tu servidor.</p>
 
             <p><strong>Anatomía de un Web Shell</strong></p>
@@ -949,7 +949,7 @@ if (isset($_GET['cmd'])) {
         </div>
 
         <div class="card">
-            <div class="card-title"><i class="fas fa-user-lock"></i> 🟡 SIN AUTENTICACIÓN</div>
+            <div class="card-title"><i class="fas fa-user-lock"></i>  SIN AUTENTICACIÓN</div>
             <p>La falta de autenticación permite que <strong>cualquier persona</strong> suba archivos al sistema sin restricciones.</p>
             <p><strong>Consecuencias:</strong> anonimato del atacante, abuso de recursos, carga masiva y contenido inapropiado.</p>
 
@@ -972,7 +972,7 @@ curl -F "file=@contenido_ofensivo.html" http://victima.com/upload</pre>
         </div>
 
         <div class="card">
-            <div class="card-title"><i class="fas fa-weight-hanging"></i> 🟡 SIN LÍMITE DE TAMAÑO</div>
+            <div class="card-title"><i class="fas fa-weight-hanging"></i>  SIN LÍMITE DE TAMAÑO</div>
             <p>No restringir el tamaño de los archivos puede llevar a una <strong>Denegación de Servicio (DoS)</strong> por llenado de disco o consumo excesivo de recursos.</p>
 
             <p><strong>Ejemplo de ataque</strong></p>
@@ -1008,7 +1008,7 @@ curl -F "file=@archivo_gigante" http://victima.com/upload
         <!-- ===== RESULTADOS ===== -->
         <div id="resultsContainer" class="hidden">
             <div class="results-container">
-                <h2 style="margin-bottom:0.5rem;">📊 Resultado del Nivel 2</h2>
+                <h2 style="margin-bottom:0.5rem;"> Resultado del Nivel 2</h2>
                 <div class="score" id="levelScore">0</div>
                 <div class="score-label">Puntuación (sobre 10)</div>
                 <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
@@ -1314,13 +1314,13 @@ curl -F "file=@archivo_gigante" http://victima.com/upload
             const feedback = document.getElementById('quizFeedback');
             if (score === 2) {
                 feedback.className = 'quiz-feedback success';
-                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+                feedback.textContent = ' ¡Correcto! Respuesta perfecta.';
             } else if (score > 0) {
                 feedback.className = 'quiz-feedback partial';
-                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+                feedback.textContent = ` Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
             } else {
                 feedback.className = 'quiz-feedback error';
-                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+                feedback.textContent = ' Incorrecto. Revisa el contenido del nivel.';
             }
 
             const totalQ = QUESTIONS.length;
@@ -1346,7 +1346,7 @@ curl -F "file=@archivo_gigante" http://victima.com/upload
 
             for (let i = 0; i < totalQ; i++) {
                 if (!state.results[i]) {
-                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    showToast(' Responde todas las preguntas antes de terminar', 'error');
                     return;
                 }
             }
@@ -1366,11 +1366,11 @@ curl -F "file=@archivo_gigante" http://victima.com/upload
 
             const msg = document.getElementById('resultMessage');
             if (state.approved) {
-                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.innerHTML = ' ¡Aprobado! Excelente trabajo.';
                 msg.style.color = '#16a34a';
                 document.getElementById('nextLevelBtn').style.display = 'inline-block';
             } else {
-                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.innerHTML = ' No aprobado. Necesitas 7/10 para avanzar.';
                 msg.style.color = '#dc2626';
                 document.getElementById('nextLevelBtn').style.display = 'none';
             }
