@@ -186,7 +186,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Verificar el tamaño</span><br>
                 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (archivo.getSize() &gt; 10_000_000) {<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> ResponseEntity.badRequest()<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.body(<span class="string">"❌ Archivo demasiado grande"</span>);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.body(<span class="string">"Archivo demasiado grande"</span>);<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;}<br>
                 <span class="comment">// rechaza archivos mayores a 10 MB para evitar abuso</span><br>
                 <br>
@@ -195,7 +195,7 @@
                 <span class="comment">// obtiene el tipo MIME declarado por el navegador</span><br>
                 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!TIPOS_PERMITIDOS.contains(tipo)) {<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> ResponseEntity.badRequest()<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.body(<span class="string">"❌ Tipo no permitido"</span>);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.body(<span class="string">"Tipo no permitido"</span>);<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;}<br>
                 <span class="comment">// rechaza tipos de archivo que no están en la lista blanca</span><br>
                 <br>
@@ -207,7 +207,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;Files.write(destino, archivo.getBytes());<br>
                 <span class="comment">// escribe el contenido real del archivo en el disco</span><br>
                 <br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> ResponseEntity.ok().body(<span class="string">"✅ Archivo subido"</span>);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> ResponseEntity.ok().body(<span class="string">"Archivo subido"</span>);<br>
                 <span class="comment">// devuelve una respuesta exitosa al cliente</span><br>
                 }
             </div>
@@ -217,10 +217,10 @@
             <div class="card-title"><i class="fas fa-vial"></i> 4. Fase de pruebas (QA)</div>
             <p><strong>Pruebas negativas:</strong> no solo verifiques que subir un PDF funciona. Prueba también casos adversos como archivos <code>.php</code>, archivos enormes, nombres como <code>..//..//config.php</code> y valida que el sistema los rechace.</p>
             <ul>
-                <li>✅ Subir un PDF de 2 MB → Debe funcionar</li>
-                <li>❌ Subir un archivo de 50 MB → Debe ser rechazado</li>
-                <li>❌ Subir un <code>.exe</code> → Debe ser rechazado</li>
-                <li>❌ Subir <code>../../etc/passwd</code> → Debe ser rechazado</li>
+                <li>Subir un PDF de 2 MB → Debe funcionar</li>
+                <li>Subir un archivo de 50 MB → Debe ser rechazado</li>
+                <li>Subir un <code>.exe</code> → Debe ser rechazado</li>
+                <li>Subir <code>../../etc/passwd</code> → Debe ser rechazado</li>
             </ul>
         </div>
 
