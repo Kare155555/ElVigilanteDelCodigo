@@ -189,7 +189,7 @@ rsync -avz /var/www/html/ /backup/diario/
 rsync -avz /var/www/html/ /backup/semanal/
 rsync -avz /var/www/html/ usuario@servidor-remoto:/backup/</code></pre>
             </div> -->
-            <h4>👥 Equipo de respuesta</h4>
+            <h4> Equipo de respuesta</h4>
             <ul>
                 <li><strong>Coordinador:</strong> Lidera la respuesta.</li>
                 <li><strong>Especialista en seguridad:</strong> Investiga el incidente.</li>
@@ -197,7 +197,7 @@ rsync -avz /var/www/html/ usuario@servidor-remoto:/backup/</code></pre>
                 <li><strong>Comunicaciones:</strong> Informa a usuarios y directivos.</li>
                 <li><strong>Asesor legal:</strong> Evalúa implicaciones legales.</li>
             </ul>
-            <h4>🔧 Herramientas</h4>
+            <h4> Herramientas</h4>
             <ul>
                 <li>Registro de incidentes</li>
                 <li>Herramientas forenses</li>
@@ -206,7 +206,7 @@ rsync -avz /var/www/html/ usuario@servidor-remoto:/backup/</code></pre>
                 <li>Herramientas de red</li>
                 <li>Comunicación segura</li>
             </ul>
-            <h4>📚 Formación</h4>
+            <h4> Formación</h4>
             <ul>
                 <li>Formación básica anual</li>
                 <li>Formación técnica semestral</li>
@@ -219,9 +219,9 @@ rsync -avz /var/www/html/ usuario@servidor-remoto:/backup/</code></pre>
             <p><strong>¿Qué es?</strong> La detección es descubrir que está ocurriendo un incidente. Es como el sistema de alarma de tu casa que te avisa cuando hay un intruso.</p>
             <p>Una detección temprana:</p>
             <ul>
-                <li>⏱️ Reduce el daño</li>
-                <li>🔍 Permite una contención más efectiva</li>
-                <li>💰 Ahorra dinero y recursos</li>
+                <li> Reduce el daño</li>
+                <li> Permite una contención más efectiva</li>
+                <li> Ahorra dinero y recursos</li>
             </ul>
             <h4>Indicadores de incidente</h4>
             <ul>
@@ -267,7 +267,7 @@ ps aux | grep -v "root\|www-data\|mysql\|apache"</code></pre>
     
             <div class="card-title"><i class="fas fa-bolt"></i> 3️⃣ Contención</div>
             <p><strong>¿Qué es?</strong> Detener el daño. Es como cuando los bomberos crean un perímetro para que el fuego no se propague.</p>
-            <p>🛑<strong>Regla de oro:</strong> No elimines nada durante la contención. Primero guarda evidencia.</p>
+            <p><strong>Regla de oro:</strong> No elimines nada durante la contención. Primero guarda evidencia.</p>
             <h4>Estrategias</h4>
             <ul>
                 <li><strong>Corto plazo:</strong> desconectar sistemas, apagar servicios, bloquear IPs, aislar el sistema.</li>
@@ -560,7 +560,7 @@ curl -I https://tudominio.com
 
         <div id="resultsContainer" class="hidden">
             <div class="results-container">
-                <h2 style="margin-bottom:0.5rem;">📊 Resultado del Nivel 7</h2>
+                <h2 style="margin-bottom:0.5rem;"> Resultado del Nivel 7</h2>
                 <div class="score" id="levelScore">0</div>
                 <div class="score-label">Puntuación (sobre 10)</div>
                 <div id="resultMessage" style="margin-top:0.5rem;font-size:1.1rem;"></div>
@@ -865,13 +865,13 @@ curl -I https://tudominio.com
             const feedback = document.getElementById('quizFeedback');
             if (score === 2) {
                 feedback.className = 'quiz-feedback success';
-                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+                feedback.textContent = ' ¡Correcto! Respuesta perfecta.';
             } else if (score > 0) {
                 feedback.className = 'quiz-feedback partial';
-                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+                feedback.textContent = ` Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
             } else {
                 feedback.className = 'quiz-feedback error';
-                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+                feedback.textContent = ' Incorrecto. Revisa el contenido del nivel.';
             }
 
             const totalQ = QUESTIONS.length;
@@ -897,7 +897,7 @@ curl -I https://tudominio.com
 
             for (let i = 0; i < totalQ; i++) {
                 if (!state.results[i]) {
-                    showToast('❌ Responde todas las preguntas antes de terminar', 'error');
+                    showToast(' Responde todas las preguntas antes de terminar', 'error');
                     return;
                 }
             }
@@ -917,11 +917,11 @@ curl -I https://tudominio.com
 
             const msg = document.getElementById('resultMessage');
             if (state.approved) {
-                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.innerHTML = ' ¡Aprobado! Excelente trabajo.';
                 msg.style.color = '#16a34a';
                 document.getElementById('nextLevelBtn').style.display = 'inline-block';
             } else {
-                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.innerHTML = ' No aprobado. Necesitas 7/10 para avanzar.';
                 msg.style.color = '#dc2626';
                 document.getElementById('nextLevelBtn').style.display = 'none';
             }
