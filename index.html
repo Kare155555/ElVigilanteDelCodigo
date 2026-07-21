@@ -90,6 +90,7 @@
             border: 1px solid #e5e5e5;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            text-align: center;
         }
 
         .intro-card h2 {
@@ -97,6 +98,10 @@
             font-weight: 800;
             color: #1a1a1a;
             margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
         }
 
         .intro-card p {
@@ -119,6 +124,7 @@
             margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.6rem;
         }
 
@@ -126,14 +132,11 @@
             color: #dc2626;
         }
 
-        /* Centrar las cards como en las demás páginas */
         .level-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 0.8rem;
             margin-bottom: 1.5rem;
-            justify-content: center; /* centra el conjunto cuando hay espacio extra */
-            justify-items: center;   /* centra cada tarjeta dentro de su celda */
         }
 
         .level-card {
@@ -148,8 +151,6 @@
             gap: 0.8rem;
             text-decoration: none;
             color: inherit;
-            width: 100%;
-            max-width: 320px; /* limita el ancho para que queden centradas y consistentes */
         }
 
         .level-card:hover {
@@ -203,6 +204,12 @@
             font-size: 0.85rem;
         }
 
+        .tech-section,
+        .level-menu,
+        .footer {
+            text-align: center;
+        }
+
         .menu-info i {
             color: #dc2626;
         }
@@ -223,6 +230,7 @@
             margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.6rem;
         }
 
@@ -301,9 +309,6 @@
             .level-grid {
                 grid-template-columns: 1fr;
             }
-            .level-card {
-                max-width: 100%;
-            }
         }
 
         @media (max-width: 480px) {
@@ -322,8 +327,9 @@
         <header class="header">
             <div class="badge"><i class="fas fa-shield-halved"></i> &nbsp;MÓDULO INTERACTIVO</div>
             <h1>El Vigilante <span class="highlight">del Código</span></h1>
-                <span><i class="fas fa-graduation-cap"></i> Para futuros ingenieros</span><br>
-                <span><i class="fas fa-code"></i> Código seguro desde el día 1</span><br>
+            <div class="meta">
+                <span><i class="fas fa-graduation-cap"></i> Para futuros ingenieros</span>
+                <span><i class="fas fa-code"></i> Código seguro desde el día 1</span>
                 <span><i class="fas fa-shield"></i> ULEAM - 2026</span>
             </div>
         </header>
@@ -331,7 +337,7 @@
         <!-- ===== INTRODUCCIÓN ===== -->
         <div class="intro-card">
             <h2>Introducción al Módulo</h2>
-            <p><strong>Bienvenido, futuro ingeniero.</strong> Este módulo está diseñado para estudiantes que se inician en el mundo del desarrollo de software. A lo largo de 10 niveles, aprenderás[...]</p>
+            <p><strong>Bienvenido, futuro ingeniero.</strong> Este módulo está diseñado para estudiantes que se inician en el mundo del desarrollo de software. A lo largo de 10 niveles, aprenderás sobre uno de los problemas de seguridad más comunes y peligrosos: <strong>la carga insegura de archivos</strong>.</p>
             <p>No necesitas conocimientos previos de seguridad. Aquí aprenderás desde cero qué es una vulnerabilidad, cómo se produce y, lo más importante, cómo evitarla.</p>
         </div>
 
