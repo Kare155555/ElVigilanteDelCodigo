@@ -1130,13 +1130,13 @@
             const feedback = document.getElementById('quizFeedback');
             if (score === 2) {
                 feedback.className = 'quiz-feedback success';
-                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+                feedback.textContent = '¡Correcto! Respuesta perfecta.';
             } else if (score > 0) {
                 feedback.className = 'quiz-feedback partial';
-                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+                feedback.textContent = `Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
             } else {
                 feedback.className = 'quiz-feedback error';
-                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+                feedback.textContent = 'Incorrecto. Revisa el contenido del nivel.';
             }
 
             const totalQ = QUESTIONS.length;
@@ -1182,10 +1182,10 @@
 
             const msg = document.getElementById('resultMessage');
             if (state.approved) {
-                msg.innerHTML = '✅ ¡Nivel aprobado! Has completado todo el módulo. 🎉';
+                msg.innerHTML = '¡Nivel aprobado! Has completado todo el módulo. 🎉';
                 msg.style.color = '#16a34a';
             } else {
-                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para completar el módulo.';
+                msg.innerHTML = 'No aprobado. Necesitas 7/10 para completar el módulo.';
                 msg.style.color = '#dc2626';
             }
         }
