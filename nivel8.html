@@ -204,11 +204,11 @@
                 </table>
             </div>
             <h4>Ejemplo práctico</h4>
-            <div class="code-block"><pre><code>// ❌ MAL: "Yo solo escribo código, que otro se preocupe por la seguridad"
+            <div class="code-block"><pre><code>//  MAL: "Yo solo escribo código, que otro se preocupe por la seguridad"
 String fileName = request.getParameter("fileName");
 File file = new File("/uploads/" + fileName);
 
-// ✅ BIEN: "Yo soy responsable de la seguridad de mi código"
+//  BIEN: "Yo soy responsable de la seguridad de mi código"
 String fileName = request.getParameter("fileName");
 if (!fileName.matches("[a-zA-Z0-9.-]+")) {
     throw new SecurityException("Nombre de archivo no permitido");
@@ -246,7 +246,7 @@ File file = new File("/uploads/seguro/" + UUID.randomUUID() + "_" + fileName);
             </div>
             <h4>La estrategia correcta: Lista blanca (Allow-list)</h4>
             <p><strong>Nunca uses "lista negra". Siempre usa "lista blanca".</strong></p>
-            <div class="code-block"><pre><code>// ❌ MAL: Lista negra - intentar adivinar todo lo malo
+            <div class="code-block"><pre><code>//  MAL: Lista negra - intentar adivinar todo lo malo
 String[] blacklist = {"..", "/", "\\", ";", "|"};
 for (String bad : blacklist) {
     if (fileName.contains(bad)) {
@@ -254,7 +254,7 @@ for (String bad : blacklist) {
     }
 }
 
-// ✅ BIEN: Lista blanca - solo permitir lo que se sabe bueno
+//  BIEN: Lista blanca - solo permitir lo que se sabe bueno
 String[] whitelist = {"a","b","c","d","e","f","g","h","i","j","k","l","m",
                       "n","o","p","q","r","s","t","u","v","w","x","y","z",
                       "0","1","2","3","4","5","6","7","8","9",".","-","_"};
@@ -786,13 +786,13 @@ El usuario puede enviar nombres maliciosos como ../../etc/passwd o nombres que c
             const feedback = document.getElementById('quizFeedback');
             if (score === 2) {
                 feedback.className = 'quiz-feedback success';
-                feedback.textContent = '✅ ¡Correcto! Respuesta perfecta.';
+                feedback.textContent = ' ¡Correcto! Respuesta perfecta.';
             } else if (score > 0) {
                 feedback.className = 'quiz-feedback partial';
-                feedback.textContent = `⚠️ Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
+                feedback.textContent = ` Parcialmente correcto. Puntuación: ${score.toFixed(1)}/2.`;
             } else {
                 feedback.className = 'quiz-feedback error';
-                feedback.textContent = '❌ Incorrecto. Revisa el contenido del nivel.';
+                feedback.textContent = ' Incorrecto. Revisa el contenido del nivel.';
             }
 
             const totalQ = QUESTIONS.length;
@@ -838,11 +838,11 @@ El usuario puede enviar nombres maliciosos como ../../etc/passwd o nombres que c
 
             const msg = document.getElementById('resultMessage');
             if (state.approved) {
-                msg.innerHTML = '✅ ¡Aprobado! Excelente trabajo.';
+                msg.innerHTML = ' ¡Aprobado! Excelente trabajo.';
                 msg.style.color = '#16a34a';
                 document.getElementById('nextLevelBtn').style.display = 'inline-block';
             } else {
-                msg.innerHTML = '❌ No aprobado. Necesitas 7/10 para avanzar.';
+                msg.innerHTML = ' No aprobado. Necesitas 7/10 para avanzar.';
                 msg.style.color = '#dc2626';
                 document.getElementById('nextLevelBtn').style.display = 'none';
             }
